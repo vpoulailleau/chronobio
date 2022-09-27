@@ -62,6 +62,34 @@ Les légumes sont vendus après récolte, la récolte dure 2 jours : le gérant
 
 Les légumes sont vendus au prix du marché, c'est à dire que la récolte est vendue pour la somme de 2 000 euros - 50 fois le nombre de champs cultivant encore la même espèce de légume.
 
+#### Acheter un tracteur
+
+`{GÉRANT} ACHETER TRACTEUR`
+
+Un tracteur coute 30 000 euros.
+
+#### Stocker des légumes
+
+`{OUVRIER} STOCKER {CHAMP} {TRACTEUR}`
+
+Les légumes du champ récoltable sont stockés dans l'usine de fabrication de soupe. Cela prend 5 jours de transporter tous les légumes à l'usine : pendant les 4 tours suivants l'ouvrier, le champ et le tracteur ne peuvent plus être utilisés.
+
+Après le transport, le stock de l'usine est augmenté de 1000 pour l'espèce de légume du champ.
+
+#### Fabriquer des soupes
+
+`{OUVRIER} CUISINER`
+
+Un ouvrier fabrique 100 soupes. Pour chaque soupe, il piochera dans les stocks de l'usine. Il essaiera de mettre le plus grand nombre de légumes différents dans une soupe.
+
+La soupe est vendue :
+
+- 1 euros la soupe de 1 légume
+- 2 euros la soupe de 2 légumes
+- 4 euros la soupe de 3 légumes
+- 6 euros la soupe de 4 légumes
+- 8 euros la soupe de 5 légumes
+
 ## Conditions de victoire ou défaite
 
 - Une action invalide entraîne le blocage du joueur : il ne peut plus faire d'actions jusqu'à la fin du jeu.
