@@ -22,6 +22,10 @@
   - Le nombre de champs en exploitation
   - La quantité de semance par légumes
 
+### Début du jeu
+
+Une exploitation démarre sans culture, et avec un apport financier initial de 100 000 euros. Le jeu dure 5 ans.
+
 ### Chaque jour
 
 L'exploitation reçoit les aides pour les exploitations biologiques : 50 euros par champ cultivé accompagnés de 30 euros pour l'exploitation.
@@ -34,6 +38,25 @@ Attention, il est possible de mécaniser l'exploitation agricole, mais chaque tr
 - incendies : la culture des champs est détruite, l'usine de soupe est arrêtée 40 jours
 
 Chaque champ ou usine a un risque sur deux d'être touché par un évenement climatique lorsqu'il se produit.
+
+### Déplacement
+
+Lorsqu'un employé se déplace à pied, il peut se déplacer d'un lieu au lieu adjacent. S'il veut aller plus loin, il mettra un jour supplémentaire à chaque lieu traversé.
+
+Lorsqu'un employé se déplace en tracteur, il peut se déplacer d'un lieu à un lieu adjacent, le lieu suivant ou encore le lieu d'après. S'il veut aller plus loin, il mettra un jour supplémentaire pour chaque trois lieus traversés.
+
+Pour monter dans un tracteur, un employé doit se déplacer jusqu'au tracteur. S'il est déjà sur le même lieu, il peut directement monter dans le tracteur.
+
+La carte d'une exploitation est la suivante :
+
+- La ferme où sont livrés les tracteurs et où les employés sont embauchés
+- Le champ 1
+- Le champ 2
+- Le champ 3
+- Le champ 4
+- Le champ 5
+- L'usine à soupe
+- Le magasin
 
 ### Actions possibles
 
@@ -102,6 +125,8 @@ La soupe est vendue :
 - 4 euros la soupe de 3 légumes
 - 6 euros la soupe de 4 légumes
 - 8 euros la soupe de 5 légumes
+
+Les soupes sont livrées automatiquement au magasin qui s'occuppe de tout (transport, vente aux clients finaux).
 
 #### Employer un ouvrier
 
