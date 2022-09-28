@@ -12,6 +12,7 @@ class Game:
             if not farm.name:
                 farm.name = name
                 farm.blocked = False
+                break
 
     def new_day(self: "Game") -> None:
         for farm in self.farms:

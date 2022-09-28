@@ -10,9 +10,9 @@ from chronobio.game.vegetable import Vegetable
 
 class Farm:
     def __init__(self: "Farm") -> None:
-        self.blocked = True
-        self.name = ""
-        self.money = 100_000
+        self.blocked: bool = True
+        self.name: str = ""
+        self.money: int = 100_000
         self.fields: list[Field] = [Field() for _ in range(5)]
         self.tractors: list[Tractor] = []
 
@@ -24,3 +24,7 @@ class Farm:
 
     def pollute(self: "Farm", game: "chronobio.game.game.Game") -> None:
         game.greenhouse_gas += len(self.tractors) * GREENHOUSE_GAS_PER_TRACTOR
+
+    @property
+    def score(self: "Farm") -> int:
+        return self.money

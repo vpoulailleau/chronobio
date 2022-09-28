@@ -7,3 +7,6 @@ game.add_player("Benjamin")
 for _ in range(100):
     print("New day")
     game.new_day()
+    for farm in game.farms:
+        if farm.name:
+            print(f" - {farm.name}: {farm.score}")
