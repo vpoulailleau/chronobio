@@ -22,6 +22,18 @@
   - Le nombre de champs en exploitation
   - La quantité de semance par légumes
 
+### Chaque jour
+
+L'exploitation reçoit les aides pour les exploitations biologiques : 50 euros par champ cultivé accompagnés de 30 euros pour l'exploitation.
+
+Attention, il est possible de mécaniser l'exploitation agricole, mais chaque tracteur (y compris ceux des autres joueurs) émet des gaz à effets de serre. Plus la quantité de gaz émise depuis le début du jeu est importante, plus la probabilité qu'un évènement climatique augmente. Nous risquons :
+
+- canicules : les champs doivent être arrosés 2 fois plus que prévu initialement,
+- grêle, ou gel : la culture des champs est détruite,
+- inondations : l'usine de soupe est arrêtée 20 jours
+- incendies : la culture des champs est détruite, l'usine de soupe est arrêtée 40 jours
+
+Chaque champ ou usine a un risque sur deux d'être touché par un évenement climatique lorsqu'il se produit.
 
 ### Actions possibles
 
@@ -35,6 +47,7 @@ Les champs entre accolades sont à remplacer par leur valeurs.
 - `{OUVRIER}` : numéro de l'ouvrier (supérieur ou égal à 1)
 - `{LÉGUME}` : un légume parmi `PATATE`, `POIREAU`, `TOMATE`, `OIGNON`, `COURGETTE`
 - `{CHAMP}` : numéro du champ (de 1 à 5)
+- `{SOMME}` : un montant entier en euros
 
 #### Acheter un champ
 
@@ -66,7 +79,7 @@ Les légumes sont vendus au prix du marché, c'est à dire que la récolte est v
 
 `{GÉRANT} ACHETER TRACTEUR`
 
-Un tracteur coute 30 000 euros.
+Un tracteur coute 30 000 euros. Un tracteur émet 100 kg eqCO₂ par mois.
 
 #### Stocker des légumes
 
@@ -89,6 +102,26 @@ La soupe est vendue :
 - 4 euros la soupe de 3 légumes
 - 6 euros la soupe de 4 légumes
 - 8 euros la soupe de 5 légumes
+
+#### Employer un ouvrier
+
+`{GÉRANT} EMPLOYER`
+
+Le gérant emploie en CDI un ouvrier supplémentaire. Un employé est payé 1 000 euros le premier mois (tous les mois font 30 jours !). Chaque mois, il est augmenté de 1% (l'augmentation est arrondi à l'entier supérieur).
+
+#### Licencier un ouvrier
+
+`{GÉRANT} LICENCIER {OUVRIER}`
+
+Le gérant se sépare d'un ouvrier (c'est un plan de sauvegarde de l'emploi…). Le gérant doit payer une indemnité de licenciement égale au salaire du dernier mois écoulé de l'ouvrier.
+
+#### Emprunter
+
+`{GÉRANT} EMPRUNTER {SOMME}`
+
+Le gérant emprunte une somme à la banque. Un emprunt dure 2 ans. La somme à rembourser est la somme empruntée multipliée par 1,10 soit environ 5% par an. Cette somme est remboursée à part égale chaque mois de l'emprunt.
+
+La somme maximale empruntable un mois est 10 fois le revenu du mois précédent.
 
 ## Conditions de victoire ou défaite
 
