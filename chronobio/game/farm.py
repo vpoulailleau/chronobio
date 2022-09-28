@@ -40,7 +40,9 @@ class Farm:
         try:
             getattr(self, "_" + verb.lower())(*parts)
         except AttributeError:
-            raise ValueError("Unknown action")
+            raise ValueError("Unknown action.")
+        except TypeError:
+            raise ValueError("Action with invalid number of arguments.")
 
     def _acheter_champ(self, owner):
         for field in self.fields:
