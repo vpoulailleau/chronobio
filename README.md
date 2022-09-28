@@ -74,7 +74,7 @@ Les champs entre accolades sont à remplacer par leur valeurs.
 
 #### Acheter un champ
 
-`{GÉRANT} ACHETER CHAMP`
+`{GÉRANT} ACHETER_CHAMP`
 
 Un nouveau champ est acheté, 10 000 euros est enlevé du solde.
 
@@ -100,7 +100,7 @@ Les légumes sont vendus au prix du marché, c'est à dire que la récolte est v
 
 #### Acheter un tracteur
 
-`{GÉRANT} ACHETER TRACTEUR`
+`{GÉRANT} ACHETER_TRACTEUR`
 
 Un tracteur coute 30 000 euros. Un tracteur émet 100 kg eqCO₂ par mois.
 

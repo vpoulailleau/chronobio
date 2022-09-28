@@ -6,6 +6,7 @@ class Field:
     def __init__(self):
         self.content = Vegetable.NONE
         self.needed_water = 0
+        self.bought = False
 
     def frost(self: "Field"):
         self.content = Vegetable.NONE
@@ -18,3 +19,6 @@ class Field:
     def fire(self: "Field"):
         self.content = Vegetable.NONE
         self.needed_water = 0
+
+    def __repr__(self: "Field") -> str:
+        return f"Field({self.content}, needed_water={self.needed_water}, bought={self.bought})"
