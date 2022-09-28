@@ -11,7 +11,7 @@ from chronobio.game.vegetable import Vegetable
 class Farm:
     def __init__(self: "Farm") -> None:
         self.blocked = True
-        self.name = "En construction"
+        self.name = ""
         self.money = 100_000
         self.fields: list[Field] = [Field() for _ in range(5)]
         self.tractors: list[Tractor] = []
