@@ -39,7 +39,7 @@ Attention, il est possible de mécaniser l'exploitation agricole, mais chaque tr
 
 Chaque champ ou usine a un risque sur deux d'être touché par un évenement climatique lorsqu'il se produit.
 
-### Déplacement
+### Déplacement à vide
 
 Lorsqu'un employé se déplace à pied, il peut se déplacer d'un lieu au lieu adjacent. S'il veut aller plus loin, il mettra un jour supplémentaire à chaque lieu traversé.
 
