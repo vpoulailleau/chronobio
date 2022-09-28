@@ -1,10 +1,10 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class Vegetable(Enum):
-    NONE = 1
-    POTATO = 2
-    LEEK = 3
-    TOMATO = 4
-    ONION = 5
-    ZUCCHINI = 6
+class Vegetable(IntEnum):
+    NONE = 0
+    POTATO = 1
+    LEEK = 2
+    TOMATO = 3
+    ONION = 4
+    ZUCCHINI = 5

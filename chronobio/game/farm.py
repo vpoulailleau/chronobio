@@ -4,6 +4,7 @@ from chronobio.game.constants import (
     GREENHOUSE_GAS_PER_TRACTOR,
 )
 from chronobio.game.field import Field
+from chronobio.game.soup_factory import SoupFactory
 from chronobio.game.tractor import Tractor
 from chronobio.game.vegetable import Vegetable
 
@@ -15,6 +16,7 @@ class Farm:
         self.money: int = 100_000
         self.fields: list[Field] = [Field() for _ in range(5)]
         self.tractors: list[Tractor] = []
+        self.soup_factory: SoupFactory = SoupFactory()
 
     def income(self: "Farm") -> None:
         self.money += FARM_MONEY_PER_DAY

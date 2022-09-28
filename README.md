@@ -34,8 +34,8 @@ Attention, il est possible de mécaniser l'exploitation agricole, mais chaque tr
 
 - canicules : les champs doivent être arrosés 2 fois plus que prévu initialement,
 - grêle, ou gel : la culture des champs est détruite,
-- inondations : l'usine de soupe est arrêtée 20 jours
-- incendies : la culture des champs est détruite, l'usine de soupe est arrêtée 40 jours
+- inondations : l'usine de soupe est arrêtée 20 jours. Si l'usine est déjà arrêtée, les 20 jours s'ajoutent au temps d'arrêt actuel,
+- incendies : la culture des champs est détruite, l'usine de soupe est arrêtée 40 jours. Si l'usine est déjà arrêtée, les 40 jours s'ajoutent au temps d'arrêt actuel.
 
 Chaque champ ou usine a un risque sur deux d'être touché par un évenement climatique lorsqu'il se produit.
 
@@ -88,7 +88,7 @@ Semer sur un champ préalablement acheté remplace la culture existante sur le c
 
 `{OUVRIER} ARROSER {CHAMP}`
 
-Il faut arroser 10 fois un champ avant qu'il soit récoltable.
+Il faut normalement arroser 10 fois un champ avant qu'il soit récoltable. Mais attention aux aléas climatiques.
 
 #### Vendre des légumes
 

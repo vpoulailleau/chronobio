@@ -6,6 +6,7 @@ game.add_player("Benjamin")
 
 for _ in range(100):
     print("New day")
+    print(f" - Greenhouse gas: {game.greenhouse_gas}")
     game.new_day()
     for farm in game.farms:
         if farm.name:

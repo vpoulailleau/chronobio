@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import IntEnum
 
 
-class Location(Enum):
+class Location(IntEnum):
     FARM = 0
     FIELD1 = 1
     FIELD2 = 2
