@@ -71,6 +71,7 @@ class Farm:
         if not (1 <= location_id <= 5):
             raise ValueError(f"Invalid field ID: {location_id}.")
         location = Location(location_id)
+        # TODO vérifier que le champ est acheté
 
         if vegetable_name not in Vegetable.__members__:
             raise ValueError(f"Unknown vegetable: {vegetable_name}.")

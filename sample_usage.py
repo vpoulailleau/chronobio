@@ -8,6 +8,7 @@ farm = game.farms[0]
 farm.action("0 ACHETER_CHAMP")
 farm.action("0 ACHETER_CHAMP")
 farm.action("0 ACHETER_CHAMP")
+farm.action("1 SEMER PATATE 1")
 
 for _ in range(100):
     print("New day")
