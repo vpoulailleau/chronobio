@@ -42,6 +42,7 @@ class Employee:
     def do_action(self: "Employee") -> None:
         if not self.action_to_do:
             return
+
         if self.action_to_do[0] == "SOW":
             vegetable, field = self.action_to_do[1:]
             self._move(field.location)
@@ -49,7 +50,16 @@ class Employee:
                 return  # no yet in the field
             field.needed_water = NEEDED_WATER_BEFORE_HARVEST
             field.content = vegetable
-            self.action_to_do = tuple()  # TODO déplacer puis semer
+            self.action_to_do = tuple()
+
+        elif self.action_to_do[0] == "WATER":
+            field = self.action_to_do[1]
+            self._move(field.location)
+            if self.location != field.location:
+                return  # no yet in the field
+            if field.content:
+                field.needed_water = max(0, field.needed_water - 1)
+            self.action_to_do = tuple()
 
     def __repr__(self: "Employee") -> str:
         return f"Employee(id={self.id}, salary={self.salary}, location={self.location.name}, tractor={self.tractor})"

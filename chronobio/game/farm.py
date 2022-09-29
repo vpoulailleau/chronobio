@@ -115,6 +115,20 @@ class Farm:
 
         employee.action_to_do = ("SOW", vegetable, field)
 
+    def _arroser(self: "Farm", employee_id: str, location_id: str) -> None:
+        employee = self.get_employee(int(employee_id))
+        field = self.get_field(int(location_id))
+
+        if employee.action_to_do:
+            raise ValueError(f"Employee {employee_id} is already busy.")
+        if not field.bought:
+            raise ValueError(f"Field {field} is not already bought.")
+
+        employee.action_to_do = ("WATER", field)
+
     def _employer(self: "Farm", owner: int) -> None:
         self.employees.append(Employee(id=self.next_employee_id))
         self.next_employee_id += 1
+
+    def __repr__(self: "Farm") -> str:
+        return f"Farm(name={self.name}, blocked={self.blocked}, money={self.money})"
