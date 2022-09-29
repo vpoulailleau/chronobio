@@ -88,7 +88,7 @@ Semer sur un champ préalablement acheté remplace la culture existante sur le c
 
 `{OUVRIER} ARROSER {CHAMP}`
 
-Il faut normalement arroser 10 fois un champ avant qu'il soit récoltable. Mais attention aux aléas climatiques.
+Il faut normalement arroser au moins 10 fois un champ avant qu'il soit récoltable. Mais attention aux aléas climatiques.
 
 #### Vendre des légumes
 
