@@ -2,7 +2,8 @@ from chronobio.game.location import Location
 
 
 class Employee:
-    def __init__(self):
+    def __init__(self, id):
+        self.id = id
         self.location = Location.FARM
         self.days_off = 0
         self.tractor = None
