@@ -9,3 +9,12 @@ class Location(IntEnum):
     FIELD4 = 4
     FIELD5 = 5
     SOUP_FACTORY = 6
+
+
+fields = (
+    Location.FIELD1,
+    Location.FIELD2,
+    Location.FIELD3,
+    Location.FIELD4,
+    Location.FIELD5,
+)

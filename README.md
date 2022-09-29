@@ -132,7 +132,7 @@ Les soupes sont livrées automatiquement au magasin qui s'occuppe de tout (trans
 
 `{GÉRANT} EMPLOYER`
 
-Le gérant emploie en CDI un ouvrier supplémentaire. Un employé est payé 1 000 euros le premier mois (tous les mois font 30 jours !). Chaque mois, il est augmenté de 1% (l'augmentation est arrondi à l'entier supérieur).
+Le gérant emploie en CDI un ouvrier supplémentaire. Un employé est payé 1 000 euros le premier mois (tous les mois font 30 jours !). Chaque mois, il est augmenté de 1% (l'augmentation est arrondi à l'entier supérieur). L'employé est payé le premier jour du mois, pour le travail du mois précédent (salaire complet même si le salarié n'a pas travaillé un mois complet).
 
 #### Licencier un ouvrier
 

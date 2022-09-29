@@ -2,13 +2,23 @@ import random
 
 from chronobio.game.constants import CLIMATE_DISASTER_THRESHOLD, MAX_NB_PLAYERS
 from chronobio.game.farm import Farm
-from chronobio.game.location import Location
+from chronobio.game.location import Location, fields
 
 
 class Game:
     def __init__(self: "Game") -> None:
         self.farms = [Farm() for _ in range(MAX_NB_PLAYERS)]
         self.greenhouse_gas = 0
+        self.day = -1
+
+    @property
+    def date(self: "Game") -> tuple[int, int, int]:
+        """Generate date (y, m, d)"""
+        day = self.day % 30 + 1
+        month = self.day // 30
+        year = month // 12 + 1
+        month = month % 12 + 1
+        return year, month, day
 
     def add_player(self, name: str) -> None:
         for farm in self.farms:
@@ -18,11 +28,13 @@ class Game:
                 break
 
     def new_day(self: "Game") -> None:
+        self.day += 1
         self.climate_change()
         for farm in self.farms:
             if farm.blocked:
                 continue
             farm.income()
+            farm.expend(self.day)
             farm.pollute(self)
 
     def climate_change(self: "Game") -> None:
@@ -32,13 +44,6 @@ class Game:
         if disaster:
             kind = random.choice(["flood", "frost", "heat wave", "fire"])
             impacted_locations = [random.randint(0, 1) for _ in range(len(Location))]
-            fields = (
-                Location.FIELD1,
-                Location.FIELD2,
-                Location.FIELD3,
-                Location.FIELD4,
-                Location.FIELD5,
-            )
 
             if kind == "heat wave":
                 for location in fields:

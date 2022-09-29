@@ -1,12 +1,14 @@
 from chronobio.game.constants import NEEDED_WATER_BEFORE_HARVEST
+from chronobio.game.location import Location
 from chronobio.game.vegetable import Vegetable
 
 
 class Field:
-    def __init__(self):
+    def __init__(self: "Field", location: Location) -> None:
         self.content = Vegetable.NONE
         self.needed_water = 0
         self.bought = False
+        self.location = location
 
     def frost(self: "Field"):
         self.content = Vegetable.NONE
@@ -21,4 +23,4 @@ class Field:
         self.needed_water = 0
 
     def __repr__(self: "Field") -> str:
-        return f"Field({self.content}, needed_water={self.needed_water}, bought={self.bought})"
+        return f"Field({self.content.name}, needed_water={self.needed_water}, bought={self.bought})"
