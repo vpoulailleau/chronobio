@@ -113,7 +113,7 @@ class Farm:
         if not field.bought:
             raise ValueError(f"Field {field} is not already bought.")
 
-        employee.action_to_do = ("SEMER", vegetable, field)
+        employee.action_to_do = ("SOW", vegetable, field)
 
     def _employer(self: "Farm", owner: int) -> None:
         self.employees.append(Employee(id=self.next_employee_id))

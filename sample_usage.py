@@ -9,7 +9,7 @@ farm.add_action("0 ACHETER_CHAMP")
 farm.add_action("0 ACHETER_CHAMP")
 farm.add_action("0 ACHETER_CHAMP")
 farm.add_action("0 EMPLOYER")
-farm.add_action("1 SEMER PATATE 1")
+farm.add_action("1 SEMER PATATE 3")
 
 for _ in range(100):
     game.new_day()
