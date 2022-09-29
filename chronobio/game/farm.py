@@ -3,7 +3,6 @@ from chronobio.game.constants import (
     FIELD_MONEY_PER_DAY,
     FIELD_PRICE,
     GREENHOUSE_GAS_PER_TRACTOR,
-    NEEDED_WATER_BEFORE_HARVEST,
 )
 from chronobio.game.employee import Employee
 from chronobio.game.field import Field
@@ -76,7 +75,11 @@ class Farm:
             raise ValueError(f"Unknown vegetable: {vegetable_name}.")
         return Vegetable.__members__[vegetable_enum]
 
-    def action(self: "Farm", action: str) -> None:
+    def do_actions(self: "Farm") -> None:
+        for employee in self.employees:
+            employee.do_action()
+
+    def add_action(self: "Farm", action: str) -> None:
         parts = action.split()
         if len(parts) < 2:
             raise ValueError("An action needs at least two parts.")
@@ -105,15 +108,12 @@ class Farm:
         field = self.get_field(int(location_id))
         vegetable = self.get_vegetable(vegetable_name)
 
-        if employee.days_off:
+        if employee.action_to_do:
             raise ValueError(f"Employee {employee_id} is already busy.")
-        # TODO vérifier que le champ est acheté
-        print("semer", employee, vegetable, field)
-        employee.move(
-            field.location
-        )  # TODO à revoir, comment stocker la liste d'actions à faire ?
-        field.needed_water = NEEDED_WATER_BEFORE_HARVEST
-        field.content = vegetable
+        if not field.bought:
+            raise ValueError(f"Field {field} is not already bought.")
+
+        employee.action_to_do = ("SEMER", vegetable, field)
 
     def _employer(self: "Farm", owner: int) -> None:
         self.employees.append(Employee(id=self.next_employee_id))

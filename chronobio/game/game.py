@@ -36,6 +36,7 @@ class Game:
             farm.income()
             farm.expend(self.day)
             farm.pollute(self)
+            farm.do_actions()
 
     def climate_change(self: "Game") -> None:
         disaster = (

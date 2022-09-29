@@ -5,11 +5,11 @@ game.add_player("Vincent")
 game.add_player("Benjamin")
 
 farm = game.farms[0]
-farm.action("0 ACHETER_CHAMP")
-farm.action("0 ACHETER_CHAMP")
-farm.action("0 ACHETER_CHAMP")
-farm.action("0 EMPLOYER")
-farm.action("1 SEMER PATATE 1")
+farm.add_action("0 ACHETER_CHAMP")
+farm.add_action("0 ACHETER_CHAMP")
+farm.add_action("0 ACHETER_CHAMP")
+farm.add_action("0 EMPLOYER")
+farm.add_action("1 SEMER PATATE 1")
 
 for _ in range(100):
     game.new_day()
