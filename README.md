@@ -96,7 +96,7 @@ Il faut normalement arroser au moins 10 fois un champ avant qu'il soit récoltab
 
 Les légumes sont vendus après récolte, la récolte dure 2 jours : le gérant ne pourra pas faire d'action au prochain tour.
 
-Les légumes sont vendus au prix du marché, c'est à dire que la récolte est vendue pour la somme de 2 000 euros - 50 fois le nombre de champs cultivant encore la même espèce de légume.
+Les légumes sont vendus au prix du marché, c'est à dire que la récolte est vendue pour la somme de 2 000 euros - 50 fois le nombre de champs cultivant actuellement encore la même espèce de légume en comptant toutes les fermes.
 
 #### Acheter un tracteur
 
