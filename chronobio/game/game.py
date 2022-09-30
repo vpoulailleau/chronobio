@@ -1,13 +1,19 @@
 import random
 
-from chronobio.game.constants import CLIMATE_DISASTER_THRESHOLD, MAX_NB_PLAYERS
+from chronobio.game.constants import (
+    CLIMATE_DISASTER_THRESHOLD,
+    COMMON_VEGETABLE_LOSS,
+    MAX_NB_PLAYERS,
+    VEGETABLE_PRICE,
+)
 from chronobio.game.farm import Farm
+from chronobio.game.field import Field
 from chronobio.game.location import Location, fields
 
 
 class Game:
     def __init__(self: "Game") -> None:
-        self.farms = [Farm() for _ in range(MAX_NB_PLAYERS)]
+        self.farms = [Farm(self) for _ in range(MAX_NB_PLAYERS)]
         self.greenhouse_gas = 0
         self.day = -1
 
@@ -37,6 +43,14 @@ class Game:
             farm.expend(self.day)
             farm.pollute(self)
             farm.do_actions()
+
+    def field_price(self: "Game", sold_field: Field) -> int:
+        price = VEGETABLE_PRICE + COMMON_VEGETABLE_LOSS
+        for farm in self.farms:
+            for field in farm.fields:
+                if field.content == sold_field.content:
+                    price -= COMMON_VEGETABLE_LOSS
+        return price
 
     def climate_change(self: "Game") -> None:
         disaster = (

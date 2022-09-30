@@ -3,6 +3,7 @@ from chronobio.game.constants import (
     FIELD_MONEY_PER_DAY,
     FIELD_PRICE,
     GREENHOUSE_GAS_PER_TRACTOR,
+    NB_DAYS_TO_HARVEST,
 )
 from chronobio.game.employee import Employee
 from chronobio.game.field import Field
@@ -13,7 +14,8 @@ from chronobio.game.vegetable import Vegetable
 
 
 class Farm:
-    def __init__(self: "Farm") -> None:
+    def __init__(self: "Farm", game: "Game") -> None:
+        self.game = game
         self.blocked: bool = True
         self.name: str = ""
         self.money: int = 100_000
@@ -21,7 +23,8 @@ class Farm:
         self.tractors: list[Tractor] = []
         self.soup_factory: SoupFactory = SoupFactory()
         self.employees: list[Employee] = []
-        self.next_employee_id = 1
+        self.next_employee_id: int = 1
+        self.action_to_do: tuple = tuple()
 
     def income(self: "Farm") -> None:
         self.money += FARM_MONEY_PER_DAY
@@ -30,7 +33,7 @@ class Farm:
                 self.money += FIELD_MONEY_PER_DAY
 
     def expend(self: "Farm", day: int) -> None:
-        if day % 30 == 0:
+        if day % 30 == 0 and day != 0:
             for employee in self.employees:
                 if self.money < employee.salary:
                     raise ValueError(f"Not enough money to pay employee {employee.id}.")
@@ -79,6 +82,24 @@ class Farm:
         for employee in self.employees:
             employee.do_action()
 
+        if not self.action_to_do:
+            return
+
+        if self.action_to_do[0] == "SELL":
+            field, nb_days_off = self.action_to_do[1:]
+            if nb_days_off:
+                self.action_to_do = ("SELL", field, nb_days_off - 1)
+            else:
+                if field.needed_water or not field.content:
+                    pass  # cancel sell
+                else:
+                    print("money before", self.money)
+                    self.money += self.game.field_price(field)
+                    print("money after", self.money)
+                    field.content = Vegetable.NONE
+
+                self.action_to_do = tuple()
+
     def add_action(self: "Farm", action: str) -> None:
         parts = action.split()
         if len(parts) < 2:
@@ -91,7 +112,9 @@ class Farm:
         except TypeError:
             raise ValueError("Action with invalid number of arguments.")
 
-    def _acheter_champ(self: "Farm", owner: str) -> None:
+    def _acheter_champ(self: "Farm", owner_id: str) -> None:
+        if self.action_to_do:
+            raise ValueError("The farm owner is already busy")
         for field in self.fields:
             if not field.bought:
                 if self.money >= FIELD_PRICE:
@@ -126,9 +149,24 @@ class Farm:
 
         employee.action_to_do = ("WATER", field)
 
-    def _employer(self: "Farm", owner: int) -> None:
+    def _employer(self: "Farm", owner_id: str) -> None:
+        if self.action_to_do:
+            raise ValueError("The farm owner is already busy")
         self.employees.append(Employee(id=self.next_employee_id))
         self.next_employee_id += 1
+
+    def _vendre(self: "Farm", owner_id: str, location_id: str) -> None:
+        if self.action_to_do:
+            raise ValueError("The farm owner is already busy")
+        field = self.get_field(int(location_id))
+        if not field.bought:
+            raise ValueError(f"Field {field} is not already bought.")
+        if not field.content:
+            raise ValueError(f"Field {field} does not contain vegetables.")
+        if field.needed_water:
+            raise ValueError(f"Field {field} needs more water.")
+
+        self.action_to_do = ("SELL", field, NB_DAYS_TO_HARVEST)
 
     def __repr__(self: "Farm") -> str:
         return f"Farm(name={self.name}, blocked={self.blocked}, money={self.money})"

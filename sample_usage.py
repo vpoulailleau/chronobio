@@ -16,9 +16,14 @@ for _ in range(20):
     game.new_day()
 
     farm = game.farms[0]
-    if farm.employees:
-        if not farm.employees[0].action_to_do:
+    field = farm.fields[2]
+    if field.content and not field.needed_water and not farm.action_to_do:
+        farm.add_action("0 VENDRE 3")
+    elif farm.employees and not farm.employees[0].action_to_do:
+        if field.content:
             farm.add_action("1 ARROSER 3")
+        else:
+            farm.add_action("1 SEMER PATATE 3")
 
     print("New day", game.date)
     print(f" - Greenhouse gas: {game.greenhouse_gas}")
