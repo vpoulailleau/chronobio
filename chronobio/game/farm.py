@@ -65,6 +65,17 @@ class Farm:
             raise ValueError(f"Invalid field ID: {location_id}.")
         return self.fields[location_id - 1]
 
+    def get_tractor(self: "Farm", tractor_id: int) -> Tractor:
+        for tr in self.tractors:
+            if tractor_id == tr.id:
+                tractor = tr
+                break
+        else:
+            tractor = None
+        if tractor is None:
+            raise ValueError(f"No tractor with ID: {tractor_id}.")
+        return tractor
+
     @staticmethod
     def get_vegetable(vegetable_name: str) -> Vegetable:
         translations = {
@@ -102,6 +113,7 @@ class Farm:
                 self.action_to_do = tuple()
 
     def add_action(self: "Farm", action: str) -> None:
+        print("###", action)
         parts = action.split()
         if len(parts) < 2:
             raise ValueError("An action needs at least two parts.")
@@ -156,12 +168,6 @@ class Farm:
         self.tractors.append(Tractor(id=self.next_tractor_id))
         self.next_tractor_id += 1
 
-    def _employer(self: "Farm", owner_id: str) -> None:
-        if self.action_to_do:
-            raise ValueError("The farm owner is already busy")
-        self.employees.append(Employee(id=self.next_employee_id))
-        self.next_employee_id += 1
-
     def _vendre(self: "Farm", owner_id: str, location_id: str) -> None:
         if self.action_to_do:
             raise ValueError("The farm owner is already busy")
@@ -174,6 +180,34 @@ class Farm:
             raise ValueError(f"Field {field} needs more water.")
 
         self.action_to_do = ("SELL", field, NB_DAYS_TO_HARVEST)
+
+    def _stocker(
+        self: "Farm", employee_id: str, location_id: str, tractor_id: str
+    ) -> None:
+        employee = self.get_employee(int(employee_id))
+        field = self.get_field(int(location_id))
+        tractor = self.get_tractor(int(tractor_id))
+        if employee.action_to_do:
+            raise ValueError(f"Employee {employee_id} is already busy.")
+        if not field.bought:
+            raise ValueError(f"Field {field} is not already bought.")
+        if not field.content:
+            raise ValueError(f"Field {field} does not contain vegetables.")
+        if field.needed_water:
+            raise ValueError(f"Field {field} needs more water.")
+        if (
+            any(empl.tractor == tractor for empl in self.employees)
+            and employee.tractor != tractor
+        ):
+            raise ValueError(f"Tractor {tractor_id} is already used.")
+
+        employee.action_to_do = ("STOCK", field, tractor)
+
+    def _employer(self: "Farm", owner_id: str) -> None:
+        if self.action_to_do:
+            raise ValueError("The farm owner is already busy")
+        self.employees.append(Employee(farm=self, id=self.next_employee_id))
+        self.next_employee_id += 1
 
     def __repr__(self: "Farm") -> str:
         return f"Farm(name={self.name}, blocked={self.blocked}, money={self.money})"

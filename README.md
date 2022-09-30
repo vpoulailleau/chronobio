@@ -110,7 +110,7 @@ Un tracteur coute 30 000 euros. Un tracteur émet 100 kg eqCO₂ par mois.
 
 `{OUVRIER} STOCKER {CHAMP} {TRACTEUR}`
 
-Les légumes du champ récoltable sont stockés dans l'usine de fabrication de soupe. Cela prend 5 jours de transporter tous les légumes à l'usine : pendant les 4 tours suivants l'ouvrier, le champ et le tracteur ne peuvent plus être utilisés.
+Les légumes du champ récoltable sont stockés dans l'usine de fabrication de soupe.
 
 Après le transport, le stock de l'usine est augmenté de 1000 pour l'espèce de légume du champ.
 
