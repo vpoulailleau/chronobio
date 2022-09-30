@@ -24,6 +24,7 @@ class Farm:
         self.soup_factory: SoupFactory = SoupFactory()
         self.employees: list[Employee] = []
         self.next_employee_id: int = 1
+        self.next_tractor_id: int = 1
         self.action_to_do: tuple = tuple()
 
     def income(self: "Farm") -> None:
@@ -41,8 +42,8 @@ class Farm:
                     self.money -= employee.salary
                 employee.raise_salary()
 
-    def pollute(self: "Farm", game: "chronobio.game.game.Game") -> None:
-        game.greenhouse_gas += len(self.tractors) * GREENHOUSE_GAS_PER_TRACTOR
+    def pollute(self: "Farm") -> None:
+        self.game.greenhouse_gas += len(self.tractors) * GREENHOUSE_GAS_PER_TRACTOR
 
     @property
     def score(self: "Farm") -> int:
@@ -148,6 +149,12 @@ class Farm:
             raise ValueError(f"Field {field} is not already bought.")
 
         employee.action_to_do = ("WATER", field)
+
+    def _acheter_tracteur(self: "Farm", owner_id: str) -> None:
+        if self.action_to_do:
+            raise ValueError("The farm owner is already busy")
+        self.tractors.append(Tractor(id=self.next_tractor_id))
+        self.next_tractor_id += 1
 
     def _employer(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:

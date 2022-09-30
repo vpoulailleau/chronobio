@@ -41,7 +41,7 @@ class Game:
                 continue
             farm.income()
             farm.expend(self.day)
-            farm.pollute(self)
+            farm.pollute()
             farm.do_actions()
 
     def field_price(self: "Game", sold_field: Field) -> int:

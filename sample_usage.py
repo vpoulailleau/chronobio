@@ -8,6 +8,8 @@ farm = game.farms[0]
 farm.add_action("0 ACHETER_CHAMP")
 farm.add_action("0 ACHETER_CHAMP")
 farm.add_action("0 ACHETER_CHAMP")
+farm.add_action("0 ACHETER_TRACTEUR")
+farm.add_action("0 ACHETER_TRACTEUR")
 farm.add_action("0 EMPLOYER")
 farm.add_action("1 SEMER PATATE 3")
 print(farm)
@@ -31,5 +33,6 @@ for _ in range(20):
     for farm in game.farms:
         if farm.name:
             print(f" - {farm.name}: {farm.score}")
+            print("  ", farm.tractors)
             print("  ", farm.employees)
             print("  ", farm.fields)
