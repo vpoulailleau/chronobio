@@ -78,8 +78,8 @@ class Employee:
             if not field.content or field.needed_water:
                 self.action_to_do = tuple()  # cancel action
                 return
-            self._stock_vegetable = field.vegetable
-            field.vegetable = Vegetable.NONE
+            self._stock_vegetable = field.content
+            field.content = Vegetable.NONE
             self._move(Location.SOUP_FACTORY)
             if self.location != Location.SOUP_FACTORY:
                 return  # not yet in soup factory
