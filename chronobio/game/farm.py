@@ -4,6 +4,7 @@ from chronobio.game.constants import (
     FIELD_PRICE,
     GREENHOUSE_GAS_PER_TRACTOR,
     NB_DAYS_TO_HARVEST,
+    TRACTOR_PRICE,
 )
 from chronobio.game.employee import Employee
 from chronobio.game.field import Field
@@ -165,6 +166,9 @@ class Farm:
     def _acheter_tracteur(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
             raise ValueError("The farm owner is already busy")
+        if self.money < TRACTOR_PRICE:
+            raise ValueError("Not enough money to buy tractor.")
+        self.money -= TRACTOR_PRICE
         self.tractors.append(Tractor(id=self.next_tractor_id))
         self.next_tractor_id += 1
 
