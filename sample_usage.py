@@ -38,3 +38,4 @@ for _ in range(20):
             print("  ", farm.tractors)
             print("  ", farm.employees)
             print("  ", farm.fields)
+            print("  ", farm.soup_factory.stock)
