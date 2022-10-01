@@ -20,7 +20,9 @@ for _ in range(20):
     farm = game.farms[0]
     field = farm.fields[2]
     if field.content and not field.needed_water and not farm.action_to_do:
-        farm.add_action("0 VENDRE 3")
+        # farm.add_action("0 VENDRE 3")
+        if farm.employees and not farm.employees[0].action_to_do:
+            farm.add_action("1 STOCKER 3 1")
     elif farm.employees and not farm.employees[0].action_to_do:
         if field.content:
             farm.add_action("1 ARROSER 3")
