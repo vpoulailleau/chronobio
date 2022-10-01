@@ -67,25 +67,44 @@ class Employee:
             self.action_to_do = tuple()
 
         elif self.action_to_do[0] == "STOCK":
-            field, tractor = self.action_to_do[1:]
-            self._move(tractor.location)
-            if self.location != tractor.location:
-                return  # not yet in the tractor
-            self.tractor = tractor  # TODO un seul employé par tracteur
-            self._move(field.location)
-            if self.location != field.location:
-                return  # not yet in the field
-            if not field.content or field.needed_water:
-                self.action_to_do = tuple()  # cancel action
+            field, tractor, step = self.action_to_do[1:]
+            if step == 0:
+                if self.location != tractor.location:
+                    self._move(tractor.location)
+                else:
+                    step = 1
+
+            if step == 1:
+                self.tractor = tractor  # TODO un seul employé par tracteur
+                print(field)
+                if self.location != field.location:
+                    self._move(field.location)
+                else:
+                    step = 2
+
+            if step == 2:
+                if not field.content or field.needed_water:
+                    self.action_to_do = tuple()  # cancel action
+                    return
+                else:
+                    step = 3
+
+            if step == 3:
+                if self.location != Location.SOUP_FACTORY:
+                    self._move(Location.SOUP_FACTORY)
+                else:
+                    step = 4
+
+            if step == 4:
+                self._stock_vegetable = field.content  # TODO lock field during delivery
+                field.content = Vegetable.NONE
+                field.needed_water = 0
+                self.farm.soup_factory.deliver(self._stock_vegetable)
+                self._stock_vegetable = Vegetable.NONE
+                self.action_to_do = tuple()
                 return
-            self._stock_vegetable = field.content
-            field.content = Vegetable.NONE
-            self._move(Location.SOUP_FACTORY)
-            if self.location != Location.SOUP_FACTORY:
-                return  # not yet in soup factory
-            self.farm.soup_factory.deliver(self._stock_vegetable)
-            self._stock_vegetable = Vegetable.NONE
-            self.action_to_do = tuple()
+
+            self.action_to_do = ("STOCK", field, tractor, step)
 
     def __repr__(self: "Employee") -> str:
         return f"Employee(id={self.id}, salary={self.salary}, location={self.location.name}, tractor={self.tractor})"

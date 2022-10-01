@@ -201,7 +201,8 @@ class Farm:
         ):
             raise ValueError(f"Tractor {tractor_id} is already used.")
 
-        employee.action_to_do = ("STOCK", field, tractor)
+        step = 0
+        employee.action_to_do = ("STOCK", field, tractor, step)
 
     def _employer(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
