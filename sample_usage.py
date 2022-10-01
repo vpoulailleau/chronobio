@@ -1,3 +1,6 @@
+import math
+
+from chronobio.game.constants import CLIMATE_DISASTER_THRESHOLD
 from chronobio.game.game import Game
 
 game = Game()
@@ -14,11 +17,13 @@ farm.add_action("0 EMPLOYER")
 farm.add_action("1 SEMER PATATE 3")
 print(farm)
 
-for _ in range(20):
+for _ in range(20 * 360):
     game.new_day()
 
     farm = game.farms[0]
     field = farm.fields[2]
+    if not farm.action_to_do and farm.money > 50000:
+        farm.add_action("0 ACHETER_TRACTEUR")
     if field.content and not field.needed_water and not farm.action_to_do:
         # farm.add_action("0 VENDRE 3")
         if farm.employees and not farm.employees[0].action_to_do:
@@ -30,7 +35,12 @@ for _ in range(20):
             farm.add_action("1 SEMER PATATE 3")
 
     print("New day", game.date)
-    print(f" - Greenhouse gas: {game.greenhouse_gas}")
+    value = math.log(game.greenhouse_gas + 1, 2)
+    no_risk = min(value, CLIMATE_DISASTER_THRESHOLD)
+    risk = max(0, value - CLIMATE_DISASTER_THRESHOLD)
+    percent = 100 * risk / (risk + no_risk)
+
+    print(f" - Greenhouse gas: {game.greenhouse_gas} => {percent}%")
 
     for farm in game.farms:
         if farm.name:

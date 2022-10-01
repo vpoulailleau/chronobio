@@ -1,3 +1,4 @@
+import math
 import random
 
 from chronobio.game.constants import (
@@ -54,7 +55,8 @@ class Game:
 
     def climate_change(self: "Game") -> None:
         disaster = (
-            random.randint(0, self.greenhouse_gas**2) > CLIMATE_DISASTER_THRESHOLD
+            random.randint(0, int(math.log(self.greenhouse_gas + 1, 2)))
+            > CLIMATE_DISASTER_THRESHOLD
         )
         if disaster:
             kind = random.choice(["flood", "frost", "heat wave", "fire"])
