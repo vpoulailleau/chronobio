@@ -114,6 +114,8 @@ class Farm:
                 self.action_to_do = tuple()
 
     def add_action(self: "Farm", action: str) -> None:
+        if self.blocked:
+            return
         print("###", action)
         parts = action.split()
         if len(parts) < 2:
