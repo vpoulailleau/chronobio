@@ -8,6 +8,7 @@ from chronobio.game.constants import (
 )
 from chronobio.game.employee import Employee
 from chronobio.game.field import Field
+from chronobio.game.loan import Loan
 from chronobio.game.location import fields
 from chronobio.game.soup_factory import SoupFactory
 from chronobio.game.tractor import Tractor
@@ -22,6 +23,7 @@ class Farm:
         self.money: int = 100_000
         self.fields: list[Field] = [Field(location) for location in fields]
         self.tractors: list[Tractor] = []
+        self.loans: list[Loan] = []
         self.soup_factory: SoupFactory = SoupFactory()
         self.employees: list[Employee] = []
         self.next_employee_id: int = 1
@@ -42,6 +44,14 @@ class Farm:
                 else:
                     self.money -= employee.salary
                 employee.raise_salary()
+
+            for loan in self.loans:
+                cost = loan.month_cost(self.game.day)
+                print(cost)
+                if self.money < cost:
+                    raise ValueError(f"Not enough money to pay loan {loan}.")
+                else:
+                    self.money -= cost
 
     def pollute(self: "Farm") -> None:
         self.game.greenhouse_gas += len(self.tractors) * GREENHOUSE_GAS_PER_TRACTOR
@@ -232,6 +242,13 @@ class Farm:
         self.money -= employee.salary * day // 30  # salary
         if self.money < 0:
             raise ValueError(f"Not enough money to fire {employee}")
+
+    def _emprunter(self: "Farm", owner_id: str, amount_str: str) -> None:
+        if self.action_to_do:
+            raise ValueError("The farm owner is already busy")
+        amount = int(amount_str)
+        self.loans.append(Loan(amount, start_day=self.game.day))
+        self.money += amount
 
     def __repr__(self: "Farm") -> str:
         return f"Farm(name={self.name}, blocked={self.blocked}, money={self.money})"

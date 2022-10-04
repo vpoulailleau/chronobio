@@ -8,6 +8,7 @@ game.add_player("Vincent")
 game.add_player("Benjamin")
 
 farm = game.farms[0]
+farm.add_action("0 EMPRUNTER 100000")
 farm.add_action("0 ACHETER_CHAMP")
 farm.add_action("0 ACHETER_CHAMP")
 farm.add_action("0 ACHETER_CHAMP")
@@ -23,8 +24,6 @@ for day in range(20 * 360):
 
     farm = game.farms[0]
     field = farm.fields[2]
-    if not farm.action_to_do and farm.money > 50000:
-        farm.add_action("0 ACHETER_TRACTEUR")
     if field.content and not field.needed_water and not farm.action_to_do:
         # farm.add_action("0 VENDRE 3")
         if farm.employees and not farm.employees[0].action_to_do:
