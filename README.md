@@ -140,7 +140,7 @@ Le gérant emploie en CDI un ouvrier supplémentaire. Un employé est payé 1 0
 
 `{GÉRANT} LICENCIER {OUVRIER}`
 
-Le gérant se sépare d'un ouvrier (c'est un plan de sauvegarde de l'emploi…). Le gérant doit payer une indemnité de licenciement égale au salaire du dernier mois écoulé de l'ouvrier.
+Le gérant se sépare d'un ouvrier (c'est un plan de sauvegarde de l'emploi…). Le gérant doit payer une indemnité de licenciement égale au salaire du prochain mois de l'ouvrier. Cela vient en surplus du salaire normal au pro rata du temps travaillé dans le mois.
 
 #### Emprunter
 

@@ -222,5 +222,16 @@ class Farm:
         self.employees.append(Employee(farm=self, id=self.next_employee_id))
         self.next_employee_id += 1
 
+    def _licencier(self: "Farm", owner_id: str, employee_id: str) -> None:
+        if self.action_to_do:
+            raise ValueError("The farm owner is already busy")
+        employee = self.get_employee(int(employee_id))
+        self.employees.remove(employee)
+        self.money -= employee.salary  # indemnity
+        day = self.game.date[2]
+        self.money -= employee.salary * day // 30  # salary
+        if self.money < 0:
+            raise ValueError(f"Not enough money to fire {employee}")
+
     def __repr__(self: "Farm") -> str:
         return f"Farm(name={self.name}, blocked={self.blocked}, money={self.money})"
