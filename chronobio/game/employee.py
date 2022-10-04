@@ -1,7 +1,12 @@
 import math
 from typing import Optional
 
-from chronobio.game.constants import NEEDED_WATER_BEFORE_HARVEST, SALARY_RAISE_FACTOR
+from chronobio.game.constants import (
+    NB_SOUPS_PER_DAY,
+    NEEDED_WATER_BEFORE_HARVEST,
+    SALARY_RAISE_FACTOR,
+    SOUP_PRICES_PER_VETEGABLE,
+)
 from chronobio.game.location import Location
 from chronobio.game.tractor import Tractor
 from chronobio.game.vegetable import Vegetable
@@ -105,6 +110,23 @@ class Employee:
                 return
 
             self.action_to_do = ("STOCK", field, tractor, step)
+
+        elif self.action_to_do[0] == "COOK":
+            self._move(Location.SOUP_FACTORY)
+            if self.location != Location.SOUP_FACTORY:
+                return  # not yet in the factory
+            if self.tractor is not None:
+                self.tractor = None  # no tractor in soup factory!
+            if sum(self.farm.soup_factory.stock.values()) != 0:
+                # TODO better algorithm
+                for _ in range(NB_SOUPS_PER_DAY):
+                    nb_vegetables = 0
+                    for vegetable in Vegetable:
+                        if self.farm.soup_factory.stock[vegetable]:
+                            self.farm.soup_factory.stock[vegetable] -= 1
+                            nb_vegetables += 1
+                    self.farm.money += SOUP_PRICES_PER_VETEGABLE[nb_vegetables]
+            self.action_to_do = tuple()
 
     def __repr__(self: "Employee") -> str:
         return f"Employee(id={self.id}, salary={self.salary}, location={self.location.name}, tractor={self.tractor})"

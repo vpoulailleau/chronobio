@@ -14,6 +14,7 @@ farm.add_action("0 ACHETER_CHAMP")
 farm.add_action("0 ACHETER_TRACTEUR")
 farm.add_action("0 ACHETER_TRACTEUR")
 farm.add_action("0 EMPLOYER")
+farm.add_action("0 EMPLOYER")
 farm.add_action("1 SEMER PATATE 3")
 print(farm)
 
@@ -33,6 +34,9 @@ for _ in range(20 * 360):
             farm.add_action("1 ARROSER 3")
         else:
             farm.add_action("1 SEMER PATATE 3")
+    if len(farm.employees) > 1 and not farm.employees[1].action_to_do:
+        if sum(farm.soup_factory.stock.values()):
+            farm.add_action("2 CUISINER")
 
     print("New day", game.date)
     value = math.log(game.greenhouse_gas + 1, 2)

@@ -118,7 +118,7 @@ Après le transport, le stock de l'usine est augmenté de 1000 pour l'espèce de
 
 `{OUVRIER} CUISINER`
 
-Un ouvrier fabrique 100 soupes. Pour chaque soupe, il piochera dans les stocks de l'usine. Il essaiera de mettre le plus grand nombre de légumes différents dans une soupe.
+Un ouvrier fabrique chaque jour 100 soupes si les ingrédients sont disponibles. Pour chaque soupe, il piochera dans les stocks de l'usine. Il essaiera de mettre le plus grand nombre de légumes différents dans une soupe.
 
 La soupe est vendue :
 

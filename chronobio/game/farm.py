@@ -208,6 +208,12 @@ class Farm:
         step = 0
         employee.action_to_do = ("STOCK", field, tractor, step)
 
+    def _cuisiner(self: "Farm", employee_id: str) -> None:
+        employee = self.get_employee(int(employee_id))
+        if employee.action_to_do:
+            raise ValueError(f"Employee {employee_id} is already busy.")
+        employee.action_to_do = ("COOK",)
+
     def _employer(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
             raise ValueError("The farm owner is already busy")
