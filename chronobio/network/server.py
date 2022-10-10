@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from socket import AF_INET, SOCK_STREAM, socket
 from threading import Thread
 
+from data_handler import DataHandler
+
 
 @dataclass
 class ClientData:
@@ -20,61 +22,43 @@ class ClientData:
 
 
 class Server:
-    BUFSIZ = 1024
-
     def __init__(self, host: str, port: int) -> None:
         self.clients: set[ClientData] = set()
-        self.socket = socket(AF_INET, SOCK_STREAM)
-        self.socket.bind((host, port))
-
-        self.socket.listen(5)
         print("Waiting for connection...")
-        accept_thread = Thread(target=self.accept_incoming_connections, args=())
+        accept_thread = Thread(
+            target=self.accept_incoming_connections, args=(host, port)
+        )
         accept_thread.start()
         accept_thread.join()
-        self.socket.close()
 
-    def handle_client_connection(self, client_socket: socket):
-        """Handle a single client socket connection."""
-        name = "unknown"
-        spectator = "unknown"
-        try:
-            spectator = client_socket.recv(self.BUFSIZ).decode("utf8").split("\0")[0]
-            name = client_socket.recv(self.BUFSIZ).decode("utf8").split("\0")[0]
-        except (BrokenPipeError, OSError):
-            return
-
-        if spectator == "1":
-            client = ClientData(spectator=True, name=name, socket=client)
-        else:
-            client = ClientData(spectator=False, name=name, socket=client)
-        self.clients.add(client)
-        self.communicate_with_client(client)
-
-    def communicate_with_client(self, client: ClientData) -> None:
-        try:
-            while True:
-                msg = client.socket.recv(self.BUFSIZ)
-                try:
-                    msg_str = msg.decode("utf-8")
-                    msg_str = msg_str.split("\0")[0].strip()
-                    break
-                except UnicodeDecodeError:
-                    msg_str = "ah ?"
-                msg = msg_str.encode("utf8")
-            client.socket.close()
-        except OSError:
-            pass
-        self.clients.remove(client)
-
-    def accept_incoming_connections(self):
+    def accept_incoming_connections(self, host: str, port: int):
         """Set up handling for incoming clients."""
+        sock = socket(AF_INET, SOCK_STREAM)
+        sock.bind((host, port))
+        sock.listen(5)
+
         while True:
             try:
-                client, client_address = self.socket.accept()
-                Thread(target=self.handle_client_connection, args=(client,)).start()
+                client_socket, _ = sock.accept()
+                Thread(
+                    target=self.handle_client_connection, args=(client_socket,)
+                ).start()
             except (BrokenPipeError, OSError):
                 pass
+
+        self.sock.close()
+
+    def handle_client_connection(self, client_socket: socket) -> None:
+        """Handle a single client socket connection."""
+        print("Connection of a new client", flush=True)
+        data_handler = DataHandler(client_socket)
+        spectator = data_handler.readline().strip() == "1"
+        print(" - Spectator", spectator)
+        name = data_handler.readline().strip()
+        print(" - Name", name)
+        client = ClientData(spectator=spectator, name=name, socket=client_socket)
+        self.clients.add(client)
+        print(" - New client connected", client, flush=True)
 
 
 if __name__ == "__main__":
@@ -87,7 +71,7 @@ if __name__ == "__main__":
         default="localhost",
     )
     parser.add_argument(
-        "-p", "--port", type=int, help="location where server listens", default=33000
+        "-p", "--port", type=int, help="location where server listens", default=16210
     )
     args = parser.parse_args()
 
