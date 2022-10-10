@@ -19,7 +19,7 @@ class Client:
             msg = self.socket.recv(4096).decode("utf8")
             callback(msg)
         except OSError:
-            break
+            pass
 
     def send(self, message: str) -> None:
         self.socket.send(bytes(message, "utf8"))
