@@ -1,28 +1,31 @@
 import argparse
 from socket import AF_INET, SOCK_STREAM, socket
 
+from data_handler import DataHandler
+
 
 class Client:
     def __init__(
         self, server_addr: str, port: int, username: str, spectator: bool
     ) -> None:
-        self.socket = socket(AF_INET, SOCK_STREAM)
-        self.socket.connect((server_addr, port))
+        sock = socket(AF_INET, SOCK_STREAM)
+        sock.connect((server_addr, port))
+        self._data_handler = DataHandler(sock)
 
-        self.socket.send(bytes(str(int(spectator)), encoding="utf-8"))
-        self.socket.send(bytes(username, encoding="utf8"))
+        self.send(f"{int(spectator)}\n")
+        self.send(f"{username}\n")
 
-    def receive(self, callback) -> None:
-        """Reception of messages."""
-        try:
-            # TODO gérer des longs messages
-            msg = self.socket.recv(4096).decode("utf8")
-            callback(msg)
-        except OSError:
-            pass
+        line = self._data_handler.readline()
+        if line == "OK":
+            pass  # successful connection
+        else:
+            raise ConnectionRefusedError("Connection refused by server", line)
 
     def send(self, message: str) -> None:
-        self.socket.send(bytes(message, "utf8"))
+        self._data_handler.write(message)
+
+    def read_json(self) -> object:
+        """TODO."""
 
 
 if __name__ == "__main__":
@@ -39,7 +42,7 @@ if __name__ == "__main__":
         "--port",
         type=int,
         help="location where server listens",
-        default=33000,
+        default=16210,
     )
     parser.add_argument(
         "-u",
@@ -51,6 +54,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    client = Client(args.address, args.port, args.user, False)
-    client.send("Coucou")
-    client.receive(print)
+    client = Client(args.address, args.port, args.user, spectator=False)
