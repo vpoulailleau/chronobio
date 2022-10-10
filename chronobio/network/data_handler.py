@@ -28,15 +28,14 @@ class DataHandler:
 
         receive_thread = Thread(target=self._receive_data, args=())
         receive_thread.start()
-        receive_thread.join()
 
     def readline(self) -> str:
         while "\n" not in self._input:
             sleep(0.01)
         with self._input_lock:
-            line, *remaining = self._input.splitlines()
-            self._input = "\n".join(remaining)
-            print("DATA HANDLER readline", line)
+            index = self._input.index("\n")
+            line = self._input[:index]
+            self._input = self._input[index + 1 :]
             return line
 
     def write(self, message: str) -> None:
