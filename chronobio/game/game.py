@@ -83,3 +83,6 @@ class Game:
                 if impacted_locations[Location.SOUP_FACTORY]:
                     for farm in self.farms:
                         farm.soup_factory.fire()
+
+    def state(self) -> dict:
+        return {"state": "To Be Constructed…"}

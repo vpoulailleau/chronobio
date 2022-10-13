@@ -2,36 +2,36 @@ import argparse
 from dataclasses import dataclass
 from socket import AF_INET, SOCK_STREAM, socket
 from threading import Thread
+from typing import NoReturn
 
-from data_handler import DataHandler
+from .data_handler import DataHandler
 
 
 @dataclass
 class ClientData:
     spectator: bool
     name: str
-    socket: socket
+    network: DataHandler
 
     def __eq__(self, other):
         if isinstance(other, ClientData):
-            return self.socket == other.socket
+            return self.network is other.network
         raise NotImplemented
 
     def __hash__(self):
-        return id(self.socket)
+        return id(self.network)
 
 
 class Server:
-    def __init__(self, host: str, port: int) -> None:
+    def __init__(self: "Server", host: str, port: int) -> None:
         self.clients: set[ClientData] = set()
         print("Waiting for connection...")
         accept_thread = Thread(
             target=self.accept_incoming_connections, args=(host, port)
         )
         accept_thread.start()
-        accept_thread.join()
 
-    def accept_incoming_connections(self, host: str, port: int):
+    def accept_incoming_connections(self: "Server", host: str, port: int) -> NoReturn:
         """Set up handling for incoming clients."""
         sock = socket(AF_INET, SOCK_STREAM)
         sock.bind((host, port))
@@ -56,9 +56,14 @@ class Server:
         print(" - Spectator", spectator)
         name = data_handler.readline().strip()
         print(" - Name", name)
-        client = ClientData(spectator=spectator, name=name, socket=client_socket)
+        client = ClientData(spectator=spectator, name=name, network=data_handler)
         self.clients.add(client)
         print(" - New client connected", client, flush=True)
+
+    @staticmethod
+    def write(client: ClientData, message: str) -> None:
+        # assume client is connected
+        client.network.write(message)
 
 
 if __name__ == "__main__":
