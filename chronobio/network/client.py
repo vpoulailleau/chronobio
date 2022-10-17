@@ -25,8 +25,7 @@ class Client:
         self._data_handler.write(message)
 
     def read_json(self) -> object:
-        """TODO."""
-        return "TODO"
+        return self._data_handler.read_json()
 
 
 if __name__ == "__main__":

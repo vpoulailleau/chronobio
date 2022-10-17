@@ -1,3 +1,4 @@
+import json
 from socket import socket
 from threading import Lock, Thread
 from time import sleep
@@ -37,6 +38,15 @@ class DataHandler:
             line = self._input[:index]
             self._input = self._input[index + 1 :]
             return line
+
+    def read_json(self) -> object:
+        json_text = ""
+        while True:
+            json_text += "\n" + self.readline()
+            try:
+                return json.loads(json_text)
+            except json.JSONDecodeError:
+                pass  # not yet a full JSON object
 
     def write(self, message: str) -> None:
         self.socket.send(bytes(message, "utf8"))

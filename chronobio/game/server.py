@@ -12,7 +12,7 @@ class GameServer(Server):
 
     def _turn(self: "GameServer"):
         self.game.new_day()
-        state = json.dumps(self.game.state())
+        state = json.dumps(self.game.state()) + "\n"
         for client in self.clients:
             print("Sending", state)
             client.network.write(state)

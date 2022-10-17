@@ -58,6 +58,7 @@ class Server:
         print(" - Name", name)
         client = ClientData(spectator=spectator, name=name, network=data_handler)
         self.clients.add(client)
+        self.write(client, "OK\n")
         print(" - New client connected", client, flush=True)
 
     @staticmethod
