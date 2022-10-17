@@ -250,5 +250,8 @@ class Farm:
         self.loans.append(Loan(amount, start_day=self.game.day))
         self.money += amount
 
+    def state(self: "Farm") -> dict:
+        return {"state": "TODO"}
+
     def __repr__(self: "Farm") -> str:
         return f"Farm(name={self.name}, blocked={self.blocked}, money={self.money})"

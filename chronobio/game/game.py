@@ -85,4 +85,7 @@ class Game:
                         farm.soup_factory.fire()
 
     def state(self) -> dict:
-        return {"state": "To Be Constructed…"}
+        return {
+            "day": self.day,
+            "farms": [farm.state() for farm in self.farms],
+        }
