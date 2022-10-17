@@ -26,6 +26,7 @@ class Client:
 
     def read_json(self) -> object:
         """TODO."""
+        return "TODO"
 
 
 if __name__ == "__main__":

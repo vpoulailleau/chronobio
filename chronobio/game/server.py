@@ -11,8 +11,10 @@ class GameServer(Server):
         self.game = Game()
 
     def _turn(self: "GameServer"):
+        self.game.new_day()
         state = json.dumps(self.game.state())
         for client in self.clients:
+            print("Sending", state)
             client.network.write(state)
 
     def run(self: "GameServer") -> None:
@@ -20,9 +22,9 @@ class GameServer(Server):
 
         sleep(5)  # wait connection
         while True:
-            print("New game turn")
-            self.game.new_day()
+            print("New game turn", self.game.day + 1)
             self._turn()
+            sleep(1)
 
 
 if __name__ == "__main__":
