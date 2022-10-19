@@ -13,8 +13,8 @@ class GameServer(Server):
     def _turn(self: "GameServer"):
         self.game.new_day()
         state = json.dumps(self.game.state()) + "\n"
+        print("Sending current state", state)
         for client in self.clients:
-            print("Sending", state)
             client.network.write(state)
 
     def run(self: "GameServer") -> None:
