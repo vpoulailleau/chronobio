@@ -132,7 +132,7 @@ class Employee:
         tractor_state = None if self.tractor is None else self.tractor.state()
         return {
             "id": self.id,
-            "location": self.location,
+            "location": self.location.name,
             "tractor": tractor_state,
             "salary": self.salary,
         }

@@ -18,7 +18,7 @@ class SoupFactory:
     def state(self: "SoupFactory") -> dict:
         return {
             "days_off": self.days_off,
-            "stock": self.stock,
+            "stock": {vegetable.name: stock for vegetable, stock in self.stock.items()},
         }
 
     def flood(self: "SoupFactory") -> None:

@@ -24,10 +24,10 @@ class Field:
 
     def state(self: "Field") -> dict:
         return {
-            "content": self.content,
+            "content": self.content.name,
             "needed_water": self.needed_water,
             "bought": self.bought,
-            "location": self.location,
+            "location": self.location.name,
         }
 
     def __repr__(self: "Field") -> str:
