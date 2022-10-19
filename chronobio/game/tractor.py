@@ -6,5 +6,11 @@ class Tractor:
         self.location = Location.FARM
         self.id = id
 
+    def state(self: "Tractor") -> dict:
+        return {
+            "location": self.location,
+            "id": self.id,
+        }
+
     def __repr__(self: "Tractor") -> str:
         return f"Tractor(id={self.id}, location={self.location.name})"

@@ -251,7 +251,16 @@ class Farm:
         self.money += amount
 
     def state(self: "Farm") -> dict:
-        return {"state": "TODO"}
+        return {
+            "blocked": self.blocked,
+            "name": self.name,
+            "money": self.money,
+            "fields": [field.state() for field in self.fields],
+            "tractors": [tractor.state() for tractor in self.tractors],
+            "loans": [loan.state() for loan in self.loans],
+            "soup_factory": self.soup_factory.state(),
+            "employees": [employee.state() for employee in self.employees],
+        }
 
     def __repr__(self: "Farm") -> str:
         return f"Farm(name={self.name}, blocked={self.blocked}, money={self.money})"

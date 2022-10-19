@@ -11,5 +11,11 @@ class Loan:
             return 0
         return int(self.amount * LOAN_INTEREST / LOAN_DURATION_IN_MONTHS)
 
+    def state(self: "Loan") -> dict:
+        return {
+            "amount": self.amount,
+            "start_day": self.start_day,
+        }
+
     def __repr__(self: "Loan") -> str:
         return f"Loan(amount={self.amount}, start_day={self.start_day})"
