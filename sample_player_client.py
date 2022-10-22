@@ -15,7 +15,7 @@ class PlayerGameClient(Client):
             game_data = self.read_json()
             for farm in game_data["farms"]:
                 if farm["name"] == self.username:
-                    my_farm = farm["name"]
+                    my_farm = farm
                     break
             else:
                 raise ValueError(f"My farm is not found ({self.username})")
