@@ -15,11 +15,12 @@ class GameServer(Server):
 
     def _turn(self: "GameServer"):
         self.game.new_day()
-        state = json.dumps(self.game.state()) + "\n"
+        state = self.game.state()
         print("Sending current state")
         pprint(state)
+        state_json = json.dumps(state) + "\n"
         for client in self.clients:
-            client.network.write(state)
+            client.network.write(state_json)
 
     def run(self: "GameServer") -> None:
         while not [client for client in self.clients if not client.spectator]:
