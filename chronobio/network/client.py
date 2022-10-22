@@ -6,7 +6,7 @@ from .data_handler import DataHandler
 
 class Client:
     def __init__(
-        self, server_addr: str, port: int, username: str, spectator: bool
+        self, server_addr: str, port: int, username: str = "", spectator: bool = True
     ) -> None:
         sock = socket(AF_INET, SOCK_STREAM)
         sock.connect((server_addr, port))
