@@ -12,11 +12,12 @@ class Client:
         sock.connect((server_addr, port))
         self._data_handler = DataHandler(sock)
 
+        self.username = username
         if spectator:
-            username = "spectator"
+            self.username = "spectator"
 
         self.send(f"{int(spectator)}\n")
-        self.send(f"{username}\n")
+        self.send(f"{self.username}\n")
 
         line = self._data_handler.readline()
         if line == "OK":
