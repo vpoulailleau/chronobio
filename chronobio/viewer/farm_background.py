@@ -2,11 +2,9 @@ import math
 
 import arcade
 
-from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from chronobio.viewer.constants import SCREEN_WIDTH
 
-CENTER_X = SCREEN_WIDTH // 2
-CENTER_Y = SCREEN_HEIGHT // 2
-FARM_LENGTH = min(CENTER_X, CENTER_Y)
+FARM_LENGTH = SCREEN_WIDTH * 0.3
 
 SOUP_FACTORY_DISTANCE_FROM_CENTER = FARM_LENGTH / 7
 SOUP_FACTORY_WIDTH = FARM_LENGTH / 6
@@ -20,8 +18,10 @@ FARM_BUILDING_WIDTH = FARM_LENGTH / 7
 
 
 class FarmBackround:
-    def __init__(self, angle=0):
+    def __init__(self, x, y, angle=0):
         self.angle = angle
+        self.x = x
+        self.y = y
         self.sprite_list = arcade.SpriteList()
 
         soup_factory = arcade.Sprite("chronobio/viewer/images/factory_small.png")
@@ -49,4 +49,4 @@ class FarmBackround:
     def rotate(self, x, y):
         cos = math.cos(math.radians(self.angle))
         sin = math.sin(math.radians(self.angle))
-        return cos * x - sin * y + CENTER_X, sin * x + cos * y + CENTER_Y
+        return cos * x - sin * y + self.x, sin * x + cos * y + self.y

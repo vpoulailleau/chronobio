@@ -4,6 +4,8 @@ from chronobio.game.constants import MAX_NB_PLAYERS
 from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
 from chronobio.viewer.farm_background import FarmBackround
 
+FARM_HEIGHT = SCREEN_HEIGHT * 2 / MAX_NB_PLAYERS
+
 
 class Window(arcade.Window):
     def __init__(self):
@@ -25,7 +27,13 @@ class Window(arcade.Window):
 
         self.farm_backgrounds.clear()
         for n in range(MAX_NB_PLAYERS):
-            self.farm_backgrounds.append(FarmBackround(angle=n * 360 // MAX_NB_PLAYERS))
+            self.farm_backgrounds.append(
+                FarmBackround(
+                    x=(1 + n % 2) * SCREEN_WIDTH / 3,
+                    y=(n // 2 + 0.5) * FARM_HEIGHT,
+                    angle=0,
+                )
+            )
 
     def on_draw(self):
         self.clear()
