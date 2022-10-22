@@ -4,13 +4,22 @@ from typing import NoReturn
 from chronobio.network.client import Client
 
 
-class SpectatorGameClient(Client):
-    def __init__(self: "SpectatorGameClient", server_addr: str, port: int) -> None:
-        super().__init__(server_addr, port, username="spectator", spectator=True)
+class PlayerGameClient(Client):
+    def __init__(
+        self: "PlayerGameClient", server_addr: str, port: int, username: str
+    ) -> None:
+        super().__init__(server_addr, port, username, spectator=False)
 
-    def run(self: "SpectatorGameClient") -> NoReturn:
+    def run(self: "PlayerGameClient") -> NoReturn:
         while True:
-            print(str(self.read_json()))
+            game_data = self.read_json()
+            for farm in game_data["farms"]:
+                if farm["name"] == self.username:
+                    my_farm = farm["name"]
+                    break
+            else:
+                raise ValueError(f"My farm is not found ({self.username})")
+            print(my_farm)
 
 
 if __name__ == "__main__":
@@ -31,7 +40,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-u",
-        "--user",
+        "--username",
         type=str,
         help="name of the user",
         default="unknown",
@@ -39,4 +48,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    client = SpectatorGameClient(args.address, args.port).run()
+    client = PlayerGameClient(args.address, args.port, args.username).run()
