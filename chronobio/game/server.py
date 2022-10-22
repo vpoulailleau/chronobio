@@ -25,6 +25,9 @@ class GameServer(Server):
         state_json = json.dumps(state) + "\n"
         for client in self.clients:
             client.network.write(state_json)
+        for player in self.players:
+            commands = player.network.read_json() # TODO ajouter un timeout
+            print(commands)
 
     def run(self: "GameServer") -> None:
         while not self.players:
