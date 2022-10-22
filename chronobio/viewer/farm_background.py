@@ -9,7 +9,11 @@ CENTER_Y = SCREEN_HEIGHT // 2
 FARM_LENGTH = min(CENTER_X, CENTER_Y)
 
 SOUP_FACTORY_DISTANCE_FROM_CENTER = FARM_LENGTH / 7
-SOUP_FACTORY_WIDTH = FARM_LENGTH / 10
+SOUP_FACTORY_WIDTH = FARM_LENGTH / 6
+
+FIELD_OFFSET = FARM_LENGTH / 7 * 2
+FIELD_WIDTH = FARM_LENGTH / 8
+FIELD_DISTANCE = FARM_LENGTH / 7
 
 
 class FarmBackround:
@@ -22,8 +26,15 @@ class FarmBackround:
         soup_factory.width = SOUP_FACTORY_WIDTH
         soup_factory.height = SOUP_FACTORY_WIDTH
         soup_factory.angle = angle
-
         self.sprite_list.append(soup_factory)
+
+        for field_index in range(5):
+            field = arcade.Sprite("chronobio/viewer/images/field.jpg")
+            field.position = self.rotate(FIELD_OFFSET + field_index * FIELD_DISTANCE, 0)
+            field.width = FIELD_WIDTH
+            field.height = FIELD_WIDTH
+            field.angle = angle
+            self.sprite_list.append(field)
 
     def rotate(self, x, y):
         cos = math.cos(math.radians(self.angle))
