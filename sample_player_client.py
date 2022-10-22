@@ -13,7 +13,6 @@ class PlayerGameClient(Client):
 
     def run(self: "PlayerGameClient") -> NoReturn:
         while True:
-            self._commands.clear()
             game_data = self.read_json()
             for farm in game_data["farms"]:
                 if farm["name"] == self.username:
@@ -41,7 +40,9 @@ class PlayerGameClient(Client):
 
     def send_commands(self: "PlayerGameClient") -> None:
         data = {"commands": self._commands}
+        print("sending", data)
         self.send_json(data)
+        self._commands.clear()
 
 
 if __name__ == "__main__":
