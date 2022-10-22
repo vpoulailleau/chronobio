@@ -15,6 +15,9 @@ FIELD_OFFSET = FARM_LENGTH / 7 * 2
 FIELD_WIDTH = FARM_LENGTH / 8
 FIELD_DISTANCE = FARM_LENGTH / 7
 
+FARM_BUILDING_DISTANCE_FROM_CENTER = FARM_LENGTH
+FARM_BUILDING_WIDTH = FARM_LENGTH / 7
+
 
 class FarmBackround:
     def __init__(self, angle=0):
@@ -32,9 +35,16 @@ class FarmBackround:
             field = arcade.Sprite("chronobio/viewer/images/field.jpg")
             field.position = self.rotate(FIELD_OFFSET + field_index * FIELD_DISTANCE, 0)
             field.width = FIELD_WIDTH
-            field.height = FIELD_WIDTH
+            field.height = 2 * FIELD_WIDTH
             field.angle = angle
             self.sprite_list.append(field)
+
+        farm = arcade.Sprite("chronobio/viewer/images/farm.png")
+        farm.position = self.rotate(FARM_BUILDING_DISTANCE_FROM_CENTER, 0)
+        farm.width = FARM_BUILDING_WIDTH
+        farm.height = FARM_BUILDING_WIDTH
+        farm.angle = angle
+        self.sprite_list.append(farm)
 
     def rotate(self, x, y):
         cos = math.cos(math.radians(self.angle))
