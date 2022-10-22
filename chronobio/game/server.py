@@ -1,6 +1,8 @@
 import argparse
 import json
+from time import sleep
 
+from chronobio.game.constants import MAX_NB_PLAYERS, SERVER_CONNECTION_TIMEOUT
 from chronobio.game.game import Game
 from chronobio.network.server import Server
 
@@ -18,9 +20,17 @@ class GameServer(Server):
             client.network.write(state)
 
     def run(self: "GameServer") -> None:
-        from time import sleep
-
-        sleep(5)  # wait connection
+        while not [client for client in self.clients if not client.spectator]:
+            print("Waiting for player clients")
+            sleep(1)
+        for second in range(1, SERVER_CONNECTION_TIMEOUT + 1):
+            print(f"Waiting other players ({second}/{SERVER_CONNECTION_TIMEOUT})")
+            if (
+                len([client for client in self.clients if not client.spectator])
+                == MAX_NB_PLAYERS
+            ):
+                break
+            sleep(1)
         while True:
             print("New game turn", self.game.day + 1)
             self._turn()
