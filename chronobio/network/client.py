@@ -12,6 +12,9 @@ class Client:
         sock.connect((server_addr, port))
         self._data_handler = DataHandler(sock)
 
+        if spectator:
+            username = "spectator"
+
         self.send(f"{int(spectator)}\n")
         self.send(f"{username}\n")
 
