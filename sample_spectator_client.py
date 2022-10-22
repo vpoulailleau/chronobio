@@ -31,4 +31,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    client = SpectatorGameClient(args.address, args.port).run()
+    SpectatorGameClient(args.address, args.port).run()
