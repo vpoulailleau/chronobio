@@ -9,9 +9,11 @@ class PlayerGameClient(Client):
         self: "PlayerGameClient", server_addr: str, port: int, username: str
     ) -> None:
         super().__init__(server_addr, port, username, spectator=False)
+        self._commands: list[str] = []
 
     def run(self: "PlayerGameClient") -> NoReturn:
         while True:
+            self._commands.clear()
             game_data = self.read_json()
             for farm in game_data["farms"]:
                 if farm["name"] == self.username:
@@ -20,6 +22,26 @@ class PlayerGameClient(Client):
             else:
                 raise ValueError(f"My farm is not found ({self.username})")
             print(my_farm)
+
+            if game_data["day"] == 0:
+                self.add_command("0 EMPRUNTER 100000")
+                self.add_command("0 ACHETER_CHAMP")
+                self.add_command("0 ACHETER_CHAMP")
+                self.add_command("0 ACHETER_CHAMP")
+                self.add_command("0 ACHETER_TRACTEUR")
+                self.add_command("0 ACHETER_TRACTEUR")
+                self.add_command("0 EMPLOYER")
+                self.add_command("0 EMPLOYER")
+                self.add_command("1 SEMER PATATE 3")
+
+            self.send_commands()
+
+    def add_command(self: "PlayerGameClient", command: str) -> None:
+        self._commands.append(command)
+
+    def send_commands(self: "PlayerGameClient") -> None:
+        data = {"commands": self._commands}
+        self.send_json(data)
 
 
 if __name__ == "__main__":
