@@ -9,6 +9,7 @@ CENTER_Y = SCREEN_HEIGHT // 2
 FARM_LENGTH = min(CENTER_X, CENTER_Y)
 
 SOUP_FACTORY_DISTANCE_FROM_CENTER = FARM_LENGTH / 7
+SOUP_FACTORY_WIDTH = FARM_LENGTH / 10
 
 
 class FarmBackround:
@@ -16,8 +17,10 @@ class FarmBackround:
         self.angle = angle
         self.sprite_list = arcade.SpriteList()
 
-        soup_factory = arcade.Sprite(":resources:images/tiles/boxCrate_double.png")
+        soup_factory = arcade.Sprite("chronobio/viewer/images/factory_small.png")
         soup_factory.position = self.rotate(SOUP_FACTORY_DISTANCE_FROM_CENTER, 0)
+        soup_factory.width = SOUP_FACTORY_WIDTH
+        soup_factory.height = SOUP_FACTORY_WIDTH
         soup_factory.angle = angle
 
         self.sprite_list.append(soup_factory)
