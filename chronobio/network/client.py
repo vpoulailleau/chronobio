@@ -28,6 +28,9 @@ class Client:
     def send(self, message: str) -> None:
         self._data_handler.write(message)
 
+    def send_json(self, data: object) -> None:
+        self._data_handler.write_json(data)
+
     def read_json(self) -> object:
         return self._data_handler.read_json()
 

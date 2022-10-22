@@ -50,3 +50,6 @@ class DataHandler:
 
     def write(self, message: str) -> None:
         self.socket.send(bytes(message, "utf8"))
+
+    def write_json(self, data: object) -> None:
+        self.write(json.dumps(data))
