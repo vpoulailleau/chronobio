@@ -13,6 +13,10 @@ class GameServer(Server):
         super().__init__(host, port)
         self.game = Game()
 
+    @property
+    def players(self):
+        return [client for client in self.clients if not client.spectator]
+
     def _turn(self: "GameServer"):
         self.game.new_day()
         state = self.game.state()
@@ -23,22 +27,17 @@ class GameServer(Server):
             client.network.write(state_json)
 
     def run(self: "GameServer") -> None:
-        while not [client for client in self.clients if not client.spectator]:
+        while not self.players:
             print("Waiting for player clients")
             sleep(1)
 
         for second in range(1, SERVER_CONNECTION_TIMEOUT + 1):
             print(f"Waiting other players ({second}/{SERVER_CONNECTION_TIMEOUT})")
-            if (
-                len([client for client in self.clients if not client.spectator])
-                == MAX_NB_PLAYERS
-            ):
+            if len(self.players) == MAX_NB_PLAYERS:
                 break
             sleep(1)
 
-        for player_name in {
-            client.name for client in self.clients if not client.spectator
-        }:
+        for player_name in {player.name for player in self.players}:
             self.game.add_player(player_name)
         while True:
             print("New game turn", self.game.day + 1)
