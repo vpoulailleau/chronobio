@@ -13,4 +13,6 @@ class Viewer(Client):
 
     def run(self: "Viewer") -> NoReturn:
         while True:
-            print(str(self.read_json()))
+            data = self.read_json()
+            print(str(data))
+            self.window.input_queue.put(data)
