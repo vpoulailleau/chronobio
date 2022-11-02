@@ -3,15 +3,24 @@ import math
 import arcade
 
 from chronobio.game.location import Location
+from chronobio.viewer.constants import (
+    FARM_BUILDING_DISTANCE_FROM_CENTER,
+    FARM_BUILDING_WIDTH,
+    FIELD_DISTANCE,
+    FIELD_OFFSET,
+    FIELD_WIDTH,
+    SOUP_FACTORY_DISTANCE_FROM_CENTER,
+    SOUP_FACTORY_WIDTH,
+)
 
 location_to_position: dict[Location, tuple[float, float]] = {
-    Location.FARM: (100, 100),
-    Location.FIELD1: (200, 200),
-    Location.FIELD2: (300, 200),
-    Location.FIELD3: (400, 200),
-    Location.FIELD4: (500, 200),
-    Location.FIELD5: (600, 200),
-    Location.SOUP_FACTORY: (700, 200),
+    Location.FARM: (FARM_BUILDING_DISTANCE_FROM_CENTER, FARM_BUILDING_WIDTH),
+    Location.FIELD1: (FIELD_OFFSET + 0 * FIELD_DISTANCE, FIELD_WIDTH),
+    Location.FIELD2: (FIELD_OFFSET + 1 * FIELD_DISTANCE, FIELD_WIDTH),
+    Location.FIELD3: (FIELD_OFFSET + 2 * FIELD_DISTANCE, FIELD_WIDTH),
+    Location.FIELD4: (FIELD_OFFSET + 3 * FIELD_DISTANCE, FIELD_WIDTH),
+    Location.FIELD5: (FIELD_OFFSET + 4 * FIELD_DISTANCE, FIELD_WIDTH),
+    Location.SOUP_FACTORY: (SOUP_FACTORY_DISTANCE_FROM_CENTER, SOUP_FACTORY_WIDTH),
 }
 
 
