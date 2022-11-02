@@ -16,7 +16,7 @@ class Window(arcade.Window):
         arcade.set_background_color(arcade.csscolor.DARK_OLIVE_GREEN)
         self.background_list: arcade.SpriteList = None
         self.farm_backgrounds: list[FarmBackround] = []
-        self.farm: list[Farm] = []
+        self.farms: list[Farm] = []
         self.input_queue: Queue = Queue()
 
     def setup(self):
@@ -31,7 +31,7 @@ class Window(arcade.Window):
                 self.background_list.append(grass)
 
         self.farm_backgrounds.clear()
-        self.farm.clear()
+        self.farms.clear()
         for n in range(MAX_NB_PLAYERS):
             self.farm_backgrounds.append(
                 FarmBackround(
@@ -40,7 +40,7 @@ class Window(arcade.Window):
                     angle=0,
                 )
             )
-            self.farm.append(
+            self.farms.append(
                 Farm(
                     x=(1 + n % 2) * SCREEN_WIDTH / 3,
                     y=(n // 2 + 0.5) * FARM_HEIGHT,
@@ -49,12 +49,17 @@ class Window(arcade.Window):
             )
 
     def on_draw(self):
+        if not self.input_queue.empty():
+            data = self.input_queue.get()
+            for index, farm in enumerate(self.farms):
+                farm.update(data["farms"][index])
+
         self.clear()
         self.background_list.draw()
         for farm_background in self.farm_backgrounds:
             farm_background.sprite_list.draw()
-        for farm in self.farm:
-            farm.sprite_list.draw()
+        for farm in self.farms:
+            farm.draw()
 
 
 def gui_thread(window):
