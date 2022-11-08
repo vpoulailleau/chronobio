@@ -61,10 +61,10 @@ class Farm:
             seen.add(employee["id"])
             employee_entity = self.employees.get(
                 employee["id"],
-                MovingEntity(
-                    ":resources:images/animated_characters/male_adventurer/maleAdventurer_idle.png"
-                ),
+                MovingEntity("chronobio/viewer/images/farmer.png"),
             )
+            employee_entity.sprite.width = 60
+            employee_entity.sprite.height = 60
             employee_entity.target_location = Location[employee["location"]]
             self.employees[employee["id"]] = employee_entity
         for employee_id in list(self.employees):
