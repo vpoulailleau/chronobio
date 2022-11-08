@@ -23,6 +23,10 @@ location_to_position: dict[Location, tuple[float, float]] = {
     Location.SOUP_FACTORY: (SOUP_FACTORY_DISTANCE_FROM_CENTER, SOUP_FACTORY_WIDTH),
 }
 
+vegetable_to_sprite: dict[str, str] = {
+    "NONE": "TODO.jpg",
+}
+
 
 class MovingEntity:
     def __init__(
@@ -43,12 +47,33 @@ class MovingEntity:
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
 
 
+class Vegetable(MovingEntity):
+    def __init__(
+        self, sprite_path=":resources:images/tiles/boxCrate_double.png"
+    ) -> None:
+        super().__init__(sprite_path)
+        self.update_size(0)
+
+    def update_size(self, needed_water: int) -> None:
+        needed_water = min(needed_water, 10)
+        size = 10 - needed_water
+        self.sprite.width = 8 * size
+        self.sprite.height = 16 * size
+
+    def location(self, location: Location, farm: "Farm") -> None:
+        self.target_location = location
+        self.x, _ = location_to_position[self.target_location]
+        self.y = 0
+        self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
+
+
 class Farm:
     def __init__(self, x, y, angle=0):
         self.angle = angle
         self.x = x
         self.y = y
         self.employees: dict[int, MovingEntity] = {}
+        self.vegetables: list[Vegetable] = []
 
     def rotate(self, x, y):
         cos = math.cos(math.radians(self.angle))
@@ -56,6 +81,7 @@ class Farm:
         return cos * x - sin * y + self.x, sin * x + cos * y + self.y
 
     def update(self, data):
+
         seen = set()
         for employee in data["employees"]:
             seen.add(employee["id"])
@@ -71,11 +97,23 @@ class Farm:
             if employee_id not in seen:
                 del self.employees[employee_id]
 
+        self.vegetables.clear()
+        for field in data["fields"]:
+            vegetable = Vegetable(
+                # TODO sprite_path=vegetable_to_sprite[field["content"]]
+            )
+            vegetable.location(Location[field["location"]], farm=self)
+            vegetable.update_size(field["needed_water"])
+            self.vegetables.append(vegetable)
+
     def draw(self):
         sprite_list = arcade.SpriteList()
 
         for employee in self.employees.values():
             employee.update_position(self)
             sprite_list.append(employee.sprite)
+
+        for vegetable in self.vegetables:
+            sprite_list.append(vegetable.sprite)
 
         sprite_list.draw()
