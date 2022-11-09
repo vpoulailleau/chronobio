@@ -13,6 +13,8 @@ from chronobio.viewer.constants import (
     SOUP_FACTORY_WIDTH,
 )
 
+DEFAULT_TEXTURE = ":resources:images/tiles/boxCrate_double.png"
+
 location_to_position: dict[Location, tuple[float, float]] = {
     Location.FARM: (FARM_BUILDING_DISTANCE_FROM_CENTER, FARM_BUILDING_WIDTH),
     Location.FIELD1: (FIELD_OFFSET + 0 * FIELD_DISTANCE, 2 * FIELD_WIDTH),
@@ -24,14 +26,12 @@ location_to_position: dict[Location, tuple[float, float]] = {
 }
 
 vegetable_to_sprite: dict[str, str] = {
-    "NONE": "TODO.jpg",
+    "NONE": "chronobio/viewer/images/transparent.png",
 }
 
 
 class MovingEntity:
-    def __init__(
-        self, sprite_path=":resources:images/tiles/boxCrate_double.png"
-    ) -> None:
+    def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
         self.target_location: Location = Location.FARM
         self.sprite: arcade.Sprite = arcade.Sprite(sprite_path, scale=1.0)
         self.sprite.width = 80
@@ -48,17 +48,16 @@ class MovingEntity:
 
 
 class Vegetable(MovingEntity):
-    def __init__(
-        self, sprite_path=":resources:images/tiles/boxCrate_double.png"
-    ) -> None:
+    def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
         super().__init__(sprite_path)
+        self.sprite_path = sprite_path
         self.update_size(0)
 
     def update_size(self, needed_water: int) -> None:
-        needed_water = min(needed_water, 10)
-        size = 10 - needed_water
-        self.sprite.width = 8 * size
-        self.sprite.height = 16 * size
+        needed_water = min(needed_water, 20)
+        size = 20 - needed_water
+        self.sprite.width = 4 * size
+        self.sprite.height = 8 * size
 
     def location(self, location: Location, farm: "Farm") -> None:
         self.target_location = location
@@ -100,7 +99,7 @@ class Farm:
         self.vegetables.clear()
         for field in data["fields"]:
             vegetable = Vegetable(
-                # TODO sprite_path=vegetable_to_sprite[field["content"]]
+                sprite_path=vegetable_to_sprite.get(field["content"], DEFAULT_TEXTURE)
             )
             vegetable.location(Location[field["location"]], farm=self)
             vegetable.update_size(field["needed_water"])
@@ -114,6 +113,7 @@ class Farm:
             sprite_list.append(employee.sprite)
 
         for vegetable in self.vegetables:
-            sprite_list.append(vegetable.sprite)
+            if "/transparent.png" not in vegetable.sprite_path:
+                sprite_list.append(vegetable.sprite)
 
         sprite_list.draw()
