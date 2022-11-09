@@ -8,7 +8,7 @@ class Tractor:
 
     def state(self: "Tractor") -> dict:
         return {
-            "location": self.location,
+            "location": self.location.name,
             "id": self.id,
         }
 
