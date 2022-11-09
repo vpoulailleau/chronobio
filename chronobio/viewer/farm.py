@@ -30,6 +30,7 @@ vegetable_to_sprite: dict[str, str] = {
     "POTATO": "chronobio/viewer/images/potato.png",
     "LEEK": "chronobio/viewer/images/leek.png",
     "TOMATO": "chronobio/viewer/images/tomato.png",
+    "ONION": "chronobio/viewer/images/onion.png",
 }
 
 
