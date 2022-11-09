@@ -27,6 +27,7 @@ location_to_position: dict[Location, tuple[float, float]] = {
 
 vegetable_to_sprite: dict[str, str] = {
     "NONE": "chronobio/viewer/images/transparent.png",
+    "POTATO": "chronobio/viewer/images/potato.png",
 }
 
 
