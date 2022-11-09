@@ -77,6 +77,7 @@ class Farm:
         self.x = x
         self.y = y
         self.employees: dict[int, MovingEntity] = {}
+        self.tractors: dict[int, MovingEntity] = {}
         self.vegetables: list[Vegetable] = []
 
     def rotate(self, x, y):
@@ -101,6 +102,21 @@ class Farm:
             if employee_id not in seen:
                 del self.employees[employee_id]
 
+        seen = set()
+        for tractor in data["tractors"]:
+            seen.add(tractor["id"])
+            tractor_entity = self.tractors.get(
+                tractor["id"],
+                MovingEntity("chronobio/viewer/images/tractor.png"),
+            )
+            tractor_entity.sprite.width = 60
+            tractor_entity.sprite.height = 60
+            tractor_entity.target_location = Location[tractor["location"]]
+            self.tractors[tractor["id"]] = tractor_entity
+        for tractor_id in list(self.tractors):
+            if tractor_id not in seen:
+                del self.tractors[tractor_id]
+
         self.vegetables.clear()
         for field in data["fields"]:
             vegetable = Vegetable(
@@ -112,6 +128,10 @@ class Farm:
 
     def draw(self):
         sprite_list = arcade.SpriteList()
+
+        for tractor in self.tractors.values():
+            tractor.update_position(self)
+            sprite_list.append(tractor.sprite)
 
         for employee in self.employees.values():
             employee.update_position(self)
