@@ -58,7 +58,7 @@ class Vegetable(MovingEntity):
         needed_water = min(needed_water, 20)
         size = 20 - needed_water
         self.sprite.width = 4 * size
-        self.sprite.height = 8 * size
+        self.sprite.height = 4 * size
 
     def location(self, location: Location, farm: "Farm") -> None:
         self.target_location = location
