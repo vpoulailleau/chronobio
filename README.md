@@ -14,17 +14,11 @@
 
 ### Informations envoyées par le serveur
 
-- Une première ligne avec le nombre de joueurs `N` (entre 1 et 6)
-- Les `N` lignes suivantes, le statut de chaque joueur :
-  - Le solde financier
-  - Le nombre d'employés
-  - Le nombre de tracteurs
-  - Le nombre de champs en exploitation
-  - La quantité de semance par légumes
+Un dictionnaire en JSON avec les informations sur le jeu et toutes les fermes en exploitation.
 
 ### Début du jeu
 
-Une exploitation démarre sans culture, et avec un apport financier initial de 100 000 euros. Le jeu dure 5 ans.
+Une exploitation démarre sans culture, et avec un apport financier initial de 100 000 euros. Le jeu dure 5 ans (en temps simulé).
 
 ### Chaque jour
 
@@ -39,7 +33,7 @@ Attention, il est possible de mécaniser l'exploitation agricole, mais chaque tr
 
 Chaque champ ou usine a un risque sur deux d'être touché par un évenement climatique lorsqu'il se produit.
 
-### Déplacement à vide
+### Déplacement
 
 Lorsqu'un employé se déplace à pied, il peut se déplacer d'un lieu au lieu adjacent. S'il veut aller plus loin, il mettra un jour supplémentaire à chaque lieu traversé.
 
@@ -56,7 +50,6 @@ La carte d'une exploitation est la suivante :
 - Le champ 4
 - Le champ 5
 - L'usine à soupe
-- Le magasin
 
 ### Actions possibles
 
@@ -154,3 +147,16 @@ Le gérant emprunte une somme à la banque. Un emprunt dure 2 ans. La somme à r
 - Un achat sans l'argent disponible entraîne le blocage du joueur.
 - Un joueur ne pouvant pas payer ses dépenses est bloqué.
 - Le joueur ayant le plus d'argent disponible à la fin (coût total des emprunts déduits) gagne.
+
+## Comment jouer
+
+- Créez un dépôt privé, en me donnant les accès (au moins en lecture)
+- Créez un client pour vous connecter au serveur de jeu
+  - En vous inspirant de l'exemple fourni
+  - Votre projet devra pouvoir être lancé en ligne de commande (avec `argparse`)
+    - `-h` : host, adresse IP du serveur
+    - `-p` : port du serveur
+- Mettez en place de l'intégration continue
+  - Tests automatiques avec mesure de couverture de test (qui doit avoisiner 100%)
+  - Mesure de qualimétrie (avec des linters) pour faire un logiciel de bon niveau de qualité
+- Éventuellement, mettez en place des hooks de pré-commit (https://pre-commit.com/)
