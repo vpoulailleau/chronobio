@@ -12,9 +12,11 @@
 
 ## Communication
 
-### Informations envoyées par le serveur
+### Échanges
 
-Un dictionnaire en JSON avec les informations sur le jeu et toutes les fermes en exploitation.
+À chaque début de tour de jeu, un dictionnaire en JSON avec les informations sur le jeu et toutes les fermes en exploitation est envoyé.
+
+Chaque ferme doit envoyer au moins une commande (dont la syntaxe est détaillée ensuite) par tour de jeu.
 
 ### Début du jeu
 
@@ -69,7 +71,7 @@ Les champs entre accolades sont à remplacer par leur valeurs.
 
 `{GÉRANT} ACHETER_CHAMP`
 
-Un nouveau champ est acheté, 10 000 euros est enlevé du solde.
+Un nouveau champ est acheté, 10 000 euros est enlevé du solde. Le premier champ qui sera acheté sera le champ 1. Si le champ 1 est déjà acheté, la tentative d'achat se portera sur le prochain champ disponible, dans l'ordre des numéros de champs.
 
 #### Semer
 
@@ -150,13 +152,15 @@ Le gérant emprunte une somme à la banque. Un emprunt dure 2 ans. La somme à r
 
 ## Comment jouer
 
-- Créez un dépôt privé, en me donnant les accès (au moins en lecture)
+- Créez un dépôt privé, en me donnant les accès (au moins en lecture, https://github.com/vpoulailleau)
 - Créez un client pour vous connecter au serveur de jeu
   - En vous inspirant de l'exemple fourni
   - Votre projet devra pouvoir être lancé en ligne de commande (avec `argparse`)
     - `-h` : host, adresse IP du serveur
     - `-p` : port du serveur
+  - Votre projet devra contenir au moins une documentation minimaliste pour permettre à l'utilisateur d'installer et d'utiliser votre logiciel
 - Mettez en place de l'intégration continue
   - Tests automatiques avec mesure de couverture de test (qui doit avoisiner 100%)
   - Mesure de qualimétrie (avec des linters) pour faire un logiciel de bon niveau de qualité
+  - Vérification des annotations de type
 - Éventuellement, mettez en place des hooks de pré-commit (https://pre-commit.com/)
