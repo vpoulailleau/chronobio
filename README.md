@@ -123,7 +123,7 @@ La soupe est vendue :
 - 6 euros la soupe de 4 légumes
 - 8 euros la soupe de 5 légumes
 
-Les soupes sont livrées automatiquement au magasin qui s'occuppe de tout (transport, vente aux clients finaux).
+Les soupes sont livrées automatiquement au magasin qui s'occupe de tout (transport, vente aux clients finaux).
 
 #### Employer un ouvrier
 
