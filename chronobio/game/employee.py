@@ -7,13 +7,14 @@ from chronobio.game.constants import (
     SALARY_RAISE_FACTOR,
     SOUP_PRICES_PER_VETEGABLE,
 )
+from chronobio.game.farm import Farm
 from chronobio.game.location import Location
 from chronobio.game.tractor import Tractor
 from chronobio.game.vegetable import Vegetable
 
 
 class Employee:
-    def __init__(self: "Employee", farm: "Farm", id: int) -> None:
+    def __init__(self: "Employee", farm: Farm, id: int) -> None:
         self.farm = farm
         self.id: int = id
         self.location: Location = Location.FARM
