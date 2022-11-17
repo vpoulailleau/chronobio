@@ -158,7 +158,7 @@ La somme empruntée doit être positive.
 - Créez un client pour vous connecter au serveur de jeu
   - En vous inspirant de l'exemple fourni
   - Votre projet devra pouvoir être lancé en ligne de commande (avec `argparse`)
-    - `-h` : host, adresse IP du serveur
+    - `-a` : adresse IP du serveur
     - `-p` : port du serveur
   - Votre projet devra contenir au moins une documentation minimaliste pour permettre à l'utilisateur d'installer et d'utiliser votre logiciel
 - Mettez en place de l'intégration continue
