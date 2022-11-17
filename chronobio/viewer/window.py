@@ -6,6 +6,7 @@ from chronobio.game.constants import MAX_NB_PLAYERS
 from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
 from chronobio.viewer.farm import Farm
 from chronobio.viewer.farm_background import FarmBackround
+from chronobio.viewer.score import Score
 
 FARM_HEIGHT = SCREEN_HEIGHT * 2 / MAX_NB_PLAYERS
 
@@ -18,6 +19,7 @@ class Window(arcade.Window):
         self.farm_backgrounds: list[FarmBackround] = []
         self.farms: list[Farm] = []
         self.input_queue: Queue = Queue()
+        self.score = Score()
 
     def setup(self):
         self.background_list = arcade.SpriteList()
@@ -53,6 +55,7 @@ class Window(arcade.Window):
             data = self.input_queue.get()
             for index, farm in enumerate(self.farms):
                 farm.update(data["farms"][index])
+            self.score.update(data)
 
         self.clear()
         self.background_list.draw()
@@ -60,6 +63,7 @@ class Window(arcade.Window):
             farm_background.sprite_list.draw()
         for farm in self.farms:
             farm.draw()
+        self.score.draw()
 
 
 def gui_thread(window):
