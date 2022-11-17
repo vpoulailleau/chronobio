@@ -143,6 +143,8 @@ Le gérant se sépare d'un ouvrier (c'est un plan de sauvegarde de l'emploi…).
 
 Le gérant emprunte une somme à la banque. Un emprunt dure 2 ans. La somme à rembourser est la somme empruntée multipliée par 1,10 soit environ 5% par an. Cette somme est remboursée à part égale chaque mois de l'emprunt.
 
+La somme empruntée doit être positive.
+
 ## Conditions de victoire ou défaite
 
 - Une action invalide entraîne le blocage du joueur : il ne peut plus faire d'actions jusqu'à la fin du jeu.

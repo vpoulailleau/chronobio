@@ -247,6 +247,8 @@ class Farm:
         if self.action_to_do:
             raise ValueError("The farm owner is already busy")
         amount = int(amount_str)
+        if amount < 0:
+            raise ValueError("The amount of the loan must be positive")
         self.loans.append(Loan(amount, start_day=self.game.day))
         self.money += amount
 
