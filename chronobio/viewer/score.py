@@ -9,6 +9,7 @@ HEIGHT = SCREEN_HEIGHT - 2 * MARGIN
 CENTER_X = SCREEN_WIDTH / 6
 CENTER_Y = SCREEN_HEIGHT / 2
 NAME_OFFSET = 100
+SCORE_OFFSET = 70
 
 
 class Score:
@@ -38,4 +39,15 @@ class Score:
                 color=arcade.color.BROWN_NOSE,
                 font_size=20,
                 font_name="Kenney Blocks",
+            )
+            score = self.state["farms"][n]["score"]
+            arcade.draw_text(
+                f"Score: {score:>20,d}".replace(",", " "),
+                start_x=MARGIN * 2,
+                start_y=SCORE_OFFSET
+                + MARGIN * 2
+                + (HEIGHT - 2 * MARGIN) / (MAX_NB_PLAYERS) * n,
+                color=arcade.color.BROWN_NOSE,
+                font_size=14,
+                font_name="Kenney Future",
             )

@@ -56,10 +56,6 @@ class Farm:
     def pollute(self: "Farm") -> None:
         self.game.greenhouse_gas += len(self.tractors) * GREENHOUSE_GAS_PER_TRACTOR
 
-    @property
-    def score(self: "Farm") -> int:
-        return self.money
-
     def get_employee(self: "Farm", employee_id: int) -> Employee:
         for em in self.employees:
             if employee_id == em.id:
@@ -252,11 +248,18 @@ class Farm:
         self.loans.append(Loan(amount, start_day=self.game.day))
         self.money += amount
 
+    @property
+    def score(self: "Farm") -> int:
+        return self.money - sum(
+            loan.remaining_cost(self.game.day) for loan in self.loans
+        )
+
     def state(self: "Farm") -> dict:
         return {
             "blocked": self.blocked,
             "name": self.name,
-            "money": self.money,
+            "money": int(self.money),
+            "score": int(self.score),
             "fields": [field.state() for field in self.fields],
             "tractors": [tractor.state() for tractor in self.tractors],
             "loans": [loan.state() for loan in self.loans],
