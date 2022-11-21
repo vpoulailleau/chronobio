@@ -15,7 +15,6 @@ class Loan:
         total = 0
         for month in range(LOAN_DURATION_IN_MONTHS):
             cost = self.month_cost(day=day + month * 30)
-            print("month", month, cost)
             if not cost:
                 break
             total += cost
