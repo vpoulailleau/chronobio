@@ -9,7 +9,17 @@ class Loan:
     def month_cost(self: "Loan", day: int) -> int:
         if not (self.start_day <= day < self.start_day + LOAN_DURATION_IN_MONTHS * 30):
             return 0
-        return int(self.amount * LOAN_INTEREST / LOAN_DURATION_IN_MONTHS)
+        return self.amount * LOAN_INTEREST / LOAN_DURATION_IN_MONTHS
+
+    def remaining_cost(self: "Loan", day: int) -> int:
+        total = 0
+        for month in range(LOAN_DURATION_IN_MONTHS):
+            cost = self.month_cost(day=day + month * 30)
+            print("month", month, cost)
+            if not cost:
+                break
+            total += cost
+        return total
 
     def state(self: "Loan") -> dict:
         return {
