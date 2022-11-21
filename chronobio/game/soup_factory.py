@@ -28,4 +28,6 @@ class SoupFactory:
         self.days_off += DAYS_OFF_PER_FIRE
 
     def deliver(self: "SoupFactory", vegetable: Vegetable) -> None:
-        self.stock[vegetable] += VEGETABLE_PER_STOCK_DELIVERY
+        self.stock[
+            vegetable
+        ] += VEGETABLE_PER_STOCK_DELIVERY  # TODO take days_off into account
