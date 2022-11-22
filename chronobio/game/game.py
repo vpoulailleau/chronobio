@@ -1,3 +1,4 @@
+import logging
 import math
 import random
 
@@ -7,6 +8,7 @@ from chronobio.game.constants import (
     MAX_NB_PLAYERS,
     VEGETABLE_PRICE,
 )
+from chronobio.game.exceptions import ChronobioInvalidAction
 from chronobio.game.farm import Farm
 from chronobio.game.field import Field
 from chronobio.game.location import Location, fields
@@ -40,10 +42,14 @@ class Game:
         for farm in self.farms:
             if farm.blocked:
                 continue
-            farm.income()
-            farm.expend(self.day)
-            farm.pollute()
-            farm.do_actions()
+            try:
+                farm.income()
+                farm.expend(self.day)
+                farm.pollute()
+                farm.do_actions()
+            except ChronobioInvalidAction:
+                logging.exception("invalid action")
+                farm.blocked = True
 
     def field_price(self: "Game", sold_field: Field) -> int:
         price = VEGETABLE_PRICE + COMMON_VEGETABLE_LOSS
