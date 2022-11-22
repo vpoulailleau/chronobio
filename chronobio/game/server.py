@@ -10,9 +10,10 @@ from chronobio.network.server import Server
 
 
 class GameServer(Server):
-    def __init__(self: "GameServer", host: str, port: int):
+    def __init__(self: "GameServer", host: str, port: int, duration: int):
         super().__init__(host, port)
         self.game = Game()
+        self.duration = duration
 
     @property
     def players(self):
@@ -57,8 +58,8 @@ class GameServer(Server):
 
         for player_name in {player.name for player in self.players}:
             self.game.add_player(player_name)
-        while True:
-            print("New game turn", self.game.day + 1)
+        for day in range(self.duration):
+            print("New game turn", day + 1)
             self._turn()
             sleep(1)
 
@@ -75,6 +76,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "-p", "--port", type=int, help="location where server listens", default=16210
     )
+    parser.add_argument(
+        "-d",
+        "--duration",
+        type=int,
+        help="number of simulation days",
+        default=5 * 12 * 30,
+    )
+
     args = parser.parse_args()
 
-    GameServer(args.address, args.port).run()
+    GameServer(args.address, args.port, args.duration).run()
