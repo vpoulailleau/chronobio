@@ -1,6 +1,8 @@
 from threading import Thread
+from time import sleep
 from typing import NoReturn
 
+from chronobio.game.exceptions import ChronobioNetworkError
 from chronobio.network.client import Client
 from chronobio.viewer.window import Window, gui_thread
 
@@ -13,6 +15,11 @@ class Viewer(Client):
 
     def run(self: "Viewer") -> NoReturn:
         while True:
-            data = self.read_json()
-            print(str(data))
-            self.window.input_queue.put(data)
+            try:
+                data = self.read_json()
+                print(str(data))
+                self.window.input_queue.put(data)
+            except ChronobioNetworkError:
+                break
+        while True:
+            sleep(1)
