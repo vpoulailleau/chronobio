@@ -1,7 +1,6 @@
 import argparse
 import json
 import logging
-from pprint import pprint
 from time import sleep
 
 from chronobio.game.constants import MAX_NB_PLAYERS, SERVER_CONNECTION_TIMEOUT
@@ -23,16 +22,17 @@ class GameServer(Server):
     def _turn(self: "GameServer"):
         self.game.new_day()
         state = self.game.state()
-        print("Sending current state")
-        pprint(state)
+        logging.debug("Sending current state")
+        logging.debug(state)
         state_json = json.dumps(state) + "\n"
         for client in self.clients:
+            logging.debug("sending to %s", str(client))
             client.network.write(state_json)
 
         for player in self.players:
-            print("Waiting commands from", player)
+            logging.info("Waiting commands from %s", player)
             commands = player.network.read_json(timeout=2)
-            print(commands)
+            logging.debug(commands)
             for farm in self.game.farms:
                 if farm.name == player.name:
                     player_farm = farm
@@ -60,7 +60,7 @@ class GameServer(Server):
         for player_name in {player.name for player in self.players}:
             self.game.add_player(player_name)
         for day in range(self.duration):
-            print("New game turn", day + 1)
+            logging.info("New game turn %d", day + 1)
             self._turn()
             sleep(1)
 
