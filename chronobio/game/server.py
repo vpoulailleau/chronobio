@@ -36,6 +36,9 @@ class GameServer(Server):
             except ChronobioNetworkError:
                 logging.exception("timeout")
                 self.clients.remove(player)
+                for farm in self.game.farms:
+                    if farm.name == player.name:
+                        farm.blocked = True
                 continue
 
             logging.debug(commands)
