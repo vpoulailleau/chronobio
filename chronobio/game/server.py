@@ -25,7 +25,7 @@ class GameServer(Server):
         logging.debug("Sending current state")
         logging.debug(state)
         state_json = json.dumps(state) + "\n"
-        for client in self.clients:
+        for client in list(self.clients):
             logging.debug("sending to %s", client.name)
             try:
                 client.network.write(state_json)
