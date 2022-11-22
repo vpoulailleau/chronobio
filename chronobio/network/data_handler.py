@@ -4,6 +4,8 @@ from socket import socket
 from threading import Lock, Thread
 from time import perf_counter, sleep
 
+from chronobio.game.exceptions import ChronobioNetworkError
+
 DEFAULT_TIMEOUT = 20  # seconds
 
 
@@ -39,7 +41,7 @@ class DataHandler:
         while "\n" not in self._input:
             if perf_counter() - start > timeout:
                 logging.debug("timeout")
-                raise TimeoutError
+                raise ChronobioNetworkError
             sleep(0.01)
         with self._input_lock:
             index = self._input.index("\n")
@@ -52,14 +54,14 @@ class DataHandler:
         logging.debug("read_json")
         json_text = ""
         while True:
-            json_text += "\n" + self.readline()
+            json_text += "\n" + self.readline(timeout)
             try:
                 return json.loads(json_text)
             except json.JSONDecodeError:
                 pass  # not yet a full JSON object
             if perf_counter() - start > timeout:
                 logging.debug("timeout")
-                raise TimeoutError
+                raise ChronobioNetworkError
 
     def write(self, message: str) -> None:
         logging.debug("write %s", message[:100])
