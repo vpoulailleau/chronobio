@@ -8,8 +8,19 @@ WIDTH = SCREEN_WIDTH / 3 - 2 * MARGIN
 HEIGHT = SCREEN_HEIGHT - 2 * MARGIN
 CENTER_X = SCREEN_WIDTH / 6
 CENTER_Y = SCREEN_HEIGHT / 2
-NAME_OFFSET = 100
-SCORE_OFFSET = 70
+NAME_OFFSET = 50
+SCORE_OFFSET = NAME_OFFSET - 30
+DATE_OFFSET = SCREEN_HEIGHT - 2 * MARGIN - 20
+DATE_HEIGHT = 40
+
+
+def day2date(day_number: int) -> tuple[int, int, int]:
+    """Generate date (y, m, d)"""
+    day = day_number % 30 + 1
+    month = day_number // 30
+    year = month // 12 + 1
+    month = month % 12 + 1
+    return year, month, day
 
 
 class Score:
@@ -27,15 +38,28 @@ class Score:
             height=HEIGHT,
             color=(255, 255, 255, 100),
         )
+
         if "farms" not in self.state:
-            return
+            return  # game not started
+
+        year, month, day = day2date(self.state["day"])
+        date = f"{day}/{month}/{year:04d}"
+        arcade.draw_text(
+            date,
+            start_x=MARGIN * 2,
+            start_y=DATE_OFFSET,
+            color=arcade.color.BROWN_NOSE,
+            font_size=20,
+            font_name="Kenney Blocks",
+        )
+
         for n in range(MAX_NB_PLAYERS):
             arcade.draw_text(
                 self.state["farms"][n]["name"],
                 start_x=MARGIN * 2,
                 start_y=NAME_OFFSET
                 + MARGIN * 2
-                + (HEIGHT - 2 * MARGIN) / (MAX_NB_PLAYERS) * n,
+                + (HEIGHT - DATE_HEIGHT - 2 * MARGIN) / (MAX_NB_PLAYERS) * n,
                 color=arcade.color.BROWN_NOSE,
                 font_size=20,
                 font_name="Kenney Blocks",
@@ -46,7 +70,7 @@ class Score:
                 start_x=MARGIN * 2,
                 start_y=SCORE_OFFSET
                 + MARGIN * 2
-                + (HEIGHT - 2 * MARGIN) / (MAX_NB_PLAYERS) * n,
+                + (HEIGHT - DATE_HEIGHT - 2 * MARGIN) / (MAX_NB_PLAYERS) * n,
                 color=arcade.color.BROWN_NOSE,
                 font_size=14,
                 font_name="Kenney Future",
