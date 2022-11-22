@@ -55,7 +55,7 @@ class Score:
 
         for n in range(MAX_NB_PLAYERS):
             arcade.draw_text(
-                self.state["farms"][n]["name"],
+                self.state["farms"][n]["name"][:22],
                 start_x=MARGIN * 2,
                 start_y=NAME_OFFSET
                 + MARGIN * 2
@@ -66,7 +66,7 @@ class Score:
             )
             score = self.state["farms"][n]["score"]
             arcade.draw_text(
-                f"Score: {score:>20,d}".replace(",", " "),
+                f"Score: {score:,d}".replace(",", " "),
                 start_x=MARGIN * 2,
                 start_y=SCORE_OFFSET
                 + MARGIN * 2
