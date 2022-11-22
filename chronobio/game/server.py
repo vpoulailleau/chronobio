@@ -1,5 +1,6 @@
 import argparse
 import json
+import logging
 from pprint import pprint
 from time import sleep
 
@@ -86,4 +87,12 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    logging.basicConfig(
+        filename="server.log",
+        encoding="utf-8",
+        level=logging.DEBUG,
+        format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s",
+        datefmt="%m/%d/%Y %H:%M:%S",
+    )
+    logging.info("Launching server")
     GameServer(args.address, args.port, args.duration).run()

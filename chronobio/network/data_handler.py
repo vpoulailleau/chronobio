@@ -1,4 +1,5 @@
 import json
+import logging
 from socket import socket
 from threading import Lock, Thread
 from time import perf_counter, sleep
@@ -34,8 +35,10 @@ class DataHandler:
 
     def readline(self, timeout=DEFAULT_TIMEOUT) -> str:
         start = perf_counter()
+        logging.debug("readline")
         while "\n" not in self._input:
             if perf_counter() - start > timeout:
+                logging.debug("timeout")
                 raise TimeoutError
             sleep(0.01)
         with self._input_lock:
@@ -46,6 +49,7 @@ class DataHandler:
 
     def read_json(self, timeout=DEFAULT_TIMEOUT) -> object:
         start = perf_counter()
+        logging.debug("read_json")
         json_text = ""
         while True:
             json_text += "\n" + self.readline()
@@ -54,9 +58,11 @@ class DataHandler:
             except json.JSONDecodeError:
                 pass  # not yet a full JSON object
             if perf_counter() - start > timeout:
+                logging.debug("timeout")
                 raise TimeoutError
 
     def write(self, message: str) -> None:
+        logging.debug("write %s", message[:100])
         self.socket.send(bytes(message, "utf8"))
 
     def write_json(self, data: object) -> None:
