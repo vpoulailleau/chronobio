@@ -9,4 +9,4 @@ for line in stdout.splitlines():
     if "chronobio." in line or "sample_player_client" in line:
         print(line)
         pid = line.split()[1]
-        subprocess.run(["kill", "-9", pid], capture_output=True)
+        subprocess.run(["kill", "-9", pid])
