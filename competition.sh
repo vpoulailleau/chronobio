@@ -13,6 +13,7 @@ done
 
 python -m chronobio.game.server -p $PORT &
 python -m chronobio.viewer -p $PORT &
+sleep 2
 
 for team in `ls teams`
 do
