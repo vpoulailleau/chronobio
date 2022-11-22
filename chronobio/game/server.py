@@ -10,10 +10,11 @@ from chronobio.network.server import Server
 
 
 class GameServer(Server):
-    def __init__(self: "GameServer", host: str, port: int, duration: int):
+    def __init__(self: "GameServer", host: str, port: int, duration: int, fast: bool):
         super().__init__(host, port)
         self.game = Game()
         self.duration = duration
+        self.fast = fast
 
     @property
     def players(self):
@@ -22,7 +23,7 @@ class GameServer(Server):
     def _turn(self: "GameServer"):  # TODO split in smaller methods
         self.game.new_day()
         state = self.game.state()
-        logging.debug("Sending current state")
+        logging.info("Sending current state")
         logging.debug(state)
         state_json = json.dumps(state) + "\n"
         for client in list(self.clients):
@@ -80,7 +81,8 @@ class GameServer(Server):
         for day in range(self.duration):
             logging.info("New game turn %d", day + 1)
             self._turn()
-            sleep(1)
+            if not self.fast:
+                sleep(0.05)
 
 
 if __name__ == "__main__":
@@ -102,6 +104,12 @@ if __name__ == "__main__":
         help="number of simulation days",
         default=5 * 12 * 30,
     )
+    parser.add_argument(
+        "-f",
+        "--fast",
+        help="fast simulation",
+        action="store_true",
+    )
 
     args = parser.parse_args()
 
@@ -113,4 +121,4 @@ if __name__ == "__main__":
         datefmt="%m/%d/%Y %H:%M:%S",
     )
     logging.info("Launching server")
-    GameServer(args.address, args.port, args.duration).run()
+    GameServer(args.address, args.port, args.duration, args.fast).run()
