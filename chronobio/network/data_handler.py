@@ -1,7 +1,9 @@
 import json
 from socket import socket
 from threading import Lock, Thread
-from time import sleep
+from time import perf_counter, sleep
+
+DEFAULT_TIMEOUT = 20  # seconds
 
 
 class DataHandler:
@@ -30,8 +32,11 @@ class DataHandler:
         receive_thread = Thread(target=self._receive_data, args=())
         receive_thread.start()
 
-    def readline(self) -> str:
+    def readline(self, timeout=DEFAULT_TIMEOUT) -> str:
+        start = perf_counter()
         while "\n" not in self._input:
+            if perf_counter() - start > timeout:
+                raise TimeoutError
             sleep(0.01)
         with self._input_lock:
             index = self._input.index("\n")
@@ -39,7 +44,8 @@ class DataHandler:
             self._input = self._input[index + 1 :]
             return line
 
-    def read_json(self) -> object:
+    def read_json(self, timeout=DEFAULT_TIMEOUT) -> object:
+        start = perf_counter()
         json_text = ""
         while True:
             json_text += "\n" + self.readline()
@@ -47,6 +53,8 @@ class DataHandler:
                 return json.loads(json_text)
             except json.JSONDecodeError:
                 pass  # not yet a full JSON object
+            if perf_counter() - start > timeout:
+                raise TimeoutError
 
     def write(self, message: str) -> None:
         self.socket.send(bytes(message, "utf8"))

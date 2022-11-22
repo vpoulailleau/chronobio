@@ -30,7 +30,7 @@ class GameServer(Server):
 
         for player in self.players:
             print("Waiting commands from", player)
-            commands = player.network.read_json()  # TODO ajouter un timeout
+            commands = player.network.read_json(timeout=2)
             print(commands)
             for farm in self.game.farms:
                 if farm.name == player.name:
