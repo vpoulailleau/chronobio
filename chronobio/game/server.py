@@ -26,11 +26,11 @@ class GameServer(Server):
         logging.debug(state)
         state_json = json.dumps(state) + "\n"
         for client in self.clients:
-            logging.debug("sending to %s", str(client))
+            logging.debug("sending to %s", client.name)
             client.network.write(state_json)
 
         for player in self.players:
-            logging.info("Waiting commands from %s", player)
+            logging.info("Waiting commands from %s", player.name)
             commands = player.network.read_json(timeout=2)
             logging.debug(commands)
             for farm in self.game.farms:
