@@ -7,6 +7,7 @@ from chronobio.game.constants import (
     TRACTOR_PRICE,
 )
 from chronobio.game.employee import Employee
+from chronobio.game.exceptions import ChronobioInvalidAction
 from chronobio.game.field import Field
 from chronobio.game.loan import Loan
 from chronobio.game.location import fields
@@ -40,7 +41,9 @@ class Farm:
         if day % 30 == 0 and day != 0:
             for employee in self.employees:
                 if self.money < employee.salary:
-                    raise ValueError(f"Not enough money to pay employee {employee.id}.")
+                    raise ChronobioInvalidAction(
+                        f"Not enough money to pay employee {employee.id}."
+                    )
                 else:
                     self.money -= employee.salary
                 employee.raise_salary()
@@ -49,7 +52,9 @@ class Farm:
                 cost = loan.month_cost(self.game.day)
                 print(cost)
                 if self.money < cost:
-                    raise ValueError(f"Not enough money to pay loan {loan}.")
+                    raise ChronobioInvalidAction(
+                        f"Not enough money to pay loan {loan}."
+                    )
                 else:
                     self.money -= cost
 
@@ -64,12 +69,12 @@ class Farm:
         else:
             employee = None
         if employee is None:
-            raise ValueError(f"No employee with ID: {employee_id}.")
+            raise ChronobioInvalidAction(f"No employee with ID: {employee_id}.")
         return employee
 
     def get_field(self: "Farm", location_id: int) -> Field:
         if not (1 <= location_id <= 5):
-            raise ValueError(f"Invalid field ID: {location_id}.")
+            raise ChronobioInvalidAction(f"Invalid field ID: {location_id}.")
         return self.fields[location_id - 1]
 
     def get_tractor(self: "Farm", tractor_id: int) -> Tractor:
@@ -80,7 +85,7 @@ class Farm:
         else:
             tractor = None
         if tractor is None:
-            raise ValueError(f"No tractor with ID: {tractor_id}.")
+            raise ChronobioInvalidAction(f"No tractor with ID: {tractor_id}.")
         return tractor
 
     @staticmethod
@@ -94,7 +99,7 @@ class Farm:
         }
         vegetable_enum = translations.get(vegetable_name)
         if vegetable_enum is None:
-            raise ValueError(f"Unknown vegetable: {vegetable_name}.")
+            raise ChronobioInvalidAction(f"Unknown vegetable: {vegetable_name}.")
         return Vegetable.__members__[vegetable_enum]
 
     def do_actions(self: "Farm") -> None:
@@ -124,27 +129,32 @@ class Farm:
             return
         print("###", action)
         parts = action.split()
-        if len(parts) < 2:
-            raise ValueError("An action needs at least two parts.")
-        verb = parts.pop(1)
         try:
-            getattr(self, "_" + verb.lower())(*parts)
-        except AttributeError:
-            raise ValueError("Unknown action.")
-        except TypeError:
-            raise ValueError("Action with invalid number of arguments.")
+            if len(parts) < 2:
+                raise ChronobioInvalidAction("An action needs at least two parts.")
+            verb = parts.pop(1)
+            try:
+                getattr(self, "_" + verb.lower())(*parts)
+            except AttributeError:
+                raise ChronobioInvalidAction("Unknown action.")
+            except TypeError:
+                raise ChronobioInvalidAction("Action with invalid number of arguments.")
+        except ChronobioInvalidAction as exc:
+            print(exc)
+            self.blocked = True
+            raise
 
     def _acheter_champ(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
-            raise ValueError("The farm owner is already busy")
+            raise ChronobioInvalidAction("The farm owner is already busy")
         for field in self.fields:
             if not field.bought:
                 if self.money >= FIELD_PRICE:
                     field.bought = True
                     self.money -= FIELD_PRICE
                     return
-                raise ValueError("Not enough money to buy field.")
-        raise ValueError("No more field available")
+                raise ChronobioInvalidAction("Not enough money to buy field.")
+        raise ChronobioInvalidAction("No more field available")
 
     def _semer(
         self: "Farm", employee_id: str, vegetable_name: str, location_id: str
@@ -154,9 +164,9 @@ class Farm:
         vegetable = self.get_vegetable(vegetable_name)
 
         if employee.action_to_do:
-            raise ValueError(f"Employee {employee_id} is already busy.")
+            raise ChronobioInvalidAction(f"Employee {employee_id} is already busy.")
         if not field.bought:
-            raise ValueError(f"Field {field} is not already bought.")
+            raise ChronobioInvalidAction(f"Field {field} is not already bought.")
 
         employee.action_to_do = ("SOW", vegetable, field)
 
@@ -165,31 +175,31 @@ class Farm:
         field = self.get_field(int(location_id))
 
         if employee.action_to_do:
-            raise ValueError(f"Employee {employee_id} is already busy.")
+            raise ChronobioInvalidAction(f"Employee {employee_id} is already busy.")
         if not field.bought:
-            raise ValueError(f"Field {field} is not already bought.")
+            raise ChronobioInvalidAction(f"Field {field} is not already bought.")
 
         employee.action_to_do = ("WATER", field)
 
     def _acheter_tracteur(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
-            raise ValueError("The farm owner is already busy")
+            raise ChronobioInvalidAction("The farm owner is already busy")
         if self.money < TRACTOR_PRICE:
-            raise ValueError("Not enough money to buy tractor.")
+            raise ChronobioInvalidAction("Not enough money to buy tractor.")
         self.money -= TRACTOR_PRICE
         self.tractors.append(Tractor(id=self.next_tractor_id))
         self.next_tractor_id += 1
 
     def _vendre(self: "Farm", owner_id: str, location_id: str) -> None:
         if self.action_to_do:
-            raise ValueError("The farm owner is already busy")
+            raise ChronobioInvalidAction("The farm owner is already busy")
         field = self.get_field(int(location_id))
         if not field.bought:
-            raise ValueError(f"Field {field} is not already bought.")
+            raise ChronobioInvalidAction(f"Field {field} is not already bought.")
         if not field.content:
-            raise ValueError(f"Field {field} does not contain vegetables.")
+            raise ChronobioInvalidAction(f"Field {field} does not contain vegetables.")
         if field.needed_water:
-            raise ValueError(f"Field {field} needs more water.")
+            raise ChronobioInvalidAction(f"Field {field} needs more water.")
 
         self.action_to_do = ("SELL", field, NB_DAYS_TO_HARVEST)
 
@@ -200,18 +210,18 @@ class Farm:
         field = self.get_field(int(location_id))
         tractor = self.get_tractor(int(tractor_id))
         if employee.action_to_do:
-            raise ValueError(f"Employee {employee_id} is already busy.")
+            raise ChronobioInvalidAction(f"Employee {employee_id} is already busy.")
         if not field.bought:
-            raise ValueError(f"Field {field} is not already bought.")
+            raise ChronobioInvalidAction(f"Field {field} is not already bought.")
         if not field.content:
-            raise ValueError(f"Field {field} does not contain vegetables.")
+            raise ChronobioInvalidAction(f"Field {field} does not contain vegetables.")
         if field.needed_water:
-            raise ValueError(f"Field {field} needs more water.")
+            raise ChronobioInvalidAction(f"Field {field} needs more water.")
         if (
             any(empl.tractor == tractor for empl in self.employees)
             and employee.tractor != tractor
         ):
-            raise ValueError(f"Tractor {tractor_id} is already used.")
+            raise ChronobioInvalidAction(f"Tractor {tractor_id} is already used.")
 
         step = 0
         employee.action_to_do = ("STOCK", field, tractor, step)
@@ -219,32 +229,32 @@ class Farm:
     def _cuisiner(self: "Farm", employee_id: str) -> None:
         employee = self.get_employee(int(employee_id))
         if employee.action_to_do:
-            raise ValueError(f"Employee {employee_id} is already busy.")
+            raise ChronobioInvalidAction(f"Employee {employee_id} is already busy.")
         employee.action_to_do = ("COOK",)
 
     def _employer(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
-            raise ValueError("The farm owner is already busy")
+            raise ChronobioInvalidAction("The farm owner is already busy")
         self.employees.append(Employee(farm=self, id=self.next_employee_id))
         self.next_employee_id += 1
 
     def _licencier(self: "Farm", owner_id: str, employee_id: str) -> None:
         if self.action_to_do:
-            raise ValueError("The farm owner is already busy")
+            raise ChronobioInvalidAction("The farm owner is already busy")
         employee = self.get_employee(int(employee_id))
         self.employees.remove(employee)
         self.money -= employee.salary  # indemnity
         day = self.game.date[2]
         self.money -= employee.salary * day // 30  # salary
         if self.money < 0:
-            raise ValueError(f"Not enough money to fire {employee}")
+            raise ChronobioInvalidAction(f"Not enough money to fire {employee}")
 
     def _emprunter(self: "Farm", owner_id: str, amount_str: str) -> None:
         if self.action_to_do:
-            raise ValueError("The farm owner is already busy")
+            raise ChronobioInvalidAction("The farm owner is already busy")
         amount = int(amount_str)
         if amount < 0:
-            raise ValueError("The amount of the loan must be positive")
+            raise ChronobioInvalidAction("The amount of the loan must be positive")
         self.loans.append(Loan(amount, start_day=self.game.day))
         self.money += amount
 
