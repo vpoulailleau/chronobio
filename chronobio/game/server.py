@@ -19,7 +19,7 @@ class GameServer(Server):
     def players(self):
         return [client for client in self.clients if not client.spectator]
 
-    def _turn(self: "GameServer"):
+    def _turn(self: "GameServer"):  # TODO split in smaller methods
         self.game.new_day()
         state = self.game.state()
         logging.debug("Sending current state")
@@ -27,7 +27,15 @@ class GameServer(Server):
         state_json = json.dumps(state) + "\n"
         for client in self.clients:
             logging.debug("sending to %s", client.name)
-            client.network.write(state_json)
+            try:
+                client.network.write(state_json)
+            except ChronobioNetworkError:
+                logging.exception("Problem sending state to client")
+                self.clients.remove(client)
+                if not client.spectator:
+                    for farm in self.game.farms:
+                        if farm.name == client.name:
+                            farm.blocked = True
 
         for player in list(self.players):
             logging.info("Waiting commands from %s", player.name)

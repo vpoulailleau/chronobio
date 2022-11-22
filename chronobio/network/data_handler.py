@@ -65,7 +65,10 @@ class DataHandler:
 
     def write(self, message: str) -> None:
         logging.debug("write %s", message[:100])
-        self.socket.send(bytes(message, "utf8"))
+        try:
+            self.socket.send(bytes(message, "utf8"))
+        except BrokenPipeError as exc:
+            raise ChronobioNetworkError from exc
 
     def write_json(self, data: object) -> None:
         self.write(json.dumps(data) + "\n")
