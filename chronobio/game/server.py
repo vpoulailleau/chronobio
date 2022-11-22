@@ -4,7 +4,7 @@ import logging
 from time import sleep
 
 from chronobio.game.constants import MAX_NB_PLAYERS, SERVER_CONNECTION_TIMEOUT
-from chronobio.game.exceptions import ChronobioInvalidAction
+from chronobio.game.exceptions import ChronobioInvalidAction, ChronobioNetworkError
 from chronobio.game.game import Game
 from chronobio.network.server import Server
 
@@ -29,9 +29,15 @@ class GameServer(Server):
             logging.debug("sending to %s", client.name)
             client.network.write(state_json)
 
-        for player in self.players:
+        for player in list(self.players):
             logging.info("Waiting commands from %s", player.name)
-            commands = player.network.read_json(timeout=2)
+            try:
+                commands = player.network.read_json(timeout=2)
+            except ChronobioNetworkError:
+                logging.exception("timeout")
+                self.clients.remove(player)
+                continue
+
             logging.debug(commands)
             for farm in self.game.farms:
                 if farm.name == player.name:
