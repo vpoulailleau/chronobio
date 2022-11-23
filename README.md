@@ -163,6 +163,7 @@ La somme empruntée doit être positive.
   - Votre projet devra contenir au moins une documentation minimaliste pour permettre à l'utilisateur d'installer et d'utiliser votre logiciel
 - Mettez en place de l'intégration continue
   - Tests automatiques avec mesure de couverture de test (qui doit avoisiner 100%)
-  - Mesure de qualimétrie (avec des linters) pour faire un logiciel de bon niveau de qualité
+  - Qualimétrie (avec des linters) pour faire un logiciel de bon niveau de qualité
   - Vérification des annotations de type
+  - Avec les mesures de couverture, qualimétrie et annotations de type, faites en sorte de refuser une pull request qui abaisserait le niveau de qualité de votre logiciel
 - Éventuellement, mettez en place des hooks de pré-commit (https://pre-commit.com/)
