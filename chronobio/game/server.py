@@ -63,7 +63,7 @@ class GameServer(Server):
                     logging.info(command)
                     player_farm.add_action(command)
                 except ChronobioInvalidAction:
-                    pass  # ignore invalid action
+                    logging.exception("Invalid command for %s", player.name)
 
     def run(self: "GameServer") -> None:
         while not self.players:
