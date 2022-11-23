@@ -117,7 +117,7 @@ class Employee:
                 return  # not yet in the factory
             if self.tractor is not None:
                 self.tractor = None  # no tractor in soup factory!
-            if sum(self.farm.soup_factory.stock.values()) != 0:
+            if sum(self.farm.soup_factory.stock.values()):
                 # TODO better algorithm
                 for _ in range(NB_SOUPS_PER_DAY):
                     nb_vegetables = 0
