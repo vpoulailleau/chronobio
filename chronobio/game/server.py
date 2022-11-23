@@ -82,7 +82,7 @@ class GameServer(Server):
             logging.info("New game turn %d", day + 1)
             self._turn()
             if not self.fast:
-                sleep(0.05)
+                sleep(0.4)
 
 
 if __name__ == "__main__":
