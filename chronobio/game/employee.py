@@ -122,6 +122,8 @@ class Employee:
                 for _ in range(NB_SOUPS_PER_DAY):
                     nb_vegetables = 0
                     for vegetable in Vegetable:
+                        if vegetable == Vegetable.NONE:
+                            continue
                         if self.farm.soup_factory.stock[vegetable]:
                             self.farm.soup_factory.stock[vegetable] -= 1
                             nb_vegetables += 1
