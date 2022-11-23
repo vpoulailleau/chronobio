@@ -46,8 +46,8 @@ class MovingEntity:
 
     def update_position(self, farm: "Farm"):
         target_x, target_y = location_to_position[self.target_location]
-        self.x = (target_x - self.x) * 0.1 + self.x
-        self.y = (target_y - self.y) * 0.1 + self.y
+        self.x = (target_x - self.x) * 0.2 + self.x
+        self.y = (target_y - self.y) * 0.2 + self.y
 
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
 
