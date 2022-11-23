@@ -1,3 +1,4 @@
+import logging
 from threading import Thread
 from time import sleep
 from typing import NoReturn
@@ -20,6 +21,8 @@ class Viewer(Client):
                 print(str(data))
                 self.window.input_queue.put(data)
             except ChronobioNetworkError:
+                logging.exception("End of network communication")
                 break
-        while True:
-            sleep(1)
+        for _ in range(6):
+            sleep(10)
+            logging.info("sleeping")
