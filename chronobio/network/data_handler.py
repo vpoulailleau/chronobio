@@ -32,7 +32,7 @@ class DataHandler:
         self._input_lock = Lock()
         self.socket = socket
 
-        receive_thread = Thread(target=self._receive_data, args=())
+        receive_thread = Thread(target=self._receive_data, args=(), daemon=True)
         receive_thread.start()
 
     def readline(self, timeout=DEFAULT_TIMEOUT) -> str:

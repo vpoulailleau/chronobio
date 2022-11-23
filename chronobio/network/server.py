@@ -27,7 +27,7 @@ class Server:
         self.clients: set[ClientData] = set()
         print("Waiting for connection...")
         accept_thread = Thread(
-            target=self.accept_incoming_connections, args=(host, port)
+            target=self.accept_incoming_connections, args=(host, port), daemon=True
         )
         accept_thread.start()
 
