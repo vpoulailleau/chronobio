@@ -1,3 +1,4 @@
+import logging
 from queue import Queue
 
 import arcade
@@ -67,5 +68,8 @@ class Window(arcade.Window):
 
 
 def gui_thread(window):
-    window.setup()
-    arcade.run()
+    try:
+        window.setup()
+        arcade.run()
+    except Exception:
+        logging.exception("uncaught exception")
