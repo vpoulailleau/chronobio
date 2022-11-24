@@ -34,6 +34,11 @@ class Farm:
 
     def invalid_action(self: "Farm", message: str) -> None:
         self.event_messages.append(f"[INVALID_ACTION] {message}")
+        # if "Employee" in message and "busy" in message:
+        #     employee_id = int(message.split()[1])
+        #     self.event_messages.append(
+        #         str(self.employees[employee_id - 1].action_to_do)
+        #     )
         self.blocked = True
 
     def income(self: "Farm") -> None:
@@ -246,10 +251,7 @@ class Farm:
             self.invalid_action(f"Field {field} does not contain vegetables.")
         if field.needed_water:
             self.invalid_action(f"Field {field} needs more water.")
-        if (
-            any(empl.tractor == tractor for empl in self.employees)
-            and employee.tractor != tractor
-        ):
+        if any(empl.tractor == tractor and empl != employee for empl in self.employees):
             self.invalid_action(f"Tractor {tractor_id} is already used.")
 
         if not self.blocked:
