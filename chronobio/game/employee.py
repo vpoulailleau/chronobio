@@ -80,7 +80,12 @@ class Employee:
                     step = 1
 
             if step == 1:
-                self.tractor = tractor  # TODO un seul employé par tracteur
+                if any(
+                    empl.tractor == tractor and empl != self
+                    for empl in self.farm.employees
+                ):
+                    self.farm.invalid_action(f"Tractor {tractor.id} is already used.")
+                self.tractor = tractor
                 print(field)
                 if self.location != field.location:
                     self._move(field.location)
