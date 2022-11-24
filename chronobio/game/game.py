@@ -82,22 +82,38 @@ class Game:
                     if impacted_locations[location]:
                         for farm in self.farms:
                             farm.fields[location - Location.FIELD1].heat_wave()
+                        self.event_messages.append(
+                            f"[CLIMATE] heat wave for {location.name}"
+                        )
 
             elif kind == "frost":
                 for location in fields:
                     if impacted_locations[location]:
                         for farm in self.farms:
                             farm.fields[location - Location.FIELD1].frost()
+                        self.event_messages.append(
+                            f"[CLIMATE] frost for {location.name}"
+                        )
 
             elif kind == "flood":
                 if impacted_locations[Location.SOUP_FACTORY]:
                     for farm in self.farms:
                         farm.soup_factory.flood()
+                    self.event_messages.append("[CLIMATE] flood for SOUP_FACTORY")
 
             elif kind == "fire":
                 if impacted_locations[Location.SOUP_FACTORY]:
                     for farm in self.farms:
                         farm.soup_factory.fire()
+                    self.event_messages.append("[CLIMATE] fire for SOUP_FACTORY")
+
+                for location in fields:
+                    if impacted_locations[location]:
+                        for farm in self.farms:
+                            farm.fields[location - Location.FIELD1].fire()
+                        self.event_messages.append(
+                            f"[CLIMATE] fire for {location.name}"
+                        )
 
     def state(self) -> dict:
         return {
