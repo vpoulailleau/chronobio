@@ -118,16 +118,20 @@ class Employee:
             if self.tractor is not None:
                 self.tractor = None  # no tractor in soup factory!
             if sum(self.farm.soup_factory.stock.values()):
-                # TODO better algorithm
-                for _ in range(NB_SOUPS_PER_DAY):
-                    nb_vegetables = 0
-                    for vegetable in Vegetable:
-                        if vegetable == Vegetable.NONE:
-                            continue
-                        if self.farm.soup_factory.stock[vegetable]:
-                            self.farm.soup_factory.stock[vegetable] -= 1
-                            nb_vegetables += 1
-                    self.farm.money += SOUP_PRICES_PER_VETEGABLE[nb_vegetables]
+                nb_vegetables = 0
+                for vegetable in Vegetable:
+                    if vegetable == Vegetable.NONE:
+                        continue
+                    if self.farm.soup_factory.stock[vegetable]:
+                        self.farm.soup_factory.stock[vegetable] -= NB_SOUPS_PER_DAY
+                        nb_vegetables += 1
+                self.farm.money += (
+                    SOUP_PRICES_PER_VETEGABLE[nb_vegetables] * NB_SOUPS_PER_DAY
+                )
+                plural = "s" if nb_vegetables > 1 else ""
+                self.farm.event_messages.append(
+                    f"[SOUP] {nb_vegetables} vegetable{plural}"
+                )
             self.action_to_do = tuple()
 
     def state(self: "Employee") -> dict:
