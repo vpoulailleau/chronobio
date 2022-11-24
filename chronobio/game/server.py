@@ -4,7 +4,7 @@ import logging
 from time import sleep
 
 from chronobio.game.constants import MAX_NB_PLAYERS, SERVER_CONNECTION_TIMEOUT
-from chronobio.game.exceptions import ChronobioInvalidAction, ChronobioNetworkError
+from chronobio.game.exceptions import ChronobioNetworkError
 from chronobio.game.game import Game
 from chronobio.network.server import Server
 
@@ -59,11 +59,8 @@ class GameServer(Server):
                 raise ValueError(f"Farm is not found ({player.name})")
 
             for command in commands["commands"]:
-                try:
-                    logging.info(command)
-                    player_farm.add_action(command)
-                except ChronobioInvalidAction:
-                    logging.exception("Invalid command for %s", player.name)
+                logging.info(command)
+                player_farm.add_action(command)
 
     def run(self: "GameServer") -> None:
         while not self.players:

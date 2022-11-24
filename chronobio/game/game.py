@@ -8,7 +8,6 @@ from chronobio.game.constants import (
     MAX_NB_PLAYERS,
     VEGETABLE_PRICE,
 )
-from chronobio.game.exceptions import ChronobioInvalidAction
 from chronobio.game.farm import Farm
 from chronobio.game.field import Field
 from chronobio.game.location import Location, fields
@@ -16,9 +15,10 @@ from chronobio.game.location import Location, fields
 
 class Game:
     def __init__(self: "Game") -> None:
-        self.farms = [Farm(self) for _ in range(MAX_NB_PLAYERS)]
+        self.farms = [Farm(self, index) for index in range(MAX_NB_PLAYERS)]
         self.greenhouse_gas = 0
         self.day = -1
+        self.event_messages: list[str] = []
 
     @property
     def date(self: "Game") -> tuple[int, int, int]:
@@ -38,18 +38,23 @@ class Game:
 
     def new_day(self: "Game") -> None:
         self.day += 1
+        self.event_messages.clear()
         self.climate_change()
         for farm in self.farms:
-            if farm.blocked:
-                continue
-            try:
-                farm.income()
-                farm.expend(self.day)
-                farm.pollute()
-                farm.do_actions()
-            except ChronobioInvalidAction:
-                logging.exception("invalid action")
-                farm.blocked = True
+            farm.event_messages.clear()
+            farm.income()
+            farm.expend(self.day)
+            farm.pollute()
+            farm.do_actions()
+
+        for message in self.event_messages:
+            logging.info(message)
+        for farm in self.farms:
+            for message in farm.event_messages:
+                if "INVALID_ACTION" in message:
+                    logging.warning("%s : %s", farm.name, message)
+                else:
+                    logging.info("%s : %s", farm.name, message)
 
     def field_price(self: "Game", sold_field: Field) -> int:
         price = VEGETABLE_PRICE + COMMON_VEGETABLE_LOSS
