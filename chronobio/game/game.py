@@ -38,14 +38,17 @@ class Game:
 
     def new_day(self: "Game") -> None:
         self.day += 1
-        self.event_messages.clear()
         self.climate_change()
         for farm in self.farms:
-            farm.event_messages.clear()
             farm.income()
             farm.expend(self.day)
             farm.pollute()
             farm.do_actions()
+
+    def clear_event_messages(self: "Game"):
+        self.event_messages.clear()
+        for farm in self.farms:
+            farm.event_messages.clear()
 
     def log_messages(self: "Game") -> None:
         for message in self.event_messages:

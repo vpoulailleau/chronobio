@@ -37,6 +37,7 @@ class GameServer(Server):
                     for farm in self.game.farms:
                         if farm.name == client.name:
                             farm.blocked = True
+        self.game.clear_event_messages()
 
         for player in list(self.players):
             logging.info("Waiting commands from %s", player.name)
