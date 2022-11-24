@@ -74,11 +74,13 @@ class Vegetable(MovingEntity):
 class Soup(MovingEntity):
     MAX_RADIUS = 100
 
-    def __init__(self, angle: float) -> None:
+    def __init__(self, angle: float, nb_vegetables: int) -> None:
         super().__init__("chronobio/viewer/images/soup.png")
         self.x, self.y = location_to_position[Location.SOUP_FACTORY]
         self.angle = angle
         self.radius = 0
+        self.sprite.width = 20 * nb_vegetables
+        self.sprite.height = 20 * nb_vegetables
 
     def update_position(self, farm: "Farm"):
         self.radius = (self.MAX_RADIUS - self.radius) * 0.2 + self.radius
@@ -149,7 +151,10 @@ class Farm:
 
         for event in data["events"]:
             if "[SOUP]" in event:
-                self.soups.append(Soup(angle=self.soup_angle))
+                nb_vegetables = int(event.split()[1])
+                self.soups.append(
+                    Soup(angle=self.soup_angle, nb_vegetables=nb_vegetables)
+                )
                 self.soup_angle += 10
 
     def draw(self):
