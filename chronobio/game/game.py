@@ -47,6 +47,7 @@ class Game:
             farm.pollute()
             farm.do_actions()
 
+    def log_messages(self: "Game") -> None:
         for message in self.event_messages:
             logging.info(message)
         for farm in self.farms:
