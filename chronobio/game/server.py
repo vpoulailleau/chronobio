@@ -37,6 +37,7 @@ class GameServer(Server):
                     for farm in self.game.farms:
                         if farm.name == client.name:
                             farm.blocked = True
+        self.game.log_messages()
         self.game.clear_event_messages()
 
         for player in list(self.players):
@@ -63,7 +64,6 @@ class GameServer(Server):
                 logging.info(command)
                 player_farm.add_action(command)
 
-        self.game.log_messages()
 
     def run(self: "GameServer") -> None:
         while not self.players:
