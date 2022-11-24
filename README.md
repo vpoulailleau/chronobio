@@ -89,6 +89,8 @@ Il faut normalement arroser au moins 10 fois un champ avant qu'il soit récoltab
 
 `{GÉRANT} VENDRE {CHAMP}`
 
+Les légumes du champ ne peuvent être vendus que si, au début de la journée, le champ ne nécessite plus d'arrosage.
+
 Les légumes sont vendus après récolte, la récolte dure deux jours : le gérant ne pourra pas faire d'action aux deux prochains tours.
 
 Les légumes sont vendus au prix du marché, c'est à dire que la récolte est vendue pour la somme de 2 000 euros - 50 fois le nombre de champs cultivant au moment de la vente la même espèce de légume en comptant toutes les fermes.
@@ -104,6 +106,8 @@ Un tracteur coute 30 000 euros. Un tracteur émet 100 kg eqCO₂ par mois.
 #### Stocker des légumes
 
 `{OUVRIER} STOCKER {CHAMP} {TRACTEUR}`
+
+Les légumes du champ ne peuvent être stockés que si, au début de la journée, le champ ne nécessite plus d'arrosage.
 
 Les légumes du champ récoltable sont stockés dans l'usine de fabrication de soupe.
 
