@@ -71,6 +71,25 @@ class Vegetable(MovingEntity):
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
 
 
+class Soup(MovingEntity):
+    MAX_RADIUS = 100
+
+    def __init__(self, angle: float) -> None:
+        super().__init__("chronobio/viewer/images/soup.png")
+        self.x, self.y = location_to_position[Location.SOUP_FACTORY]
+        self.angle = angle
+        self.radius = 0
+
+    def update_position(self, farm: "Farm"):
+        self.radius = (self.MAX_RADIUS - self.radius) * 0.2 + self.radius
+        self.x = SOUP_FACTORY_DISTANCE_FROM_CENTER + self.radius * math.cos(
+            math.radians(self.angle)
+        )
+        self.y = self.radius * math.sin(math.radians(self.angle))
+
+        self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
+
+
 class Farm:
     def __init__(self, x, y, angle=0):
         self.angle = angle
@@ -79,6 +98,8 @@ class Farm:
         self.employees: dict[int, MovingEntity] = {}
         self.tractors: dict[int, MovingEntity] = {}
         self.vegetables: list[Vegetable] = []
+        self.soups: list[Soup] = []
+        self.soup_angle = 0
 
     def rotate(self, x, y):
         cos = math.cos(math.radians(self.angle))
@@ -126,6 +147,11 @@ class Farm:
             vegetable.update_size(field["needed_water"])
             self.vegetables.append(vegetable)
 
+        for event in data["events"]:
+            if "[SOUP]" in event:
+                self.soups.append(Soup(angle=self.soup_angle))
+                self.soup_angle += 10
+
     def draw(self):
         sprite_list = arcade.SpriteList()
 
@@ -141,4 +167,12 @@ class Farm:
             if "/transparent.png" not in vegetable.sprite_path:
                 sprite_list.append(vegetable.sprite)
 
+        for soup in self.soups:
+            soup.update_position(self)
+            sprite_list.append(soup.sprite)
+
         sprite_list.draw()
+
+        for soup in self.soups.copy():
+            if soup.radius / soup.MAX_RADIUS > 0.9:
+                self.soups.remove(soup)
