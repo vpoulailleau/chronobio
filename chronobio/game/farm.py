@@ -34,11 +34,13 @@ class Farm:
 
     def invalid_action(self: "Farm", message: str) -> None:
         self.event_messages.append(f"[INVALID_ACTION] {message}")
-        # if "Employee" in message and "busy" in message:
-        #     employee_id = int(message.split()[1])
-        #     self.event_messages.append(
-        #         str(self.employees[employee_id - 1].action_to_do)
-        #     )
+        if "Employee" in message and "busy" in message:
+            employee_id = int(message.split()[1])
+            for employee in self.employees:
+                if employee.id != employee_id:
+                    continue
+                self.event_messages.append(str(employee.action_to_do))
+                break
         self.blocked = True
 
     def income(self: "Farm") -> None:
