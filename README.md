@@ -170,3 +170,10 @@ La somme empruntée doit être positive.
   - Vérification des annotations de type
   - Avec les mesures de couverture, qualimétrie et annotations de type, faites en sorte de refuser une pull request qui abaisserait le niveau de qualité de votre logiciel
 - Éventuellement, mettez en place des hooks de pré-commit (https://pre-commit.com/)
+
+### Objectifs à atteindre dans l'ordre
+
+- Faire le programme le plus basique possible qui se connecte au serveur
+- Mettre en place les tests, avec `pytest`
+- Mettre en place la mesure de couverture de code (`pytest` et un plugin de code coverage)
+- Automatisation des tests (GitHub actions)
