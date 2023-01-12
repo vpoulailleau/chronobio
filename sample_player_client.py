@@ -63,7 +63,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-u",
-        "--username",
+        "--Soupy",
         type=str,
         help="name of the user",
         default="unknown",
