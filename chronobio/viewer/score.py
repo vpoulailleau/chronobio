@@ -4,7 +4,7 @@ from typing import Optional
 import arcade
 
 from chronobio.game.constants import MAX_NB_PLAYERS
-from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, EVENT_VISIBILITY_NB_DAYS
 
 MARGIN = 20
 WIDTH = SCREEN_WIDTH / 3 - 2 * MARGIN
@@ -52,6 +52,10 @@ class Score:
             name = farm["name"]
             for message in farm["events"]:
                 self.messages.append(Message(f"{name} : {message}", day))
+
+        for message in self.messages[:]:
+            if day > message.day + EVENT_VISIBILITY_NB_DAYS:
+                self.messages.remove(message)
 
     def draw(self) -> None:
         arcade.draw_rectangle_filled(
