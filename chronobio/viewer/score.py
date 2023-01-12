@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from typing import Optional
+
 import arcade
 
 from chronobio.game.constants import MAX_NB_PLAYERS
@@ -13,6 +16,7 @@ SCORE_OFFSET = NAME_OFFSET - 20
 DATE_OFFSET = SCREEN_HEIGHT - 2 * MARGIN - 20
 DATE_HEIGHT = 40
 MESSAGES_HEIGHT = 300
+MESSAGES_OFFSET = DATE_OFFSET - 40
 SCORES_HEIGHT = (HEIGHT - DATE_HEIGHT - 2 * MARGIN - MESSAGES_HEIGHT)
 SCORES_OFFSET = 2 * MARGIN
 
@@ -26,12 +30,28 @@ def day2date(day_number: int) -> tuple[int, int, int]:
     return year, month, day
 
 
+@dataclass
+class Message:
+    message: str
+    day: int
+    arcade_text: Optional[arcade.Text] = None
+
+
 class Score:
     def __init__(self):
         self.state: dict = {}
+        self.messages: list[Message] = [Message("let the best team win!", 0)]
 
     def update(self, game_state: dict) -> None:
         self.state = game_state
+
+        day = self.state["day"]
+        for message in self.state["events"]:
+            self.messages.append(Message(message, day))
+        for farm in self.state["farms"]:
+            name = farm["name"]
+            for message in farm["events"]:
+                self.messages.append(Message(f"{name} : {message}", day))
 
     def draw(self) -> None:
         arcade.draw_rectangle_filled(
@@ -39,7 +59,7 @@ class Score:
             center_y=CENTER_Y,
             width=WIDTH,
             height=HEIGHT,
-            color=(255, 255, 255, 100),
+            color=(255, 255, 255, 130),
         )
 
         if "farms" not in self.state:
@@ -78,3 +98,25 @@ class Score:
                 font_size=14,
                 font_name="Kenney Future",
             )
+
+        arcade.draw_text(
+            "Events",
+            start_x=MARGIN * 2,
+            start_y=MESSAGES_OFFSET,
+            color=arcade.color.BROWN_NOSE,
+            font_size=20,
+            font_name="Kenney Blocks",
+        )
+        for index, message in enumerate(self.messages[:5]):
+            if message.arcade_text is None:
+                message.arcade_text = arcade.Text(
+                    f"- {message.message:.130}",
+                    start_x=MARGIN * 2,
+                    start_y=MESSAGES_OFFSET - 30 - index * 60,
+                    color=arcade.color.BROWN_NOSE,
+                    font_size=12,
+                    font_name="Kenney Future",
+                    multiline=True,
+                    width=int(WIDTH - 2 * MARGIN)
+                )
+            message.arcade_text.draw()
