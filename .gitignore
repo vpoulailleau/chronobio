@@ -1,5 +1,7 @@
 log.txt
 teams/
+depots.txt
+TODO.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
