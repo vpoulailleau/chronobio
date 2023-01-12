@@ -3,6 +3,7 @@ import math
 import arcade
 
 from chronobio.viewer.constants import (
+    COLORS,
     FARM_BUILDING_DISTANCE_FROM_CENTER,
     FARM_BUILDING_WIDTH,
     FIELD_DISTANCE,
@@ -14,10 +15,11 @@ from chronobio.viewer.constants import (
 
 
 class FarmBackround:
-    def __init__(self, x, y, angle=0):
+    def __init__(self, x, y, player: int, angle=0):
         self.angle = angle
         self.x = x
         self.y = y
+        self.player = player
         self.sprite_list = arcade.SpriteList()
 
         soup_factory = arcade.Sprite("chronobio/viewer/images/factory_small.png")
@@ -46,3 +48,15 @@ class FarmBackround:
         cos = math.cos(math.radians(self.angle))
         sin = math.sin(math.radians(self.angle))
         return cos * x - sin * y + self.x, sin * x + cos * y + self.y
+
+    def draw(self):
+        position = self.rotate(FARM_BUILDING_DISTANCE_FROM_CENTER, 0)
+        arcade.draw_lrtb_rectangle_filled(
+            left=position[0] - FARM_BUILDING_WIDTH / 2,
+            right=position[0] + FARM_BUILDING_WIDTH / 2,
+            top=position[1] + FARM_BUILDING_WIDTH / 2,
+            bottom=position[1] - FARM_BUILDING_WIDTH / 2,
+            color=COLORS[self.player],
+        )
+
+        self.sprite_list.draw()

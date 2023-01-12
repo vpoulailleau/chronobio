@@ -40,6 +40,7 @@ class Window(arcade.Window):
                 FarmBackround(
                     x=(1 + n % 2) * SCREEN_WIDTH / 3,
                     y=(n // 2 + 0.5) * FARM_HEIGHT,
+                    player=n,
                     angle=0,
                 )
             )
@@ -61,7 +62,7 @@ class Window(arcade.Window):
         self.clear()
         self.background_list.draw()
         for farm_background in self.farm_backgrounds:
-            farm_background.sprite_list.draw()
+            farm_background.draw()
         for farm in self.farms:
             farm.draw()
         self.score.draw()
