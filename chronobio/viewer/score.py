@@ -51,7 +51,7 @@ class Score:
         for farm in self.state["farms"]:
             name = farm["name"]
             for message in farm["events"]:
-                self.messages.append(Message(f"{name} : {message}", day))
+                self.messages.append(Message(f"{name}: {message}", day))
 
         for message in self.messages[:]:
             if day > message.day + EVENT_VISIBILITY_NB_DAYS:
