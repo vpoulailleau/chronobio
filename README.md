@@ -14,9 +14,9 @@
 
 ### Échanges
 
-À chaque début de tour de jeu, un dictionnaire en JSON avec les informations sur le jeu et toutes les fermes en exploitation est envoyé.
+À chaque début de tour de jeu (un tour de jeu équivaut à un jour), un dictionnaire en JSON avec les informations sur le jeu et toutes les fermes en exploitation est envoyé.
 
-Chaque ferme doit envoyer au moins une commande (dont la syntaxe est détaillée ensuite) par tour de jeu.
+Chaque ferme doit envoyer au moins une commande (dont la syntaxe est détaillée ensuite) par jour de jeu.
 
 ### Début du jeu
 
@@ -56,8 +56,7 @@ La carte d'une exploitation est la suivante :
 ### Actions possibles
 
 Il faut envoyer une ligne par action.
-Chaque employé peut réaliser au maximum une action par tour.
-Le gérant de l'exploitation peut réaliser au maximum une action par tour.
+Chaque employé peut réaliser au maximum une action par jour.
 
 Les champs entre accolades sont à remplacer par leur valeurs.
 
@@ -91,7 +90,7 @@ Il faut normalement arroser au moins 10 fois un champ avant qu'il soit récoltab
 
 Les légumes du champ ne peuvent être vendus que si, au début de la journée, le champ ne nécessite plus d'arrosage.
 
-Les légumes sont vendus après récolte, la récolte dure deux jours : le gérant ne pourra pas faire d'action aux deux prochains tours.
+Les légumes sont vendus après récolte, la récolte dure deux jours : le gérant ne pourra pas faire d'action aux deux prochains jours.
 
 Les légumes sont vendus au prix du marché, c'est à dire que la récolte est vendue pour la somme de 2 000 euros - 50 fois le nombre de champs cultivant au moment de la vente la même espèce de légume en comptant toutes les fermes.
 
