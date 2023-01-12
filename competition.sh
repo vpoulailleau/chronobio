@@ -1,6 +1,7 @@
 PORT=$(python -c "import random; print(random.randint(2000, 3000))")
 
 python killall.py
+rm *.log
 
 for team in `ls teams`
 do
@@ -23,3 +24,6 @@ do
     ./_launch.sh $PORT &
     cd -
 done
+
+sleep 600
+python killall.py
