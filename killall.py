@@ -1,5 +1,4 @@
 import subprocess
-from pathlib import Path
 
 result = subprocess.run(["ps", "aux"], capture_output=True)
 
@@ -18,5 +17,3 @@ for line in stdout.splitlines():
         pid = line.split()[1]
         subprocess.run(["kill", "-9", pid])
 
-for log in Path(".").glob("*.log"):
-    log.unlink()
