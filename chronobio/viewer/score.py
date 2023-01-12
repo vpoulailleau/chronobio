@@ -4,7 +4,7 @@ from typing import Optional
 import arcade
 
 from chronobio.game.constants import MAX_NB_PLAYERS
-from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, EVENT_VISIBILITY_NB_DAYS
+from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, EVENT_VISIBILITY_NB_DAYS, COLORS
 
 MARGIN = 20
 WIDTH = SCREEN_WIDTH / 3 - 2 * MARGIN
@@ -92,7 +92,7 @@ class Score:
                 start_y=NAME_OFFSET
                 + SCORES_OFFSET
                 + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
-                color=arcade.color.BROWN_NOSE,
+                color=COLORS[n],
                 font_size=20,
                 font_name="Kenney Blocks",
             )
@@ -103,7 +103,7 @@ class Score:
                 start_y=SCORE_OFFSET
                 + SCORES_OFFSET
                 + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
-                color=arcade.color.BROWN_NOSE,
+                color=COLORS[n],
                 font_size=14,
                 font_name="Kenney Future",
             )
@@ -122,7 +122,7 @@ class Score:
                     f"- {message.message:.130}",
                     start_x=MARGIN * 2,
                     start_y=MESSAGES_OFFSET - 30 - index * 60,
-                    color=arcade.color.BROWN_NOSE,
+                    color=arcade.color.BROWN_NOSE, # TODO colorer par ferme
                     font_size=12,
                     font_name="Kenney Future",
                     multiline=True,
