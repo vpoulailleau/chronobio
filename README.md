@@ -111,7 +111,7 @@ Les légumes du champ ne peuvent être stockés que si, au début de la journée
 
 Les légumes du champ récoltable sont stockés dans l'usine de fabrication de soupe.
 
-Après le transport, le stock de l'usine est augmenté de 1000 pour l'espèce de légume du champ.
+Après le transport, le stock de l'usine est augmenté de 2000 pour l'espèce de légume du champ.
 
 #### Fabriquer des soupes et les vendre
 
