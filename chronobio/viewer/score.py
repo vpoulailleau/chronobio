@@ -34,24 +34,25 @@ def day2date(day_number: int) -> tuple[int, int, int]:
 class Message:
     message: str
     day: int
+    player: int
     arcade_text: Optional[arcade.Text] = None
 
 
 class Score:
     def __init__(self):
         self.state: dict = {}
-        self.messages: list[Message] = [Message("let the best team win!", 0)]
+        self.messages: list[Message] = [Message("let the best team win!", 0, -1)]
 
     def update(self, game_state: dict) -> None:
         self.state = game_state
 
         day = self.state["day"]
         for message in self.state["events"]:
-            self.messages.append(Message(message, day))
-        for farm in self.state["farms"]:
+            self.messages.append(Message(message, day, player=-1))
+        for index, farm in enumerate(self.state["farms"]):
             name = farm["name"]
             for message in farm["events"]:
-                self.messages.append(Message(f"{name}: {message}", day))
+                self.messages.append(Message(f"{name}: {message}", day, player=index))
 
         removed = False
         for message in self.messages[:]:
@@ -122,7 +123,7 @@ class Score:
                     f"- {message.message:.130}",
                     start_x=MARGIN * 2,
                     start_y=MESSAGES_OFFSET - 30 - index * 60,
-                    color=arcade.color.BROWN_NOSE, # TODO colorer par ferme
+                    color=COLORS[message.player],
                     font_size=12,
                     font_name="Kenney Future",
                     multiline=True,
