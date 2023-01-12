@@ -113,7 +113,7 @@ Les légumes du champ récoltable sont stockés dans l'usine de fabrication de s
 
 Après le transport, le stock de l'usine est augmenté de 1000 pour l'espèce de légume du champ.
 
-#### Fabriquer des soupes
+#### Fabriquer des soupes et les vendre
 
 `{OUVRIER} CUISINER`
 
