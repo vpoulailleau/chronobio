@@ -53,9 +53,14 @@ class Score:
             for message in farm["events"]:
                 self.messages.append(Message(f"{name}: {message}", day))
 
+        removed = False
         for message in self.messages[:]:
             if day > message.day + EVENT_VISIBILITY_NB_DAYS:
                 self.messages.remove(message)
+                removed = True
+        if removed:
+            for message in self.messages:
+                message.arcade_text = None
 
     def draw(self) -> None:
         arcade.draw_rectangle_filled(
