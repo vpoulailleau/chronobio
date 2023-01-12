@@ -8,10 +8,13 @@ WIDTH = SCREEN_WIDTH / 3 - 2 * MARGIN
 HEIGHT = SCREEN_HEIGHT - 2 * MARGIN
 CENTER_X = SCREEN_WIDTH / 6
 CENTER_Y = SCREEN_HEIGHT / 2
-NAME_OFFSET = 50
-SCORE_OFFSET = NAME_OFFSET - 30
+NAME_OFFSET = 30
+SCORE_OFFSET = NAME_OFFSET - 20
 DATE_OFFSET = SCREEN_HEIGHT - 2 * MARGIN - 20
 DATE_HEIGHT = 40
+MESSAGES_HEIGHT = 300
+SCORES_HEIGHT = (HEIGHT - DATE_HEIGHT - 2 * MARGIN - MESSAGES_HEIGHT)
+SCORES_OFFSET = 2 * MARGIN
 
 
 def day2date(day_number: int) -> tuple[int, int, int]:
@@ -58,8 +61,8 @@ class Score:
                 self.state["farms"][n]["name"][:22],
                 start_x=MARGIN * 2,
                 start_y=NAME_OFFSET
-                + MARGIN * 2
-                + (HEIGHT - DATE_HEIGHT - 2 * MARGIN) / (MAX_NB_PLAYERS) * n,
+                + SCORES_OFFSET
+                + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
                 color=arcade.color.BROWN_NOSE,
                 font_size=20,
                 font_name="Kenney Blocks",
@@ -69,8 +72,8 @@ class Score:
                 f"Score: {score:,d}".replace(",", " "),
                 start_x=MARGIN * 2,
                 start_y=SCORE_OFFSET
-                + MARGIN * 2
-                + (HEIGHT - DATE_HEIGHT - 2 * MARGIN) / (MAX_NB_PLAYERS) * n,
+                + SCORES_OFFSET
+                + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
                 color=arcade.color.BROWN_NOSE,
                 font_size=14,
                 font_name="Kenney Future",
