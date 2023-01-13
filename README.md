@@ -164,17 +164,11 @@ La somme empruntée doit être positive.
   - Votre projet devra pouvoir être lancé en ligne de commande (avec `argparse`)
     - `-a` : adresse IP du serveur
     - `-p` : port du serveur
+    - Commencez par faire un code le plus basique possible qui se connecte au serveur, puis faites les étapes ci-dessous, et enfin améliorez votre code.
   - Votre projet devra contenir au moins une documentation minimaliste pour permettre à l'utilisateur d'installer et d'utiliser votre logiciel
 - Mettez en place de l'intégration continue
-  - Tests automatiques avec mesure de couverture de test (qui doit avoisiner 100%)
-  - Qualimétrie (avec des linters) pour faire un logiciel de bon niveau de qualité
-  - Vérification des annotations de type
+  - Tests (`pytest`) automatiques (`GitHub actions`) avec mesure de couverture de test (qui doit avoisiner 100%)
+  - Qualimétrie (avec `flake8` et des plugins) pour faire un logiciel de bon niveau de qualité
+  - Vérification des annotations de type (avec `mypy`)
   - Avec les mesures de couverture, qualimétrie et annotations de type, faites en sorte de refuser une pull request qui abaisserait le niveau de qualité de votre logiciel
 - Éventuellement, mettez en place des hooks de pré-commit (https://pre-commit.com/)
-
-### Objectifs à atteindre dans l'ordre
-
-- Faire le programme le plus basique possible qui se connecte au serveur
-- Mettre en place les tests, avec `pytest`
-- Mettre en place la mesure de couverture de code (`pytest` et un plugin de code coverage)
-- Automatisation des tests (GitHub actions)
