@@ -57,6 +57,8 @@ class Score:
         for index, farm in enumerate(self.state["farms"]):
             name = farm["name"]
             for message in farm["events"]:
+                if "[SOUP]" in message:
+                    continue
                 self.messages.append(Message(f"{name}: {message}", day, player=index))
 
         removed = False
