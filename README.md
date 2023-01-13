@@ -65,6 +65,7 @@ Les champs entre accolades sont à remplacer par leur valeurs.
 - `{LÉGUME}` : un légume parmi `PATATE`, `POIREAU`, `TOMATE`, `OIGNON`, `COURGETTE`
 - `{CHAMP}` : numéro du champ (de 1 à 5)
 - `{SOMME}` : un montant entier en euros
+- `{TRACTEUR}` : numéro du tracteur (supérieur ou égal à 1)
 
 #### Acheter un champ
 
