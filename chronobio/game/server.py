@@ -64,7 +64,6 @@ class GameServer(Server):
                 logging.info(command)
                 player_farm.add_action(command)
 
-
     def run(self: "GameServer") -> None:
         while not self.players:
             print("Waiting for player clients")

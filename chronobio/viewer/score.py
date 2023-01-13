@@ -4,7 +4,12 @@ from typing import Optional
 import arcade
 
 from chronobio.game.constants import MAX_NB_PLAYERS
-from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_WIDTH, EVENT_VISIBILITY_NB_DAYS, COLORS
+from chronobio.viewer.constants import (
+    SCREEN_HEIGHT,
+    SCREEN_WIDTH,
+    EVENT_VISIBILITY_NB_DAYS,
+    COLORS,
+)
 
 MARGIN = 20
 WIDTH = SCREEN_WIDTH / 3 - 2 * MARGIN
@@ -17,7 +22,7 @@ DATE_OFFSET = SCREEN_HEIGHT - 2 * MARGIN - 20
 DATE_HEIGHT = 40
 MESSAGES_HEIGHT = 300
 MESSAGES_OFFSET = DATE_OFFSET - 40
-SCORES_HEIGHT = (HEIGHT - DATE_HEIGHT - 2 * MARGIN - MESSAGES_HEIGHT)
+SCORES_HEIGHT = HEIGHT - DATE_HEIGHT - 2 * MARGIN - MESSAGES_HEIGHT
 SCORES_OFFSET = 2 * MARGIN
 
 
@@ -127,6 +132,6 @@ class Score:
                     font_size=12,
                     font_name="Kenney Future",
                     multiline=True,
-                    width=int(WIDTH - 2 * MARGIN)
+                    width=int(WIDTH - 2 * MARGIN),
                 )
             message.arcade_text.draw()

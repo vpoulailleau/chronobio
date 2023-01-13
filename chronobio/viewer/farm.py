@@ -105,7 +105,9 @@ class Farm:
         self.sprite_list = arcade.SpriteList()
         self.blocked = False
 
-        self.blocked_sprite = arcade.Sprite("chronobio/viewer/images/blocked.png", scale=1.0)
+        self.blocked_sprite = arcade.Sprite(
+            "chronobio/viewer/images/blocked.png", scale=1.0
+        )
         self.blocked_sprite.width = 300
         self.blocked_sprite.height = 300
         self.blocked_sprite.angle = 0
