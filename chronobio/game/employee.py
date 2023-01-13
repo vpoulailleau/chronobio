@@ -74,8 +74,10 @@ class Employee:
         elif self.action_to_do[0] == "STOCK":
             field, tractor, step = self.action_to_do[1:]
             if step == 0:
+                self._move(tractor.location)
                 if self.location != tractor.location:
-                    self._move(tractor.location)
+                    self.action_to_do = ("STOCK", field, tractor, step)
+                    return  # not yet at location
                 else:
                     step = 1
 
@@ -86,9 +88,10 @@ class Employee:
                 ):
                     self.farm.invalid_action(f"Tractor {tractor.id} is already used.")
                 self.tractor = tractor
-                print(field)
+                self._move(field.location)
                 if self.location != field.location:
-                    self._move(field.location)
+                    self.action_to_do = ("STOCK", field, tractor, step)
+                    return  # not yet at location
                 else:
                     step = 2
 
@@ -100,8 +103,10 @@ class Employee:
                     step = 3
 
             if step == 3:
+                self._move(Location.SOUP_FACTORY)
                 if self.location != Location.SOUP_FACTORY:
-                    self._move(Location.SOUP_FACTORY)
+                    self.action_to_do = ("STOCK", field, tractor, step)
+                    return  # not yet at location
                 else:
                     step = 4
 
