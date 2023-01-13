@@ -138,7 +138,11 @@ class Employee:
                 self.farm.money += (
                     SOUP_PRICES_PER_VETEGABLE[nb_vegetables] * NB_SOUPS_PER_DAY
                 )
-            self.action_to_do = tuple()
+                plural = "s" if nb_vegetables > 1 else ""
+                self.farm.event_messages.append(
+                    f"[SOUP] {nb_vegetables} vegetable{plural}"
+                )
+                self.action_to_do = tuple()
 
     def state(self: "Employee") -> dict:
         tractor_state = None if self.tractor is None else self.tractor.state()
