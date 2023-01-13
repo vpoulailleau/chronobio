@@ -103,6 +103,16 @@ class Farm:
         self.soups: list[Soup] = []
         self.soup_angle = 0
         self.sprite_list = arcade.SpriteList()
+        self.blocked = False
+
+        self.blocked_sprite = arcade.Sprite("chronobio/viewer/images/blocked.png", scale=1.0)
+        self.blocked_sprite.width = 300
+        self.blocked_sprite.height = 300
+        self.blocked_sprite.angle = 0
+        self.blocked_sprite.center_x, self.blocked_sprite.center_y = self.rotate(
+            location_to_position[Location.FIELD3][0],
+            0,
+        )
 
     def rotate(self, x, y):
         cos = math.cos(math.radians(self.angle))
@@ -110,6 +120,8 @@ class Farm:
         return cos * x - sin * y + self.x, sin * x + cos * y + self.y
 
     def update(self, data):
+        if data["blocked"]:
+            self.blocked = True
 
         seen = set()
         for employee in data["employees"]:
@@ -184,3 +196,6 @@ class Farm:
             if soup.radius / soup.MAX_RADIUS > 0.9:
                 self.soups.remove(soup)
                 self.sprite_list.remove(soup.sprite)
+
+        if self.blocked:
+            self.blocked_sprite.draw()
