@@ -172,3 +172,30 @@ La somme empruntée doit être positive.
   - Vérification des annotations de type (avec `mypy`)
   - Avec les mesures de couverture, qualimétrie et annotations de type, faites en sorte de refuser une pull request qui abaisserait le niveau de qualité de votre logiciel
 - Éventuellement, mettez en place des hooks de pré-commit (https://pre-commit.com/)
+
+## Auto-évaluation
+
+Voici un barême pour évaluer le projet :
+
+| Critère                                                                       | Points |
+| ----------------------------------------------------------------------------- | ------ |
+| Projet lançable en ligne de commande                                          | 0,5    |
+| Documentation (installation des dépendances, lancement)                       | 1      |
+| Acheter un champ                                                              | 0,5    |
+| Acheter un tracteur                                                           | 0,5    |
+| Employer                                                                      | 0,5    |
+| Semer                                                                         | 1      |
+| Arroser                                                                       | 1      |
+| Vendre des légumes                                                            | 1      |
+| Stocker                                                                       | 1,5    |
+| Cuisiner                                                                      | 1      |
+| Licencier                                                                     | 1      |
+| Emprunter                                                                     | 0,5    |
+| Écriture de tests (`pytest`)                                                  | 2      |
+| Mesure de la couverture de test                                               | 1      |
+| Pourcentage de couverture de test                                             | 2      |
+| Qualimétrie (`flake8` et plugins)                                             | 1      |
+| GitHub action                                                                 | 1      |
+| Refus de pull request / push si baisse de couverture ou qualité               | 1      |
+| Classement compétition                                                        | 2      |
+| Bonus (pré-commit, annotations de type, vérification des annotations de type) | 3      |
