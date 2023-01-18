@@ -1,4 +1,5 @@
 import argparse
+import builtins
 import json
 import logging
 from time import sleep
@@ -85,6 +86,12 @@ class GameServer(Server):
 
 
 if __name__ == "__main__":
+    def no_print(*args, **kwargs):
+        pass
+
+
+    builtins.print = no_print
+
     parser = argparse.ArgumentParser(description="Game server.")
     parser.add_argument(
         "-a",
