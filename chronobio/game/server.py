@@ -1,5 +1,5 @@
 import argparse
-import builtins
+import contextlib
 import json
 import logging
 from time import sleep
@@ -86,12 +86,6 @@ class GameServer(Server):
 
 
 if __name__ == "__main__":
-    def no_print(*args, **kwargs):
-        pass
-
-
-    builtins.print = no_print
-
     parser = argparse.ArgumentParser(description="Game server.")
     parser.add_argument(
         "-a",
@@ -119,12 +113,17 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    logging.basicConfig(
-        filename="server.log",
-        encoding="utf-8",
-        level=logging.INFO,
-        format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s",
-        datefmt="%m/%d/%Y %H:%M:%S",
-    )
-    logging.info("Launching server")
-    GameServer(args.address, args.port, args.duration, args.fast).run()
+    if args.fast:
+        logging.basicConfig(handlers=[logging.NullHandler()])
+        with contextlib.redirect_stdout(None), contextlib.redirect_stderr(None):
+            GameServer(args.address, args.port, args.duration, args.fast).run()
+    else:
+        logging.basicConfig(
+            filename="server.log",
+            encoding="utf-8",
+            level=logging.INFO,
+            format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s",
+            datefmt="%m/%d/%Y %H:%M:%S",
+        )
+        logging.info("Launching server")
+        GameServer(args.address, args.port, args.duration, args.fast).run()
