@@ -41,7 +41,9 @@ class Farm:
             for employee in self.employees:
                 if employee.id != employee_id:
                     continue
-                self.event_messages.append(f"Employee was doing: {employee.action_to_do}")
+                self.event_messages.append(
+                    f"Employee was doing: {employee.action_to_do}"
+                )
                 break
         self.blocked = True
 
