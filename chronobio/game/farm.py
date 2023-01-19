@@ -172,6 +172,8 @@ class Farm:
     def _acheter_champ(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
             return
+        if owner_id != "0":
+            self.invalid_action("This action is only valid for the farm owner.")
         for field in self.fields:
             if not field.bought:
                 if self.money >= FIELD_PRICE:
@@ -216,6 +218,8 @@ class Farm:
     def _acheter_tracteur(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
             self.invalid_action("The farm owner is already busy")
+        if owner_id != "0":
+            self.invalid_action("This action is only valid for the farm owner.")
         if self.money < TRACTOR_PRICE:
             self.invalid_action("Not enough money to buy tractor.")
         if not self.blocked:
@@ -226,6 +230,8 @@ class Farm:
     def _vendre(self: "Farm", owner_id: str, location_id: str) -> None:
         if self.action_to_do:
             self.invalid_action("The farm owner is already busy")
+        if owner_id != "0":
+            self.invalid_action("This action is only valid for the farm owner.")
         field = self.get_field(int(location_id))
         if self.blocked:
             return
@@ -278,6 +284,8 @@ class Farm:
     def _employer(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
             self.invalid_action("The farm owner is already busy")
+        if owner_id != "0":
+            self.invalid_action("This action is only valid for the farm owner.")
 
         if not self.blocked:
             self.employees.append(Employee(farm=self, id=self.next_employee_id))
@@ -286,6 +294,8 @@ class Farm:
     def _licencier(self: "Farm", owner_id: str, employee_id: str) -> None:
         if self.action_to_do:
             self.invalid_action("The farm owner is already busy")
+        if owner_id != "0":
+            self.invalid_action("This action is only valid for the farm owner.")
         employee = self.get_employee(int(employee_id))
         if self.blocked:
             return
@@ -300,6 +310,8 @@ class Farm:
     def _emprunter(self: "Farm", owner_id: str, amount_str: str) -> None:
         if self.action_to_do:
             self.invalid_action("The farm owner is already busy")
+        if owner_id != "0":
+            self.invalid_action("This action is only valid for the farm owner.")
         amount = int(amount_str)
         if amount < 0:
             self.invalid_action("The amount of the loan must be positive")
