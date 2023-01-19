@@ -26,7 +26,7 @@ do
     echo "#################"
     echo "Starting $team"
     cd teams/$team
-    ./_launch.sh $PORT &
+    ./_launch.sh $PORT >/dev/null 2>/dev/null &
     cd -
 done
 
