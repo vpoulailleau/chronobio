@@ -20,7 +20,6 @@ class Viewer(Client):
         while True:
             try:
                 data = self.read_json()
-                print(str(data))
                 self.window.input_queue.put(data)
             except ChronobioNetworkError:
                 logging.exception("End of network communication")
