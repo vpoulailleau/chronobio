@@ -25,7 +25,7 @@ class GameServer(Server):
         self.game.new_day()
         state = self.game.state()
         logging.info("Sending current state")
-        logging.debug(state)
+        logging.info(state)
         state_json = json.dumps(state) + "\n"
         for client in list(self.clients):
             logging.debug("sending to %s", client.name)
