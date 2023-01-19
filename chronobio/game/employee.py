@@ -1,3 +1,4 @@
+# import logging
 import math
 from typing import Optional
 
@@ -52,6 +53,8 @@ class Employee:
     def do_action(self: "Employee") -> None:
         if not self.action_to_do:
             return
+
+        # logging.error("do_action (%d %s) : %s", self.id, self.location, self.action_to_do)
 
         if self.action_to_do[0] == "SOW":
             vegetable, field = self.action_to_do[1:]
@@ -142,7 +145,7 @@ class Employee:
                 self.farm.event_messages.append(
                     f"[SOUP] {nb_vegetables} vegetable{plural}"
                 )
-                self.action_to_do = tuple()
+            self.action_to_do = tuple()
 
     def state(self: "Employee") -> dict:
         tractor_state = None if self.tractor is None else self.tractor.state()
