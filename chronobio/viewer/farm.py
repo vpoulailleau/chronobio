@@ -52,6 +52,20 @@ class MovingEntity:
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
 
 
+class Employee(MovingEntity):
+    def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
+        super().__init__(sprite_path)
+        self.id = 0
+
+    def update_position(self, farm: "Farm"):
+        target_x, target_y = location_to_position[self.target_location]
+        target_x += (self.id % 12 - 6) * 5
+        self.x = (target_x - self.x) * 0.2 + self.x
+        self.y = (target_y - self.y) * 0.2 + self.y
+
+        self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
+
+
 class Vegetable(MovingEntity):
     def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
         super().__init__(sprite_path)
@@ -115,6 +129,7 @@ class Farm:
             location_to_position[Location.FIELD3][0],
             0,
         )
+        self.employees_per_location: dict[str, int] = {}
 
     def rotate(self, x, y):
         cos = math.cos(math.radians(self.angle))
@@ -126,14 +141,19 @@ class Farm:
             self.blocked = True
 
         seen = set()
+        self.employees_per_location.clear()
         for employee in data["employees"]:
             seen.add(employee["id"])
             if employee["id"] not in self.employees:
-                employee_entity = MovingEntity("chronobio/viewer/images/farmer.png")
+                employee_entity = Employee("chronobio/viewer/images/farmer.png")
+                employee_entity.id = int(employee["id"])
                 employee_entity.sprite.width = 60
                 employee_entity.sprite.height = 60
                 self.sprite_list.append(employee_entity.sprite)
                 self.employees[employee["id"]] = employee_entity
+            self.employees_per_location[
+                employee["location"]
+            ] = 1 + self.employees_per_location.get(employee["location"], 0)
             self.employees[employee["id"]].target_location = Location[
                 employee["location"]
             ]
