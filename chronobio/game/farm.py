@@ -1,3 +1,5 @@
+# import logging
+
 from chronobio.game.constants import (
     FARM_MONEY_PER_DAY,
     FIELD_MONEY_PER_DAY,
@@ -39,7 +41,7 @@ class Farm:
             for employee in self.employees:
                 if employee.id != employee_id:
                     continue
-                self.event_messages.append(str(employee.action_to_do))
+                self.event_messages.append(f"Employee was doing: {employee.action_to_do}")
                 break
         self.blocked = True
 
@@ -125,6 +127,8 @@ class Farm:
     def do_actions(self: "Farm") -> None:
         if self.blocked:
             return
+
+        # logging.error("do actions %s", self.name)
 
         for employee in self.employees:
             employee.do_action()
