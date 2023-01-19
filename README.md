@@ -175,7 +175,7 @@ La somme empruntée doit être positive.
 
 ## Auto-évaluation
 
-Voici un barême pour évaluer le projet :
+Voici un barème pour évaluer le projet :
 
 | Critère                                                                       | Points |
 | ----------------------------------------------------------------------------- | ------ |
