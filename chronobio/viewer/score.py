@@ -94,27 +94,28 @@ class Score:
         )
 
         for n in range(MAX_NB_PLAYERS):
-            arcade.draw_text(
-                self.state["farms"][n]["name"][:22],
-                start_x=MARGIN * 2,
-                start_y=NAME_OFFSET
-                + SCORES_OFFSET
-                + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
-                color=COLORS[n],
-                font_size=20,
-                font_name="Kenney Blocks",
-            )
-            score = self.state["farms"][n]["score"]
-            arcade.draw_text(
-                f"Score: {score:,d}".replace(",", " "),
-                start_x=MARGIN * 2,
-                start_y=SCORE_OFFSET
-                + SCORES_OFFSET
-                + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
-                color=COLORS[n],
-                font_size=14,
-                font_name="Kenney Future",
-            )
+            if self.state["farms"][n]["name"]:
+                arcade.draw_text(
+                    self.state["farms"][n]["name"][:22],
+                    start_x=MARGIN * 2,
+                    start_y=NAME_OFFSET
+                    + SCORES_OFFSET
+                    + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
+                    color=COLORS[n],
+                    font_size=20,
+                    font_name="Kenney Blocks",
+                )
+                score = self.state["farms"][n]["score"]
+                arcade.draw_text(
+                    f"Score: {score:,d}".replace(",", " "),
+                    start_x=MARGIN * 2,
+                    start_y=SCORE_OFFSET
+                    + SCORES_OFFSET
+                    + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
+                    color=COLORS[n],
+                    font_size=14,
+                    font_name="Kenney Future",
+                )
 
         arcade.draw_text(
             "Events",
