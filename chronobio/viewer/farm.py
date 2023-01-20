@@ -104,7 +104,9 @@ class Soup(MovingEntity):
         self.y = self.radius * math.sin(math.radians(self.angle))
 
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
-        self.sprite.alpha = int((self.MAX_RADIUS - self.radius) / self.MAX_RADIUS * 255)
+        self.sprite.alpha = min(
+            255, int((self.MAX_RADIUS - self.radius) / self.MAX_RADIUS * 1024)
+        )
 
 
 class Farm:
