@@ -42,6 +42,11 @@ class GameServer(Server):
         self.game.clear_event_messages()
 
         for player in list(self.players):
+            # ignore blocked players
+            for farm in self.game.farms:
+                if farm.name == player.name and farm.blocked:
+                    continue
+
             logging.info("Waiting commands from %s", player.name)
             try:
                 commands = player.network.read_json(timeout=2)
