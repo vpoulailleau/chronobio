@@ -130,6 +130,10 @@ class Employee:
                 return  # not yet in the factory
             if self.tractor is not None:
                 self.tractor = None  # no tractor in soup factory!
+            if self.farm.soup_factory.days_off:
+                # cancel cook, factory is closed
+                self.action_to_do = tuple()
+                return
             if sum(self.farm.soup_factory.stock.values()):
                 nb_vegetables = 0
                 for vegetable in Vegetable:

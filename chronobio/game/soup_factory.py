@@ -28,5 +28,4 @@ class SoupFactory:
     def deliver(self: "SoupFactory", vegetable: Vegetable) -> None:
         if vegetable == Vegetable.NONE:
             return
-        # TODO take days_off into account
         self.stock[vegetable] += VEGETABLE_PER_STOCK_DELIVERY

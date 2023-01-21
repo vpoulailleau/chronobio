@@ -38,6 +38,8 @@ class Game:
 
     def new_day(self: "Game") -> None:
         self.day += 1
+        for farm in self.farms:
+            farm.soup_factory.days_off = max(0, farm.soup_factory.days_off - 1)
         self.climate_change()
         for farm in self.farms:
             farm.income()
