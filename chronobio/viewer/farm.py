@@ -121,7 +121,6 @@ class Farm:
         self.soup_angle = 0
         self.sprite_list = arcade.SpriteList()
         self.blocked = False
-
         self.blocked_sprite = arcade.Sprite(
             "chronobio/viewer/images/blocked.png", scale=1.0
         )
@@ -130,6 +129,17 @@ class Farm:
         self.blocked_sprite.angle = 0
         self.blocked_sprite.center_x, self.blocked_sprite.center_y = self.rotate(
             location_to_position[Location.FIELD3][0],
+            0,
+        )
+        self.closed = False
+        self.closed_sprite = arcade.Sprite(
+            "chronobio/viewer/images/closed.png", scale=1.0
+        )
+        self.closed_sprite.width = 100
+        self.closed_sprite.height = 100
+        self.closed_sprite.angle = 0
+        self.closed_sprite.center_x, self.closed_sprite.center_y = self.rotate(
+            location_to_position[Location.SOUP_FACTORY][0],
             0,
         )
         self.employees_per_location: dict[str, int] = {}
@@ -142,6 +152,7 @@ class Farm:
     def update(self, data):
         if data["blocked"]:
             self.blocked = True
+        self.closed = bool(data["soup_factory"]["days_off"])
 
         seen = set()
         self.employees_per_location.clear()
@@ -224,3 +235,6 @@ class Farm:
 
         if self.blocked:
             self.blocked_sprite.draw()
+
+        if self.closed:
+            self.closed_sprite.draw()
