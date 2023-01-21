@@ -26,7 +26,7 @@ Une exploitation démarre sans culture, et avec un apport financier initial de 1
 
 L'exploitation reçoit les aides pour les exploitations biologiques : 50 euros par champ cultivé accompagnés de 30 euros pour l'exploitation.
 
-Attention, il est possible de mécaniser l'exploitation agricole, mais chaque tracteur (y compris ceux des autres joueurs) émet des gaz à effets de serre. Plus la quantité de gaz émise depuis le début du jeu est importante, plus la probabilité qu'un évènement climatique augmente. Nous risquons :
+Attention, il est possible de mécaniser l'exploitation agricole, mais chaque tracteur (y compris ceux des autres joueurs) émet des gaz à effets de serre. Plus la quantité de gaz émise depuis le début du jeu est importante, plus la probabilité qu'un évènement climatique se déclenche augmente. Nous risquons :
 
 - canicules : les champs doivent être arrosés 2 fois plus que prévu initialement,
 - grêle, ou gel : la culture des champs est détruite,
