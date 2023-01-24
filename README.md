@@ -10,6 +10,8 @@
 - Attention aux aléas climatiques.
 - Ne faites pas banqueroute.
 
+![screenshot](chronobio.png)
+
 ## Communication
 
 ### Échanges
