@@ -77,7 +77,7 @@ class ClimateEvent(MovingEntity):
     def update_position(self, farm: "Farm"):
         self.x = location_to_position[self.target_location][0]
         self.y = 0
-        self.size += 2
+        self.size += 5
         self.sprite.width = self.size
         self.sprite.height = self.size
         self.sprite.alpha = max(
