@@ -42,7 +42,7 @@ class DataHandler:
             if perf_counter() - start > timeout:
                 logging.debug("timeout")
                 raise ChronobioNetworkError
-            sleep(0.01)
+            sleep(0.1)
         with self._input_lock:
             index = self._input.index("\n")
             line = self._input[:index]
