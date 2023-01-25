@@ -1,5 +1,4 @@
 import logging
-import math
 import random
 
 from chronobio.game.constants import (
@@ -71,10 +70,12 @@ class Game:
         return price
 
     def climate_change(self: "Game") -> None:
+        logging.debug(self.greenhouse_gas)
         disaster = (
-            random.randint(0, int(math.log(self.greenhouse_gas + 1, 2)))
+            random.randint(-40 * CLIMATE_DISASTER_THRESHOLD, self.greenhouse_gas)
             > CLIMATE_DISASTER_THRESHOLD
         )
+
         if disaster:
             kind = random.choice(["flood", "frost", "heat wave", "fire"])
             impacted_locations = [random.randint(0, 1) for _ in range(len(Location))]
