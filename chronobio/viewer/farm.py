@@ -67,7 +67,7 @@ class Employee(MovingEntity):
 
 
 class ClimateEvent(MovingEntity):
-    MAX_SIZE = 100
+    MAX_SIZE = 150
     MIN_SIZE = 30
 
     def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
@@ -244,8 +244,15 @@ class Farm:
                 if "flood" in event:
                     climate_event = ClimateEvent("chronobio/viewer/images/drops.png")
                     climate_event.target_location = Location.SOUP_FACTORY
-                    self.climate_events.append(climate_event)
-                    self.sprite_list.append(climate_event.sprite)
+                elif "fire" in event:
+                    location = event.split()[-1]
+                    climate_event = ClimateEvent("chronobio/viewer/images/fire.png")
+                    climate_event.target_location = Location[location]
+                else: # TODO
+                    climate_event = ClimateEvent("chronobio/viewer/images/drops.png")
+                    climate_event.target_location = Location.SOUP_FACTORY
+                self.climate_events.append(climate_event)
+                self.sprite_list.append(climate_event.sprite)
 
     def draw(self):
 
