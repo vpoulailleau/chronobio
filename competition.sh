@@ -30,5 +30,5 @@ do
     cd -
 done
 
-sleep 600
+sleep 1200
 python killall.py
