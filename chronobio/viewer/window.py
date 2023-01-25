@@ -38,7 +38,7 @@ class Window(arcade.Window):
         for n in range(MAX_NB_PLAYERS):
             self.farm_backgrounds.append(
                 FarmBackround(
-                    x=(1 + n % 2) * SCREEN_WIDTH / 3,
+                    x=(1 + n % 2) * SCREEN_WIDTH / 3 - 40,
                     y=(n // 2 + 0.5) * FARM_HEIGHT,
                     player=n,
                     angle=0,
@@ -46,7 +46,7 @@ class Window(arcade.Window):
             )
             self.farms.append(
                 Farm(
-                    x=(1 + n % 2) * SCREEN_WIDTH / 3,
+                    x=(1 + n % 2) * SCREEN_WIDTH / 3 - 40,
                     y=(n // 2 + 0.5) * FARM_HEIGHT,
                     angle=0,
                 )
