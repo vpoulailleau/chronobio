@@ -248,6 +248,10 @@ class Farm:
                     location = event.split()[-1]
                     climate_event = ClimateEvent("chronobio/viewer/images/fire.png")
                     climate_event.target_location = Location[location]
+                elif "frost" in event:
+                    location = event.split()[-1]
+                    climate_event = ClimateEvent("chronobio/viewer/images/frost.png")
+                    climate_event.target_location = Location[location]
                 else: # TODO
                     climate_event = ClimateEvent("chronobio/viewer/images/drops.png")
                     climate_event.target_location = Location.SOUP_FACTORY
