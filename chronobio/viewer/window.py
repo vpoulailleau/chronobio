@@ -57,6 +57,7 @@ class Window(arcade.Window):
             data = self.input_queue.get()
             for index, farm in enumerate(self.farms):
                 farm.update(data["farms"][index])
+                farm.update_climate(data["events"])
             self.score.update(data)
 
         self.clear()

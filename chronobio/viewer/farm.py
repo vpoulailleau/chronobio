@@ -66,6 +66,28 @@ class Employee(MovingEntity):
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
 
 
+class ClimateEvent(MovingEntity):
+    MAX_SIZE = 100
+    MIN_SIZE = 30
+
+    def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
+        super().__init__(sprite_path)
+        self.size = self.MIN_SIZE
+
+    def update_position(self, farm: "Farm"):
+        self.x = location_to_position[self.target_location][0]
+        self.y = 0
+        self.size += 2
+        self.sprite.width = self.size
+        self.sprite.height = self.size
+        self.sprite.alpha = max(
+            0,
+            int((self.MAX_SIZE - self.size) / (self.MAX_SIZE - self.MIN_SIZE) * 255),
+        )
+
+        self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
+
+
 class Vegetable(MovingEntity):
     def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
         super().__init__(sprite_path)
@@ -117,6 +139,7 @@ class Farm:
         self.employees: dict[int, MovingEntity] = {}
         self.tractors: dict[int, MovingEntity] = {}
         self.vegetables: list[Vegetable] = []
+        self.climate_events: list[ClimateEvent] = []
         self.soups: list[Soup] = []
         self.soup_angle = 0
         self.sprite_list = arcade.SpriteList()
@@ -215,6 +238,15 @@ class Farm:
                 self.soup_angle += 10
                 self.sprite_list.append(soup.sprite)
 
+    def update_climate(self, events: list[str]) -> None:
+        for event in events:
+            if "[CLIMATE]" in event:
+                if "flood" in event:
+                    climate_event = ClimateEvent("chronobio/viewer/images/drops.png")
+                    climate_event.target_location = Location.SOUP_FACTORY
+                    self.climate_events.append(climate_event)
+                    self.sprite_list.append(climate_event.sprite)
+
     def draw(self):
 
         for tractor in self.tractors.values():
@@ -223,15 +255,19 @@ class Farm:
         for employee in self.employees.values():
             employee.update_position(self)
 
-        for soup in self.soups:
-            soup.update_position(self)
-
-        self.sprite_list.draw()
-
         for soup in self.soups.copy():
+            soup.update_position(self)
             if soup.radius / soup.MAX_RADIUS > 0.9:
                 self.soups.remove(soup)
                 self.sprite_list.remove(soup.sprite)
+
+        for climate_event in self.climate_events.copy():
+            climate_event.update_position(self)
+            if climate_event.size > climate_event.MAX_SIZE:
+                self.climate_events.remove(climate_event)
+                self.sprite_list.remove(climate_event.sprite)
+
+        self.sprite_list.draw()
 
         if self.blocked:
             self.blocked_sprite.draw()
