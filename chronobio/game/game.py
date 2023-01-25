@@ -40,12 +40,12 @@ class Game:
         self.day += 1
         for farm in self.farms:
             farm.soup_factory.days_off = max(0, farm.soup_factory.days_off - 1)
-        self.climate_change()
         for farm in self.farms:
             farm.income()
             farm.expend(self.day)
             farm.pollute()
             farm.do_actions()
+        self.climate_change()
 
     def clear_event_messages(self: "Game"):
         self.event_messages.clear()
