@@ -3,7 +3,7 @@ SKIP_UPDATE=$1
 PORT=$(python -c "import random; print(random.randint(2000, 3000))")
 
 python killall.py
-rm *.log
+find . -name "*.log" | xargs rm
 
 if [ -z "$SKIP_UPDATE" ]
 then
@@ -17,7 +17,7 @@ then
     done
 fi
 
-python -m chronobio.game.server -p $PORT &
+python -m chronobio.game.server -p $PORT&
 python -m chronobio.viewer -p $PORT &
 sleep 2
 
@@ -30,5 +30,5 @@ do
     cd -
 done
 
-sleep 1200
+sleep 3600
 python killall.py
