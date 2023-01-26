@@ -52,14 +52,14 @@ class Score:
         self.state = game_state
 
         day = self.state["day"]
-        for message in self.state["events"]:
-            self.messages.append(Message(message, day, player=-1))
         for index, farm in enumerate(self.state["farms"]):
             name = farm["name"]
             for message in farm["events"]:
                 if "[SOUP]" in message:
                     continue
                 self.messages.append(Message(f"{name}: {message}", day, player=index))
+        for message in self.state["events"]:
+            self.messages.append(Message(message, day, player=-1))
 
         removed = False
         for message in self.messages[:]:
