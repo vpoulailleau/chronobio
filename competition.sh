@@ -3,7 +3,7 @@ SKIP_UPDATE=$1
 PORT=$(python -c "import random; print(random.randint(2000, 3000))")
 
 python killall.py
-find . -name "*.log" | xargs rm
+find . -name "*.log" -exec rm \{} \;
 
 if [ -z "$SKIP_UPDATE" ]
 then
