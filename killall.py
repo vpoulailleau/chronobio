@@ -6,7 +6,7 @@ teams = ["soupwars", "my_player_client", "player.player"]
 
 stdout = result.stdout.decode("utf-8")
 for line in stdout.splitlines():
-    if "python" not in line:
+    if "python" not in line.lower():
         continue
     if (
         "chronobio." in line
