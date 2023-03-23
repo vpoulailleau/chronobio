@@ -73,7 +73,6 @@ class Farm:
 
             for loan in self.loans:
                 cost = loan.month_cost(self.game.day)
-                print(cost)
                 if self.money < cost:
                     self.invalid_action(f"Not enough money to pay loan {loan}.")
                     return
@@ -146,9 +145,9 @@ class Farm:
                 if field.needed_water or not field.content:
                     pass  # cancel sell
                 else:
-                    print("money before", self.money)
+                    # print("money before", self.money)
                     self.money += self.game.field_price(field)
-                    print("money after", self.money)
+                    # print("money after", self.money)
                     field.content = Vegetable.NONE
 
                 self.action_to_do = tuple()
@@ -156,7 +155,7 @@ class Farm:
     def add_action(self: "Farm", action: str) -> None:
         if self.blocked:
             return
-        print("###", action)
+        # print("###", action)
         parts = action.split()
         if len(parts) < 2:
             self.invalid_action("An action needs at least two parts.")
