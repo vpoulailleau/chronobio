@@ -121,6 +121,7 @@ class Game:
     def state(self) -> dict:
         return {
             "day": self.day,
+            "greenhouse_gas": self.greenhouse_gas,
             "events": self.event_messages,
             "farms": [farm.state() for farm in self.farms],
         }

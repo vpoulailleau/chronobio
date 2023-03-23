@@ -92,6 +92,25 @@ class Score:
             font_size=20,
             font_name="Kenney Blocks",
         )
+        co2 = self.state["greenhouse_gas"]
+        arcade.draw_text(
+            f"{co2 // 1000} teq CO ",
+            start_x=WIDTH,
+            start_y=DATE_OFFSET,
+            color=arcade.color.BROWN_NOSE,
+            font_size=20,
+            font_name="Kenney Blocks",
+            anchor_x="right"
+        )
+        arcade.draw_text(
+            "2",
+            start_x=WIDTH,
+            start_y=DATE_OFFSET,
+            color=arcade.color.BROWN_NOSE,
+            font_size=12,
+            font_name="Kenney Blocks",
+            anchor_x="right"
+        )
 
         for n in range(MAX_NB_PLAYERS):
             if self.state["farms"][n]["name"]:
