@@ -289,7 +289,7 @@ class Farm:
             self.invalid_action("This action is only valid for the farm owner.")
 
         if not self.blocked:
-            self.employees.append(Employee(farm=self, id=self.next_employee_id))
+            self.employees.append(Employee(farm=self, id_=self.next_employee_id))
             self.next_employee_id += 1
 
     def _licencier(self: "Farm", owner_id: str, employee_id: str) -> None:
