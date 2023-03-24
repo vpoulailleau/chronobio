@@ -1,6 +1,10 @@
+"""Employee management module."""
+
 # import logging
+from __future__ import annotations
+
 import math
-from typing import Optional
+import typing
 
 from chronobio.game.constants import (
     NB_SOUPS_PER_DAY,
@@ -12,15 +16,26 @@ from chronobio.game.location import Location
 from chronobio.game.tractor import Tractor
 from chronobio.game.vegetable import Vegetable
 
+if typing.TYPE_CHECKING:
+    from chronobio.game.farm import Farm
+
 
 class Employee:
-    def __init__(self: "Employee", farm: "Farm", id: int) -> None:
+    """Farm employee, ready to be hired and to work."""
+
+    def __init__(self: "Employee", farm: Farm, id_: int) -> None:
+        """Initialise the employee.
+
+        Args:
+            farm (Farm): the hiring farm
+            id_ (int): a unique identifier
+        """
         self.farm = farm
-        self.id: int = id
+        self.id: int = id_
         self.location: Location = Location.FARM
-        self.tractor: Optional[Tractor] = None
+        self.tractor: typing.Optional[Tractor] = None
         self.salary: int = 1_000
-        self.action_to_do: tuple = tuple()
+        self.action_to_do: tuple = ()
         self._stock_vegetable: Vegetable = Vegetable.NONE
 
     def _move(self: "Employee", target: Location) -> None:
@@ -47,8 +62,9 @@ class Employee:
             self.tractor.location = self.location
 
     def raise_salary(self: "Employee") -> None:
-        self.salary *= SALARY_RAISE_FACTOR
-        self.salary = math.ceil(self.salary)
+        """Raise the salary of the employee according to
+        SALARY_RAISE_FACTOR."""
+        self.salary = math.ceil(self.salary * SALARY_RAISE_FACTOR)
 
     def do_action(self: "Employee") -> None:
         if not self.action_to_do:
@@ -63,7 +79,7 @@ class Employee:
                 return  # no yet in the field
             field.needed_water = NEEDED_WATER_BEFORE_HARVEST
             field.content = vegetable
-            self.action_to_do = tuple()
+            self.action_to_do = ()
 
         elif self.action_to_do[0] == "WATER":
             field = self.action_to_do[1]
@@ -72,7 +88,7 @@ class Employee:
                 return  # not yet in the field
             if field.content:
                 field.needed_water = max(0, field.needed_water - 1)
-            self.action_to_do = tuple()
+            self.action_to_do = ()
 
         elif self.action_to_do[0] == "STOCK":
             field, tractor, step = self.action_to_do[1:]
@@ -81,8 +97,7 @@ class Employee:
                 if self.location != tractor.location:
                     self.action_to_do = ("STOCK", field, tractor, step)
                     return  # not yet at location
-                else:
-                    step = 1
+                step = 1
 
             if step == 1:
                 if any(
@@ -95,23 +110,20 @@ class Employee:
                 if self.location != field.location:
                     self.action_to_do = ("STOCK", field, tractor, step)
                     return  # not yet at location
-                else:
-                    step = 2
+                step = 2
 
             if step == 2:
                 if not field.content or field.needed_water:
-                    self.action_to_do = tuple()  # cancel action
+                    self.action_to_do = ()  # cancel action
                     return
-                else:
-                    step = 3
+                step = 3
 
             if step == 3:
                 self._move(Location.SOUP_FACTORY)
                 if self.location != Location.SOUP_FACTORY:
                     self.action_to_do = ("STOCK", field, tractor, step)
                     return  # not yet at location
-                else:
-                    step = 4
+                step = 4
 
             if step == 4:
                 self._stock_vegetable = field.content  # TODO lock field during delivery
@@ -119,7 +131,7 @@ class Employee:
                 field.needed_water = 0
                 self.farm.soup_factory.deliver(self._stock_vegetable)
                 self._stock_vegetable = Vegetable.NONE
-                self.action_to_do = tuple()
+                self.action_to_do = ()
                 return
 
             self.action_to_do = ("STOCK", field, tractor, step)
@@ -132,7 +144,7 @@ class Employee:
                 self.tractor = None  # no tractor in soup factory!
             if self.farm.soup_factory.days_off:
                 # cancel cook, factory is closed
-                self.action_to_do = tuple()
+                self.action_to_do = ()
                 return
             if sum(self.farm.soup_factory.stock.values()):
                 nb_vegetables = 0
@@ -149,7 +161,7 @@ class Employee:
                 self.farm.event_messages.append(
                     f"[SOUP] {nb_vegetables} vegetable{plural}"
                 )
-            self.action_to_do = tuple()
+            self.action_to_do = ()
 
     def state(self: "Employee") -> dict:
         tractor_state = None if self.tractor is None else self.tractor.state()
