@@ -1,5 +1,9 @@
 # import logging
 
+from __future__ import annotations
+
+import typing
+
 from chronobio.game.constants import (
     FARM_MONEY_PER_DAY,
     FIELD_MONEY_PER_DAY,
@@ -16,9 +20,12 @@ from chronobio.game.soup_factory import SoupFactory
 from chronobio.game.tractor import Tractor
 from chronobio.game.vegetable import Vegetable
 
+if typing.TYPE_CHECKING:
+    from chronobio.game.game import Game
+
 
 class Farm:
-    def __init__(self: "Farm", game: "Game", index: int) -> None:
+    def __init__(self: "Farm", game: Game, index: int) -> None:
         self.game = game
         self.index = index
         self.blocked: bool = True
@@ -31,7 +38,7 @@ class Farm:
         self.employees: list[Employee] = []
         self.next_employee_id: int = 1
         self.next_tractor_id: int = 1
-        self.action_to_do: tuple = tuple()
+        self.action_to_do: tuple = ()
         self.event_messages = []
 
     def invalid_action(self: "Farm", message: str) -> None:
@@ -67,8 +74,7 @@ class Farm:
                         f"Not enough money to pay employee {employee.id}."
                     )
                     return
-                else:
-                    self.money -= employee.salary
+                self.money -= employee.salary
                 employee.raise_salary()
 
             for loan in self.loans:
@@ -76,8 +82,7 @@ class Farm:
                 if self.money < cost:
                     self.invalid_action(f"Not enough money to pay loan {loan}.")
                     return
-                else:
-                    self.money -= cost
+                self.money -= cost
 
     def pollute(self: "Farm") -> None:
         if not self.blocked:
@@ -108,7 +113,7 @@ class Farm:
         else:
             tractor = None
         if tractor is None:
-            self.invalid_action(f"No tractor with ID: {tractor_id}."),
+            self.invalid_action(f"No tractor with ID: {tractor_id}.")
         return tractor
 
     def get_vegetable(self: "Farm", vegetable_name: str) -> Vegetable:
@@ -150,7 +155,7 @@ class Farm:
                     # print("money after", self.money)
                     field.content = Vegetable.NONE
 
-                self.action_to_do = tuple()
+                self.action_to_do = ()
 
     def add_action(self: "Farm", action: str) -> None:
         if self.blocked:
@@ -322,7 +327,7 @@ class Farm:
             self.money += amount
 
     @property
-    def score(self: "Farm") -> int:
+    def score(self: "Farm") -> int:  # noqa: FNE007
         return self.money - sum(
             loan.remaining_cost(self.game.day) for loan in self.loans
         )
