@@ -5,10 +5,10 @@ import arcade
 
 from chronobio.game.constants import MAX_NB_PLAYERS
 from chronobio.viewer.constants import (
+    COLORS,
+    EVENT_VISIBILITY_NB_DAYS,
     SCREEN_HEIGHT,
     SCREEN_WIDTH,
-    EVENT_VISIBILITY_NB_DAYS,
-    COLORS,
 )
 
 MARGIN = 20
@@ -100,7 +100,7 @@ class Score:
             color=arcade.color.BROWN_NOSE,
             font_size=20,
             font_name="Kenney Blocks",
-            anchor_x="right"
+            anchor_x="right",
         )
         arcade.draw_text(
             "2",
@@ -109,7 +109,7 @@ class Score:
             color=arcade.color.BROWN_NOSE,
             font_size=12,
             font_name="Kenney Blocks",
-            anchor_x="right"
+            anchor_x="right",
         )
 
         for n in range(MAX_NB_PLAYERS):

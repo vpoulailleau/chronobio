@@ -260,7 +260,6 @@ class Farm:
                 self.sprite_list.append(climate_event.sprite)
 
     def draw(self):
-
         for tractor in self.tractors.values():
             tractor.update_position(self)
 

@@ -16,4 +16,3 @@ for line in stdout.splitlines():
         print(line)
         pid = line.split()[1]
         subprocess.run(["kill", "-9", pid])
-
