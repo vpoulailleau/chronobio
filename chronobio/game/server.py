@@ -21,8 +21,7 @@ class GameServer(Server):
     def players(self):
         return [client for client in self.clients if not client.spectator]
 
-    def _turn(self: "GameServer"):  # TODO split in smaller methods
-        self.game.new_day()
+    def _turn_send_to_clients(self: "GameServer") -> None:
         state = self.game.state()
         logging.info("Sending current state")
         logging.info(state)
@@ -38,9 +37,8 @@ class GameServer(Server):
                     for farm in self.game.farms:
                         if farm.name == client.name:
                             farm.blocked = True
-        self.game.log_messages()
-        self.game.clear_event_messages()
 
+    def _turn_receive_from_clients(self: "GameServer") -> None:
         for player in list(self.players):
             # ignore blocked players
             for farm in self.game.farms:
@@ -70,7 +68,14 @@ class GameServer(Server):
                 logging.info(command)
                 player_farm.add_action(command)
 
-    def run(self: "GameServer") -> None:
+    def _turn(self: "GameServer"):
+        self.game.new_day()
+        self._turn_send_to_clients()
+        self.game.log_messages()
+        self.game.clear_event_messages()
+        self._turn_receive_from_clients()
+
+    def _wait_connections(self: "GameServer") -> None:
         while not self.players:
             print("Waiting for player clients")
             sleep(1)
@@ -80,6 +85,9 @@ class GameServer(Server):
             if len(self.players) == MAX_NB_PLAYERS:
                 break
             sleep(1)
+
+    def run(self: "GameServer") -> None:
+        self._wait_connections()
 
         for player_name in {player.name for player in self.players}:
             self.game.add_player(player_name)
@@ -127,7 +135,10 @@ if __name__ == "__main__":
             filename="server.log",
             encoding="utf-8",
             level=logging.INFO,
-            format="%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):%(funcName)-20s :: %(message)s",
+            format=(
+                "%(asctime)s [%(levelname)-8s] %(filename)20s(%(lineno)3s):"
+                "%(funcName)-20s :: %(message)s"
+            ),
             datefmt="%m/%d/%Y %H:%M:%S",
         )
         logging.info("Launching server")
