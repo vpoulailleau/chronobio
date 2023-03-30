@@ -1,4 +1,5 @@
 import argparse
+from contextlib import suppress
 from dataclasses import dataclass
 from socket import AF_INET, SOCK_STREAM, socket
 from threading import Thread
@@ -13,12 +14,12 @@ class ClientData:
     name: str
     network: DataHandler
 
-    def __eq__(self, other):
+    def __eq__(self: "ClientData", other: object) -> bool:
         if isinstance(other, ClientData):
             return self.network is other.network
-        raise NotImplemented
+        raise NotImplementedError
 
-    def __hash__(self):
+    def __hash__(self: "ClientData") -> int:
         return id(self.network)
 
 
@@ -32,24 +33,31 @@ class Server:
         accept_thread.start()
 
     def accept_incoming_connections(self: "Server", host: str, port: int) -> NoReturn:
-        """Set up handling for incoming clients."""
+        """Set up handling for incoming clients.
+
+        Args:
+            host (str): server host name
+            port (int): server port
+        """
         sock = socket(AF_INET, SOCK_STREAM)
         sock.bind((host, port))
         sock.listen(5)
 
         while True:
-            try:
+            with suppress(OSError):
                 client_socket, _ = sock.accept()
                 Thread(
                     target=self.handle_client_connection, args=(client_socket,)
                 ).start()
-            except (BrokenPipeError, OSError):
-                pass
 
-        self.sock.close()
+        sock.close()
 
     def handle_client_connection(self, client_socket: socket) -> None:
-        """Handle a single client socket connection."""
+        """Handle a single client socket connection.
+
+        Args:
+            client_socket (socket): socket of the client to handle
+        """
         print("Connection of a new client", flush=True)
         data_handler = DataHandler(client_socket)
         spectator = data_handler.readline().strip() == "1"
