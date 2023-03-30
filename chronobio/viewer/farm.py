@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+from contextlib import suppress
 
 import arcade
 
@@ -215,10 +216,8 @@ class Farm:
 
     def _update_vegetables(self: "Farm", data: dict) -> None:
         for vegetable in self.vegetables:
-            try:
+            with suppress(KeyError, ValueError):
                 self.sprite_list.remove(vegetable.sprite)
-            except (KeyError, ValueError):
-                pass  # empty field
         self.vegetables.clear()
         for field in data["fields"]:
             vegetable = Vegetable(
@@ -270,7 +269,7 @@ class Farm:
                 self.climate_events.append(climate_event)
                 self.sprite_list.append(climate_event.sprite)
 
-    def draw(self):
+    def _draw_animate(self: "Farm") -> None:
         for tractor in self.tractors.values():
             tractor.update_position(self)
 
@@ -289,6 +288,8 @@ class Farm:
                 self.climate_events.remove(climate_event)
                 self.sprite_list.remove(climate_event.sprite)
 
+    def draw(self):
+        self._draw_animate()
         self.sprite_list.draw()
 
         if self.blocked:
