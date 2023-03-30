@@ -70,7 +70,9 @@ class Employee:
         if not self.action_to_do:
             return
 
-        # logging.error("do_action (%d %s) : %s", self.id, self.location, self.action_to_do)
+        # logging.error(
+        #     "do_action (%d %s) : %s", self.id, self.location, self.action_to_do
+        # )
 
         if self.action_to_do[0] == "SOW":
             vegetable, field = self.action_to_do[1:]
