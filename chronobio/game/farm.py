@@ -329,7 +329,9 @@ class Farm:
     @property
     def score(self: "Farm") -> int:  # noqa: FNE007
         return self.money - sum(
-            loan.remaining_cost(self.game.day) for loan in self.loans
+            # TODO ne pas considérer que les emprunts sont remboursés si la ferme est bloquée
+            loan.remaining_cost(self.game.day)
+            for loan in self.loans
         )
 
     def state(self: "Farm") -> dict:
