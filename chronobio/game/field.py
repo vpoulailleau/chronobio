@@ -31,4 +31,7 @@ class Field:
         }
 
     def __repr__(self: "Field") -> str:
-        return f"Field({self.content.name}, needed_water={self.needed_water}, bought={self.bought}, location={self.location.name})"
+        return (
+            f"Field({self.content.name}, needed_water={self.needed_water}, "
+            f"bought={self.bought}, location={self.location.name})"
+        )
