@@ -1,5 +1,3 @@
-# import logging
-
 from __future__ import annotations
 
 import typing
@@ -170,14 +168,12 @@ class Farm:
             getattr(self, "_" + verb.lower())(*parts)
         except AttributeError:
             self.invalid_action("Unknown action.")
-            return
         except TypeError:
             self.invalid_action("Action with invalid number of arguments.")
-            return
 
     def _acheter_champ(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
-            return
+            self.invalid_action("The farm owner is already busy")
         if owner_id != "0":
             self.invalid_action("This action is only valid for the farm owner.")
         for field in self.fields:
@@ -230,7 +226,7 @@ class Farm:
             self.invalid_action("Not enough money to buy tractor.")
         if not self.blocked:
             self.money -= TRACTOR_PRICE
-            self.tractors.append(Tractor(id=self.next_tractor_id))
+            self.tractors.append(Tractor(id_=self.next_tractor_id))
             self.next_tractor_id += 1
 
     def _vendre(self: "Farm", owner_id: str, location_id: str) -> None:
