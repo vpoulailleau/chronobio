@@ -73,5 +73,5 @@ def gui_thread(window):
     try:
         window.setup()
         arcade.run()
-    except Exception:
+    except Exception:  # noqa: PIE786
         logging.exception("uncaught exception")
