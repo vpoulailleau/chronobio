@@ -7,7 +7,7 @@ from time import sleep
 from chronobio.game.constants import MAX_NB_PLAYERS, SERVER_CONNECTION_TIMEOUT
 from chronobio.game.exceptions import ChronobioNetworkError
 from chronobio.game.game import Game
-from chronobio.network.server import Server
+from chronobio.network.server import ClientData, Server
 
 
 class GameServer(Server):
@@ -21,6 +21,13 @@ class GameServer(Server):
     def players(self):
         return [client for client in self.clients if not client.spectator]
 
+    def remove_client(self: "GameServer", client: ClientData) -> None:
+        self.clients.remove(client)
+        if not client.spectator:
+            for farm in self.game.farms:
+                if farm.name == client.name:
+                    farm.blocked = True
+
     def _turn_send_to_clients(self: "GameServer") -> None:
         state = self.game.state()
         logging.info("Sending current state")
@@ -32,11 +39,7 @@ class GameServer(Server):
                 client.network.write(state_json)
             except ChronobioNetworkError:
                 logging.exception("Problem sending state to client")
-                self.clients.remove(client)
-                if not client.spectator:
-                    for farm in self.game.farms:
-                        if farm.name == client.name:
-                            farm.blocked = True
+                self.remove_client(client)
 
     def _turn_receive_from_clients(self: "GameServer") -> None:
         for player in list(self.players):
@@ -47,13 +50,10 @@ class GameServer(Server):
 
             logging.info("Waiting commands from %s", player.name)
             try:
-                commands = player.network.read_json(timeout=2)
+                commands: dict = player.network.read_json(timeout=2)
             except ChronobioNetworkError:
                 logging.exception("timeout")
-                self.clients.remove(player)
-                for farm in self.game.farms:
-                    if farm.name == player.name:
-                        farm.blocked = True
+                self.remove_client(player)
                 continue
 
             logging.debug(commands)
