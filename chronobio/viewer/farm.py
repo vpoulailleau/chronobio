@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import math
 
 import arcade
@@ -172,11 +174,7 @@ class Farm:
         sin = math.sin(math.radians(self.angle))
         return cos * x - sin * y + self.x, sin * x + cos * y + self.y
 
-    def update(self, data):
-        if data["blocked"]:
-            self.blocked = True
-        self.closed = bool(data["soup_factory"]["days_off"])
-
+    def _update_employees(self: "Farm", data: dict) -> None:
         seen = set()
         self.employees_per_location.clear()
         for employee in data["employees"]:
@@ -199,6 +197,7 @@ class Farm:
                 employee = self.employees.pop(employee_id)
                 self.sprite_list.remove(employee.sprite)
 
+    def _update_tractors(self: "Farm", data: dict) -> None:
         seen = set()
         for tractor in data["tractors"]:
             seen.add(tractor["id"])
@@ -214,6 +213,7 @@ class Farm:
                 tractor = self.tractors.pop(tractor_id)
                 self.sprite_list.remove(tractor.sprite)
 
+    def _update_vegetables(self: "Farm", data: dict) -> None:
         for vegetable in self.vegetables:
             try:
                 self.sprite_list.remove(vegetable.sprite)
@@ -230,6 +230,7 @@ class Farm:
             if "/transparent.png" not in vegetable.sprite_path:
                 self.sprite_list.append(vegetable.sprite)
 
+    def _update_soup(self: "Farm", data: dict) -> None:
         for event in data["events"]:
             if "[SOUP]" in event:
                 nb_vegetables = int(event.split()[1])
@@ -237,6 +238,16 @@ class Farm:
                 self.soups.append(soup)
                 self.soup_angle += 10
                 self.sprite_list.append(soup.sprite)
+
+    def update(self, data: dict):
+        if data["blocked"]:
+            self.blocked = True
+        self.closed = bool(data["soup_factory"]["days_off"])
+
+        self._update_employees(data)
+        self._update_tractors(data)
+        self._update_vegetables(data)
+        self._update_soup(data)
 
     def update_climate(self, events: list[str]) -> None:
         for event in events:
