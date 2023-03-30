@@ -7,7 +7,7 @@ from chronobio.game.vegetable import Vegetable
 
 
 class SoupFactory:
-    def __init__(self):
+    def __init__(self: "SoupFactory") -> None:
         self.days_off = 0
         self.stock: dict[Vegetable, int] = {
             vegetable: 0 for vegetable in Vegetable if vegetable != Vegetable.NONE
