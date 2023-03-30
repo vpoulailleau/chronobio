@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional
 
@@ -27,7 +29,14 @@ SCORES_OFFSET = 2 * MARGIN
 
 
 def day2date(day_number: int) -> tuple[int, int, int]:
-    """Generate date (y, m, d)"""
+    """Generate date tuple (y, m, d).
+
+    Args:
+        day_number (int): number of days since start of the game
+
+    Returns:
+        tuple[int, int, int]: (year, month, day)
+    """
     day = day_number % 30 + 1
     month = day_number // 30
     year = month // 12 + 1
@@ -44,13 +53,11 @@ class Message:
 
 
 class Score:
-    def __init__(self):
+    def __init__(self: "Score") -> None:
         self.state: dict = {}
         self.messages: list[Message] = [Message("let the best team win!", 0, -1)]
 
-    def update(self, game_state: dict) -> None:
-        self.state = game_state
-
+    def _get_messages(self: "Score") -> None:
         day = self.state["day"]
         for index, farm in enumerate(self.state["farms"]):
             name = farm["name"]
@@ -61,6 +68,8 @@ class Score:
         for message in self.state["events"]:
             self.messages.append(Message(message, day, player=-1))
 
+    def _clean_messages(self: "Score") -> None:
+        day = self.state["day"]
         removed = False
         for message in self.messages[:]:
             if day > message.day + EVENT_VISIBILITY_NB_DAYS:
@@ -70,7 +79,12 @@ class Score:
             for message in self.messages:
                 message.arcade_text = None
 
-    def draw(self) -> None:
+    def update(self: "Score", game_state: dict) -> None:
+        self.state = game_state
+        self._get_messages()
+        self._clean_messages()
+
+    def draw(self: "Score") -> None:
         arcade.draw_rectangle_filled(
             center_x=CENTER_X,
             center_y=CENTER_Y,
@@ -112,26 +126,26 @@ class Score:
             anchor_x="right",
         )
 
-        for n in range(MAX_NB_PLAYERS):
-            if self.state["farms"][n]["name"]:
+        for player_index in range(MAX_NB_PLAYERS):
+            if self.state["farms"][player_index]["name"]:
                 arcade.draw_text(
-                    self.state["farms"][n]["name"][:22],
+                    self.state["farms"][player_index]["name"][:22],
                     start_x=MARGIN * 2,
                     start_y=NAME_OFFSET
                     + SCORES_OFFSET
-                    + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
-                    color=COLORS[n],
+                    + SCORES_HEIGHT / (MAX_NB_PLAYERS) * player_index,
+                    color=COLORS[player_index],
                     font_size=20,
                     font_name="Kenney Blocks",
                 )
-                score = self.state["farms"][n]["score"]
+                score = self.state["farms"][player_index]["score"]
                 arcade.draw_text(
                     f"Score: {score:,d}".replace(",", " "),
                     start_x=MARGIN * 2,
                     start_y=SCORE_OFFSET
                     + SCORES_OFFSET
-                    + SCORES_HEIGHT / (MAX_NB_PLAYERS) * n,
-                    color=COLORS[n],
+                    + SCORES_HEIGHT / (MAX_NB_PLAYERS) * player_index,
+                    color=COLORS[player_index],
                     font_size=14,
                     font_name="Kenney Future",
                 )
