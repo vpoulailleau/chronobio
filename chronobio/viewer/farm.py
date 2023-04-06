@@ -169,6 +169,7 @@ class Farm:
             0,
         )
         self.employees_per_location: dict[str, int] = {}
+        self.stock: dict[str, int] = {}
 
     def rotate(self, x, y):
         cos = math.cos(math.radians(self.angle))
@@ -176,6 +177,7 @@ class Farm:
         return cos * x - sin * y + self.x, sin * x + cos * y + self.y
 
     def _update_employees(self: "Farm", data: dict) -> None:
+        self.stock = data["soup_factory"]["stock"]
         seen = set()
         self.employees_per_location.clear()
         for employee in data["employees"]:
@@ -290,6 +292,7 @@ class Farm:
 
     def draw(self):
         self._draw_animate()
+        self.draw_stock()
         self.sprite_list.draw()
 
         if self.blocked:
@@ -297,3 +300,14 @@ class Farm:
 
         if self.closed:
             self.closed_sprite.draw()
+
+    def draw_stock(self):
+        x, y = self.rotate(
+            SOUP_FACTORY_DISTANCE_FROM_CENTER - SOUP_FACTORY_WIDTH // 2,
+            -SOUP_FACTORY_WIDTH // 2,
+        )
+        for index, stock in enumerate(self.stock.values()):
+            width = min(int(stock / 1000), 100)
+            arcade.draw_xywh_rectangle_filled(
+                x + 10, y - 8 * index, width, 5, arcade.color.BROWN_NOSE
+            )
