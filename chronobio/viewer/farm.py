@@ -7,6 +7,7 @@ import arcade
 
 from chronobio.game.location import Location
 from chronobio.viewer.constants import (
+    COLORS,
     FARM_BUILDING_DISTANCE_FROM_CENTER,
     FARM_BUILDING_WIDTH,
     FIELD_DISTANCE,
@@ -309,5 +310,9 @@ class Farm:
         for index, stock in enumerate(self.stock.values()):
             width = min(int(stock / 1000), 100)
             arcade.draw_xywh_rectangle_filled(
-                x + 10, y - 8 * index, width, 5, arcade.color.BROWN_NOSE
+                x + 10,
+                y - 7 * index,
+                width,
+                5,
+                COLORS[2],
             )
