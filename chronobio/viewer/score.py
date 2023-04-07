@@ -126,29 +126,39 @@ class Score:
             anchor_x="right",
         )
 
+        player_stats = []
         for player_index in range(MAX_NB_PLAYERS):
             if self.state["farms"][player_index]["name"]:
-                arcade.draw_text(
-                    self.state["farms"][player_index]["name"][:22],
-                    start_x=MARGIN * 2,
-                    start_y=NAME_OFFSET
-                    + SCORES_OFFSET
-                    + SCORES_HEIGHT / (MAX_NB_PLAYERS) * player_index,
-                    color=COLORS[player_index],
-                    font_size=20,
-                    font_name="Kenney Blocks",
+                player_stats.append(
+                    (
+                        self.state["farms"][player_index]["name"],
+                        self.state["farms"][player_index]["score"],
+                        player_index,
+                    )
                 )
-                score = self.state["farms"][player_index]["score"]
-                arcade.draw_text(
-                    f"Score: {score:,d}".replace(",", " "),
-                    start_x=MARGIN * 2,
-                    start_y=SCORE_OFFSET
-                    + SCORES_OFFSET
-                    + SCORES_HEIGHT / (MAX_NB_PLAYERS) * player_index,
-                    color=COLORS[player_index],
-                    font_size=14,
-                    font_name="Kenney Future",
-                )
+        player_stats.sort(key=lambda s: s[1])
+
+        for score_index, (name, score, player_index) in enumerate(player_stats):
+            arcade.draw_text(
+                name[:22],
+                start_x=MARGIN * 2,
+                start_y=NAME_OFFSET
+                + SCORES_OFFSET
+                + SCORES_HEIGHT / (MAX_NB_PLAYERS) * score_index,
+                color=COLORS[player_index],
+                font_size=20,
+                font_name="Kenney Blocks",
+            )
+            arcade.draw_text(
+                f"Score: {score:,d}".replace(",", " "),
+                start_x=MARGIN * 2,
+                start_y=SCORE_OFFSET
+                + SCORES_OFFSET
+                + SCORES_HEIGHT / (MAX_NB_PLAYERS) * score_index,
+                color=COLORS[player_index],
+                font_size=14,
+                font_name="Kenney Future",
+            )
 
         arcade.draw_text(
             "Events",
