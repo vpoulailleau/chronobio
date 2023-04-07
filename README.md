@@ -201,3 +201,5 @@ Voici un barème pour évaluer le projet :
 | Refus de pull request / push si baisse de couverture ou qualité               | 1      |
 | Classement compétition                                                        | 2      |
 | Bonus (pré-commit, annotations de type, vérification des annotations de type) | 3      |
+| Bonus (Avoir un patch TROLLED avec des "légumes")                             | 1      |
+| Bonus (Avoir une photo de 3 BG Aigrisculteurs devant un tracteur rouge)       | 4      |
