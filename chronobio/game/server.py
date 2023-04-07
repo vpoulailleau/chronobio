@@ -2,6 +2,7 @@ import argparse
 import contextlib
 import json
 import logging
+import sys
 from time import sleep
 
 from chronobio.game.constants import MAX_NB_PLAYERS, SERVER_CONNECTION_TIMEOUT
@@ -96,6 +97,7 @@ class GameServer(Server):
             self._turn()
             if not self.fast:
                 sleep(0.3)
+        sys.exit(0)
 
 
 if __name__ == "__main__":
