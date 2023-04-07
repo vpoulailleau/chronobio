@@ -292,15 +292,15 @@ class Farm:
                 self.sprite_list.remove(climate_event.sprite)
 
     def draw(self):
-        self._draw_animate()
-        self.draw_stock()
-        self.sprite_list.draw()
-
         if self.blocked:
             self.blocked_sprite.draw()
+        else:
+            self._draw_animate()
+            self.draw_stock()
+            self.sprite_list.draw()
 
-        if self.closed:
-            self.closed_sprite.draw()
+            if self.closed:
+                self.closed_sprite.draw()
 
     def draw_stock(self):
         x, y = self.rotate(
@@ -308,7 +308,7 @@ class Farm:
             -SOUP_FACTORY_WIDTH // 2,
         )
         for index, stock in enumerate(self.stock.values()):
-            width = min(int(stock / 1000), 100)
+            width = min(int(stock / 2000), 100)
             arcade.draw_xywh_rectangle_filled(
                 x + 10,
                 y - 7 * index,
