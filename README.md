@@ -95,7 +95,7 @@ Les légumes du champ ne peuvent être vendus que si, au début de la journée, 
 
 Les légumes sont vendus après récolte, la récolte dure deux jours : le gérant ne pourra pas faire d'action aux deux prochains jours.
 
-Les légumes sont vendus au prix du marché, c'est à dire que la récolte est vendue pour la somme de 2 000 euros - 50 fois le nombre d'autres champs cultivant au moment de la vente la même espèce de légume en comptant toutes les fermes.
+Les légumes sont vendus au prix du marché, c'est à dire que la récolte est vendue pour la somme de 3 000 euros - 50 fois le nombre d'autres champs cultivant au moment de la vente la même espèce de légume en comptant toutes les fermes.
 
 Un champ peut être impacté par un aléa climatique pendant les deux jours que prend la récolte. La vente sera alors ignorée/annulée.
 
