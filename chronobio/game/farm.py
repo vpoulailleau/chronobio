@@ -28,7 +28,7 @@ class Farm:
         self.index = index
         self.blocked: bool = True
         self.name: str = ""
-        self.money: int = 100_000
+        self.money: float = 100_000
         self.fields: list[Field] = [Field(location) for location in fields]
         self.tractors: list[Tractor] = []
         self.loans: list[Loan] = []
@@ -323,7 +323,7 @@ class Farm:
             self.money += amount
 
     @property
-    def score(self: "Farm") -> int:  # noqa: FNE007
+    def score(self: "Farm") -> float:  # noqa: FNE007
         return self.money - sum(
             # TODO ne pas considérer que les emprunts sont remboursés si la ferme est bloquée
             loan.remaining_cost(self.game.day)
