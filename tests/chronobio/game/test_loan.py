@@ -31,3 +31,8 @@ def test_remaining_amount_at_start():
 def test_remaining_cost_at_start():
     loan = Loan(amount=100, start_day=10)
     assert float_equal(loan.remaining_cost(day=10), loan.amount * LOAN_INTEREST)
+
+
+def test_expense_greater_than_income():
+    loan = Loan(amount=1, start_day=10)
+    assert LOAN_DURATION_IN_MONTHS * loan.month_cost(day=20) > loan.amount
