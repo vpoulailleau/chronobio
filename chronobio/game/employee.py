@@ -40,24 +40,21 @@ class Employee:
 
     def _move(self: "Employee", target: Location) -> None:
         distance = abs(target - self.location)
-        sign = 1 if target > self.location else -1
         if not distance:
             return
+        sign = 1 if target > self.location else -1
         if self.tractor is None:
             self.location += sign
+        elif distance > 3:
+            self.location += sign * 3
         else:
-            if distance > 3:
-                self.location += sign * 3
-            else:
-                self.location = target
-            self.tractor.location = self.location
+            self.location = target
 
         # clamp location to valid location
-        if self.location < Location.FARM:
-            self.location = Location.FARM
-        if self.location > Location.SOUP_FACTORY:
-            self.location = Location.SOUP_FACTORY
-        self.location = Location(self.location)
+        self.location = Location(
+            max(Location.FARM, min(self.location, Location.SOUP_FACTORY)),
+        )
+
         if self.tractor is not None:
             self.tractor.location = self.location
 
@@ -175,4 +172,7 @@ class Employee:
         }
 
     def __repr__(self: "Employee") -> str:
-        return f"Employee(id={self.id}, salary={self.salary}, location={self.location.name}, tractor={self.tractor})"
+        return (
+            f"Employee(id={self.id}, salary={self.salary}, "
+            f"location={self.location.name}, tractor={self.tractor})"
+        )
