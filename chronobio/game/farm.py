@@ -7,7 +7,9 @@ from chronobio.game.constants import (
     FIELD_MONEY_PER_DAY,
     FIELD_PRICE,
     GREENHOUSE_GAS_PER_TRACTOR,
-    MAX_LOANS,
+    MAX_NB_EMPLOYEES,
+    MAX_NB_LOANS,
+    MAX_NB_TRACTORS,
     NB_DAYS_TO_HARVEST,
     TRACTOR_PRICE,
 )
@@ -225,6 +227,10 @@ class Farm:
             self.invalid_action("This action is only valid for the farm owner.")
         if self.money < TRACTOR_PRICE:
             self.invalid_action("Not enough money to buy tractor.")
+        if self.next_tractor_id > MAX_NB_TRACTORS:
+            self.invalid_action(
+                f"Maximum number of tractors reached ({MAX_NB_TRACTORS}).",
+            )
         if not self.blocked:
             self.money -= TRACTOR_PRICE
             self.tractors.append(Tractor(id_=self.next_tractor_id))
@@ -289,6 +295,10 @@ class Farm:
             self.invalid_action("The farm owner is already busy")
         if owner_id != "0":
             self.invalid_action("This action is only valid for the farm owner.")
+        if self.next_employee_id > MAX_NB_EMPLOYEES:
+            self.invalid_action(
+                f"Maximum number of employees reached ({MAX_NB_EMPLOYEES})."
+            )
 
         if not self.blocked:
             self.employees.append(Employee(farm=self, id_=self.next_employee_id))
@@ -322,8 +332,8 @@ class Farm:
             self.invalid_action(
                 "The amount of the loan must be less than 1 000 000 000",
             )
-        if len(self.loans) > MAX_LOANS:
-            self.invalid_action("Too many loans")
+        if len(self.loans) > MAX_NB_LOANS:
+            self.invalid_action(f"Maximum number of loans reached ({MAX_NB_LOANS}).")
 
         if not self.blocked:
             self.loans.append(Loan(amount, start_day=self.game.day))

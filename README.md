@@ -105,6 +105,8 @@ Un champ peut être impacté par un aléa climatique pendant les deux jours que 
 
 Un tracteur coute 30 000 euros. Un tracteur émet 100 kg eqCO₂ par mois.
 
+On ne peut pas acheter plus de 50 tracteurs dans une partie.
+
 #### Stocker des légumes
 
 `{OUVRIER} STOCKER {CHAMP} {TRACTEUR}`
@@ -136,6 +138,8 @@ Les soupes sont livrées automatiquement au magasin qui s’occupe de tout (tran
 `{GÉRANT} EMPLOYER`
 
 Le gérant emploie en CDI un ouvrier supplémentaire. Un employé est payé 1 000 euros le premier mois (tous les mois font 30 jours !). Chaque mois, il est augmenté de 1 % (l’augmentation est arrondie à l’entier supérieur). L’employé est payé le premier jour du mois, pour le travail du mois précédent (salaire complet même si le salarié n’a pas travaillé un mois complet).
+
+On ne peut pas employer plus de 300 personnes dans une partie.
 
 #### Licencier un ouvrier
 
