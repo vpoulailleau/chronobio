@@ -153,6 +153,8 @@ La somme empruntée doit être positive.
 
 ## Conditions de victoire ou défaite
 
+La victoire se décide à la fin des 5 ans de simulation.
+
 - Une action invalide entraîne le blocage du joueur : il ne peut plus faire d’actions jusqu’à la fin du jeu.
 - Un achat sans l’argent disponible entraîne le blocage du joueur.
 - Un joueur ne pouvant pas payer ses dépenses est bloqué.
