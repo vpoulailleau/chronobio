@@ -7,6 +7,7 @@ from chronobio.game.constants import (
     FIELD_MONEY_PER_DAY,
     FIELD_PRICE,
     GREENHOUSE_GAS_PER_TRACTOR,
+    MAX_LOANS,
     NB_DAYS_TO_HARVEST,
     TRACTOR_PRICE,
 )
@@ -321,6 +322,8 @@ class Farm:
             self.invalid_action(
                 "The amount of the loan must be less than 1 000 000 000",
             )
+        if len(self.loans) > MAX_LOANS:
+            self.invalid_action("Too many loans")
 
         if not self.blocked:
             self.loans.append(Loan(amount, start_day=self.game.day))

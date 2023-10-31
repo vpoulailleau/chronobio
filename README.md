@@ -151,6 +151,8 @@ Le gérant emprunte une somme à la banque. Un emprunt dure 2 ans. La somme à 
 
 La somme empruntée doit être positive et inférieure à 1 000 000 000.
 
+Au maximum 10 emprunts peuvent être faits lors d’une partie.
+
 ## Conditions de victoire ou défaite
 
 La victoire se décide à la fin des 5 ans de simulation.
