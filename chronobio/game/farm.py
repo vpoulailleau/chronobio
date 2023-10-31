@@ -317,6 +317,10 @@ class Farm:
         amount = int(amount_str)
         if amount < 0:
             self.invalid_action("The amount of the loan must be positive")
+        elif amount > 1_000_000_000:
+            self.invalid_action(
+                "The amount of the loan must be less than 1 000 000 000",
+            )
 
         if not self.blocked:
             self.loans.append(Loan(amount, start_day=self.game.day))
