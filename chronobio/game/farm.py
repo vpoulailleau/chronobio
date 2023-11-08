@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import typing
 
 from chronobio.game.constants import (
@@ -161,18 +162,32 @@ class Farm:
     def add_action(self: "Farm", action: str) -> None:
         if self.blocked:
             return
-        # print("###", action)
-        parts = action.split()
-        if len(parts) < 2:
-            self.invalid_action("An action needs at least two parts.")
+
+        vegetable_regex = "(PATATE|POIREAU|TOMATE|OIGNON|COURGETTE)"
+        field_regex = "[1-5]"
+        tractor_regex = r"\d+"
+        person_regex = r"\d+"
+        if not (
+            re.search(
+                rf"^{person_regex} (ACHETER_CHAMP|ACHETER_TRACTEUR|CUISINER|EMPLOYER)$",
+                action,
+            )
+            or re.search(rf"^{person_regex} (ARROSER|VENDRE) {field_regex}$", action)
+            or re.search(rf"^{person_regex} EMPRUNTER \d+$", action)
+            or re.search(rf"^{person_regex} LICENCIER {person_regex}$", action)
+            or re.search(
+                rf"^{person_regex} SEMER {vegetable_regex} {field_regex}$", action
+            )
+            or re.search(
+                rf"^{person_regex} STOCKER {field_regex} {tractor_regex}$", action
+            )
+        ):
+            self.invalid_action(f"Unrecognized action format ({action}).")
             return
+
+        parts = action.split()
         verb = parts.pop(1)
-        try:
-            getattr(self, "_" + verb.lower())(*parts)
-        except AttributeError:
-            self.invalid_action("Unknown action.")
-        except TypeError:
-            self.invalid_action("Action with invalid number of arguments.")
+        getattr(self, "_" + verb.lower())(*parts)
 
     def _acheter_champ(self: "Farm", owner_id: str) -> None:
         if self.action_to_do:
