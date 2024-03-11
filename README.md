@@ -12,6 +12,10 @@
 
 ![screenshot](chronobio.png)
 
+Le record du monde a été établi par l’équipe des Aigrisculteurs, avec un score de 8 426 796.
+
+![record](world_record.jpeg)
+
 ## Communication
 
 ### Échanges
