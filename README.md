@@ -253,25 +253,7 @@ python -m mon_code -p $PORT
 python -m chronobio.killall
 ```
 
-### Install git hook
-
-```shell
-pre-commit install
-```
-
-### Lint
-
-```shell
-flake8
-```
-
-### Launch test
-
-```shell
-pytest
-```
-
-### Publish
+### Publier
 
 ```shell
 python -m build
