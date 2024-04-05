@@ -52,6 +52,38 @@ class Message:
     arcade_text: Optional[arcade.Text] = None
 
 
+class TextDrawer:
+    # TODO implement LRU
+    def __init__(self) -> None:
+        self.cache: dict[tuple, arcade.Text] = {}
+
+    def draw(
+        self,
+        text: str,
+        start_x: int,
+        start_y: int,
+        color: tuple[int, int, int],
+        font_size: int,
+        font_name: str,
+        multiline: bool = False,
+    ) -> None:
+        key = (text, start_x, start_y, color, font_size, font_name, multiline)
+        if key not in self.cache:
+            self.cache[key] = arcade.Text(
+                text,
+                start_x,
+                start_y,
+                color,
+                font_size=font_size,
+                font_name=font_name,
+                multiline=multiline,
+            )
+        self.cache[key].draw()
+
+
+text = TextDrawer()
+
+
 class Score:
     def __init__(self: "Score") -> None:
         self.state: dict = {}
@@ -85,7 +117,7 @@ class Score:
         self._clean_messages()
 
     def draw(self: "Score") -> None:
-        arcade.draw_rectangle_filled(
+        arcade.draw_rectangle_filled(  # TODO ne pas utiliser ça
             center_x=CENTER_X,
             center_y=CENTER_Y,
             width=WIDTH,
@@ -98,7 +130,7 @@ class Score:
 
         year, month, day = day2date(self.state["day"])
         date = f"{day}/{month}/{year:04d}"
-        arcade.draw_text(
+        text.draw(
             date,
             start_x=MARGIN * 2,
             start_y=DATE_OFFSET,
@@ -132,9 +164,11 @@ class Score:
                 player_stats.append(
                     (
                         self.state["farms"][player_index]["name"],
-                        self.state["farms"][player_index]["score"]
-                        if not self.state["farms"][player_index]["blocked"]
-                        else 0,
+                        (
+                            self.state["farms"][player_index]["score"]
+                            if not self.state["farms"][player_index]["blocked"]
+                            else 0
+                        ),
                         player_index,
                         self.state["farms"][player_index]["blocked"],
                     )
