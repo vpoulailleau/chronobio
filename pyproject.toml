@@ -1,5 +1,79 @@
+[project]
+name = "chronobio"
+version = "0.0.1"
+description = "Chronobio programming game"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+]
+authors = [{ name = "Vincent Poulailleau", email = "vpoulailleau@gmail.com" }]
+readme = "README.md"
+keywords = ["chronobio", "game"]
+license = { text = "BSD-3-Clause" }
+requires-python = ">=3.10"
+dependencies = ["arcade==2.6.17"]
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "pytest",
+    "pytest-cov",
+    "python-dev-tools >= 2023",
+    "pre-commit >=3,<4",
+    "pyinstrument",
+    "twine",
+]
+
+[project.urls]
+"Source code" = "https://github.com/vpoulailleau/chronobio"
+Repository = "https://github.com/vpoulailleau/chronobio"
+Documentation = "https://github.com/vpoulailleau/chronobio/README.md"
+
+[tool.setuptools.packages.find]
+include = ["chronobio*"]
+
+[tool.bandit.assert_used]
+skips = ["*_test.py", "*test_*.py"]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
+
+[tool.flake8]
+no-accept-encodings = true
+max-line-length = 88
+extend-ignore = ["AAA05", "ANN101", "ANN102", "PLC116", "SCS108"]
+
+[tool.interrogate]
+fail-under = 100
+verbose = 2
+ignore-init-module = true
+ignore-regex = ["^test_.*$"]
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q  -s -vv --cov=chronobio.game --cov-branch --cov-report=term-missing --cov-fail-under=100"
+testpaths = ["tests"]
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
+# Enable D400 on top of the Google convention for docstrings.
+extend-select = ["D400"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.isort]
 profile = "black"
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
