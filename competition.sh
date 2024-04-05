@@ -3,7 +3,7 @@ SKIP_UPDATE=$1
 PORT=$(python -c "import random; print(random.randint(2000, 3000))")
 echo "La compétition se passe sur 127.0.0.1:$PORT"
 
-python killall.py
+python -m chronobio.killall
 find . -name "*.log" -exec rm \{} \;
 
 if [ -z "$SKIP_UPDATE" ]
@@ -18,7 +18,7 @@ then
     done
 fi
 
-python -m chronobio.game.server -p $PORT&
+python -m chronobio.game.server -p $PORT &
 python -m chronobio.viewer -p $PORT &
 sleep 2
 
@@ -32,4 +32,4 @@ do
 done
 
 sleep 3600
-python killall.py
+python -m chronobio.killall
