@@ -11,6 +11,8 @@ from chronobio.viewer.score import Score
 
 FARM_HEIGHT = SCREEN_HEIGHT * 2 / MAX_NB_PLAYERS
 
+input_queue: Queue = Queue()
+
 
 class Window(arcade.Window):
     def __init__(self):
@@ -19,7 +21,6 @@ class Window(arcade.Window):
         self.background_list: arcade.SpriteList = None
         self.farm_backgrounds: list[FarmBackround] = []
         self.farms: list[Farm] = []
-        self.input_queue: Queue = Queue()
         self.score = Score()
 
     def setup(self):
@@ -53,8 +54,8 @@ class Window(arcade.Window):
             )
 
     def on_draw(self):
-        if not self.input_queue.empty():
-            data = self.input_queue.get()
+        if not input_queue.empty():
+            data = input_queue.get()
             for index, farm in enumerate(self.farms):
                 farm.update(data["farms"][index])
                 farm.update_climate(data["events"])
@@ -69,7 +70,8 @@ class Window(arcade.Window):
         self.score.draw()
 
 
-def gui_thread(window):
+def gui_thread():
+    window = Window()
     try:
         window.setup()
         arcade.run()
