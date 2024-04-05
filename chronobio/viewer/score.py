@@ -49,7 +49,6 @@ class Message:
     message: str
     day: int
     player: int
-    arcade_text: Optional[arcade.Text] = None
 
 
 class TextDrawer:
@@ -60,13 +59,14 @@ class TextDrawer:
     def draw(
         self,
         text: str,
-        start_x: int,
-        start_y: int,
+        start_x: float,
+        start_y: float,
         color: tuple[int, int, int],
         font_size: int,
         font_name: str,
         multiline: bool = False,
         anchor_x: str = "left",
+        width: int = 0,
     ) -> None:
         key = (text, start_x, start_y, color, font_size, font_name, multiline, anchor_x)
         if key not in self.cache:
@@ -79,6 +79,7 @@ class TextDrawer:
                 font_name=font_name,
                 multiline=multiline,
                 anchor_x=anchor_x,
+                width=width,
             )
         self.cache[key].draw()
 
@@ -180,7 +181,7 @@ class Score:
         for score_index, (name, score, player_index, blocked) in enumerate(
             player_stats
         ):
-            arcade.draw_text(
+            text.draw(
                 name[:22],
                 start_x=MARGIN * 2,
                 start_y=NAME_OFFSET
@@ -191,7 +192,7 @@ class Score:
                 font_name="Kenney Blocks",
             )
             if not blocked:
-                arcade.draw_text(
+                text.draw(
                     f"Score: {score:,d}".replace(",", " "),
                     start_x=MARGIN * 2,
                     start_y=SCORE_OFFSET
@@ -202,7 +203,7 @@ class Score:
                     font_name="Kenney Future",
                 )
             else:
-                arcade.draw_text(
+                text.draw(
                     f"Score: BLOCKED",
                     start_x=MARGIN * 2,
                     start_y=SCORE_OFFSET
@@ -213,7 +214,7 @@ class Score:
                     font_name="Kenney Future",
                 )
 
-        arcade.draw_text(
+        text.draw(
             "Events",
             start_x=MARGIN * 2,
             start_y=MESSAGES_OFFSET,
@@ -222,15 +223,13 @@ class Score:
             font_name="Kenney Blocks",
         )
         for index, message in enumerate(self.messages[:5]):
-            if message.arcade_text is None:
-                message.arcade_text = arcade.Text(
-                    f"- {message.message:.130}",
-                    start_x=MARGIN * 2,
-                    start_y=MESSAGES_OFFSET - 30 - index * 60,
-                    color=COLORS[message.player],
-                    font_size=12,
-                    font_name="Kenney Future",
-                    multiline=True,
-                    width=int(WIDTH - 2 * MARGIN),
-                )
-            message.arcade_text.draw()
+            text.draw(
+                f"- {message.message:.130}",
+                start_x=MARGIN * 2,
+                start_y=MESSAGES_OFFSET - 30 - index * 60,
+                color=COLORS[message.player],
+                font_size=12,
+                font_name="Kenney Future",
+                multiline=True,
+                width=int(WIDTH - 2 * MARGIN),
+            )
