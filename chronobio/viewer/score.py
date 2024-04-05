@@ -66,8 +66,9 @@ class TextDrawer:
         font_size: int,
         font_name: str,
         multiline: bool = False,
+        anchor_x: str = "left",
     ) -> None:
-        key = (text, start_x, start_y, color, font_size, font_name, multiline)
+        key = (text, start_x, start_y, color, font_size, font_name, multiline, anchor_x)
         if key not in self.cache:
             self.cache[key] = arcade.Text(
                 text,
@@ -77,6 +78,7 @@ class TextDrawer:
                 font_size=font_size,
                 font_name=font_name,
                 multiline=multiline,
+                anchor_x=anchor_x,
             )
         self.cache[key].draw()
 
@@ -139,7 +141,7 @@ class Score:
             font_name="Kenney Blocks",
         )
         co2 = self.state["greenhouse_gas"]
-        arcade.draw_text(
+        text.draw(
             f"{co2 // 1000} teq CO ",
             start_x=WIDTH,
             start_y=DATE_OFFSET,
@@ -148,7 +150,7 @@ class Score:
             font_name="Kenney Blocks",
             anchor_x="right",
         )
-        arcade.draw_text(
+        text.draw(
             "2",
             start_x=WIDTH,
             start_y=DATE_OFFSET,
