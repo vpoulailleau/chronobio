@@ -217,3 +217,63 @@ Voici un barème pour évaluer le projet :
 | Refus de pull request / push si baisse de couverture ou qualité               | 1      |
 | Classement compétition                                                        | 2      |
 | Bonus (pré-commit, annotations de type, vérification des annotations de type) | 3      |
+
+## Commandes
+
+### Installation
+
+```shell
+python3.11 -m venv venv
+. venv/bin/activate
+# pour jouer
+pip install --upgrade chronobio
+# pour développer
+pip install --upgrade chronobio[dev]
+```
+
+### Lancer le jeu
+
+```shell
+# Dans un environnement virtuel activé
+
+# choisir un port non utilisé
+PORT=12345
+# lancer le serveur
+python -m chronobio.game.server -p $PORT &
+# lancer le viewer
+python -m chronobio.viewer -p $PORT &
+# lancer un joueur
+python -m mon_code -p $PORT
+```
+
+### Terminer tous les programmes lancés
+
+```shell
+# Pour Linux et Mac, dans un environnement virtuel activé
+python -m chronobio.killall
+```
+
+### Install git hook
+
+```shell
+pre-commit install
+```
+
+### Lint
+
+```shell
+flake8
+```
+
+### Launch test
+
+```shell
+pytest
+```
+
+### Publish
+
+```shell
+python -m build
+python3 -m twine upload dist/*
+```
