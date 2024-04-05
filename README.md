@@ -257,5 +257,5 @@ python -m chronobio.killall
 
 ```shell
 python -m build
-python3 -m twine upload dist/*
+python -m twine upload dist/*
 ```
