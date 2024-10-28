@@ -182,10 +182,10 @@ La victoire se décide à la fin des 5 ans de simulation.
   - Votre projet devra contenir au moins une documentation minimaliste pour permettre à l’utilisateur d’installer et d’utiliser votre logiciel
 - Mettez en place de l’intégration continue
   - Tests (`pytest`) automatiques (`GitHub actions`) avec mesure de couverture de test (qui doit avoisiner 100 %)
-  - Qualimétrie (avec `flake8` et des plugins, ou `ruff`) pour faire un logiciel de bon niveau de qualité
+  - Qualimétrie (avec `flake8` et des plugins, ou [`ruff`](https://www.lecalamar.fr/posts/2024-06-06-oubliez-flake8-black-ou-venv-place-aux-outils-de-nouvelle-generation/) pour faire un logiciel de bon niveau de qualité
   - Vérification des annotations de type (avec `mypy`)
   - Avec les mesures de couverture, qualimétrie et annotations de type, faites en sorte de refuser une pull request qui abaisserait le niveau de qualité de votre logiciel
-- Éventuellement, mettez en place des hooks de pré-commit (https://pre-commit.com/)
+- Éventuellement, mettez en place des hooks de [pré-commit](https://pre-commit.com/)
 - Codez votre stratégie
   - Partez d’abord sur une stratégie simpliste : cultivez des légumes sur un champ et vendez-les
   - Assurez-vous, tout le long du projet, de maintenir un niveau élevé de qualité (couverture de test proche de 100 %, rapport de linter sans erreur, annotations de type vérifiées)
