@@ -174,7 +174,7 @@ La victoire se décide à la fin des 5 ans de simulation.
 
 - Créez un dépôt privé, en me donnant les accès (au moins en lecture, https://github.com/vpoulailleau)
 - Créez un client pour vous connecter au serveur de jeu
-  - En vous inspirant de l’exemple fourni
+  - En vous inspirant de l’exemple fourni ([sample_player_client.py](https://github.com/vpoulailleau/chronobio/blob/main/sample_player_client.py))
   - Votre projet devra pouvoir être lancé en ligne de commande (avec `argparse`)
     - `-a` : adresse IP du serveur
     - `-p` : port du serveur
