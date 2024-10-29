@@ -1,4 +1,5 @@
 import logging
+from importlib.resources import files
 from queue import Queue
 
 import arcade
@@ -25,12 +26,14 @@ class Window(arcade.Window):
 
     def setup(self):
         self.background_list = arcade.SpriteList()
-        grass = arcade.Sprite("chronobio/viewer/images/grass.jpeg")
+        grass = arcade.Sprite(files("chronobio.viewer").joinpath("images/grass.jpeg"))
         grass_width = grass.width
         grass_height = grass.height
         for x in range(0, SCREEN_WIDTH, grass_width):
             for y in range(0, SCREEN_HEIGHT, grass_height):
-                grass = arcade.Sprite("chronobio/viewer/images/grass.jpeg")
+                grass = arcade.Sprite(
+                    files("chronobio.viewer").joinpath("images/grass.jpeg")
+                )
                 grass.position = x + grass_width // 2, y + grass_height // 2
                 self.background_list.append(grass)
 
