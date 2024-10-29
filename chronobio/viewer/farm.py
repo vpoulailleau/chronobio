@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import math
 from contextlib import suppress
+from importlib.resources import files
 
 import arcade
 
@@ -30,12 +31,12 @@ location_to_position: dict[Location, tuple[float, float]] = {
 }
 
 vegetable_to_sprite: dict[str, str] = {
-    "NONE": "chronobio/viewer/images/transparent.png",
-    "POTATO": "chronobio/viewer/images/potato.png",
-    "LEEK": "chronobio/viewer/images/leek.png",
-    "TOMATO": "chronobio/viewer/images/tomato.png",
-    "ONION": "chronobio/viewer/images/onion.png",
-    "ZUCCHINI": "chronobio/viewer/images/zucchini.png",
+    "NONE": files("chronobio.viewer").joinpath("images/transparent.png"),
+    "POTATO": files("chronobio.viewer").joinpath("images/potato.png"),
+    "LEEK": files("chronobio.viewer").joinpath("images/leek.png"),
+    "TOMATO": files("chronobio.viewer").joinpath("images/tomato.png"),
+    "ONION": files("chronobio.viewer").joinpath("images/onion.png"),
+    "ZUCCHINI": files("chronobio.viewer").joinpath("images/zucchini.png"),
 }
 
 
@@ -85,8 +86,7 @@ class ClimateEvent(MovingEntity):
         self.sprite.width = self.size
         self.sprite.height = self.size
         self.sprite.alpha = max(
-            0,
-            int((self.MAX_SIZE - self.size) / (self.MAX_SIZE - self.MIN_SIZE) * 255),
+            0, int((self.MAX_SIZE - self.size) / (self.MAX_SIZE - self.MIN_SIZE) * 255)
         )
 
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
@@ -115,7 +115,7 @@ class Soup(MovingEntity):
     MAX_RADIUS = 100
 
     def __init__(self, angle: float, nb_vegetables: int) -> None:
-        super().__init__("chronobio/viewer/images/soup.png")
+        super().__init__(files("chronobio.viewer").joinpath("images/soup.png"))
         self.x, self.y = location_to_position[Location.SOUP_FACTORY]
         self.angle = angle
         self.radius = 0
@@ -149,25 +149,23 @@ class Farm:
         self.sprite_list = arcade.SpriteList()
         self.blocked = False
         self.blocked_sprite = arcade.Sprite(
-            "chronobio/viewer/images/blocked.png", scale=1.0
+            files("chronobio.viewer").joinpath("images/blocked.png"), scale=1.0
         )
         self.blocked_sprite.width = 300
         self.blocked_sprite.height = 300
         self.blocked_sprite.angle = 0
         self.blocked_sprite.center_x, self.blocked_sprite.center_y = self.rotate(
-            location_to_position[Location.FIELD3][0],
-            0,
+            location_to_position[Location.FIELD3][0], 0
         )
         self.closed = False
         self.closed_sprite = arcade.Sprite(
-            "chronobio/viewer/images/closed.png", scale=1.0
+            files("chronobio.viewer").joinpath("images/closed.png"), scale=1.0
         )
         self.closed_sprite.width = 100
         self.closed_sprite.height = 100
         self.closed_sprite.angle = 0
         self.closed_sprite.center_x, self.closed_sprite.center_y = self.rotate(
-            location_to_position[Location.SOUP_FACTORY][0],
-            0,
+            location_to_position[Location.SOUP_FACTORY][0], 0
         )
         self.employees_per_location: dict[str, int] = {}
         self.stock: dict[str, int] = {}
@@ -184,15 +182,17 @@ class Farm:
         for employee in data["employees"]:
             seen.add(employee["id"])
             if employee["id"] not in self.employees:
-                employee_entity = Employee("chronobio/viewer/images/farmer.png")
+                employee_entity = Employee(
+                    files("chronobio.viewer").joinpath("images/farmer.png")
+                )
                 employee_entity.id = int(employee["id"])
                 employee_entity.sprite.width = 60
                 employee_entity.sprite.height = 60
                 self.sprite_list.append(employee_entity.sprite)
                 self.employees[employee["id"]] = employee_entity
-            self.employees_per_location[
-                employee["location"]
-            ] = 1 + self.employees_per_location.get(employee["location"], 0)
+            self.employees_per_location[employee["location"]] = (
+                1 + self.employees_per_location.get(employee["location"], 0)
+            )
             self.employees[employee["id"]].target_location = Location[
                 employee["location"]
             ]
@@ -206,7 +206,9 @@ class Farm:
         for tractor in data["tractors"]:
             seen.add(tractor["id"])
             if tractor["id"] not in self.tractors:
-                tractor_entity = MovingEntity("chronobio/viewer/images/tractor.png")
+                tractor_entity = MovingEntity(
+                    files("chronobio.viewer").joinpath("images/tractor.png")
+                )
                 tractor_entity.sprite.width = 60
                 tractor_entity.sprite.height = 60
                 self.sprite_list.append(tractor_entity.sprite)
@@ -229,7 +231,7 @@ class Farm:
             vegetable.location(Location[field["location"]], farm=self)
             vegetable.update_size(field["needed_water"])
             self.vegetables.append(vegetable)
-            if "/transparent.png" not in vegetable.sprite_path:
+            if "/transparent.png" not in str(vegetable.sprite_path):
                 self.sprite_list.append(vegetable.sprite)
 
     def _update_soup(self: "Farm", data: dict) -> None:
@@ -255,19 +257,27 @@ class Farm:
         for event in events:
             if "[CLIMATE]" in event:
                 if "flood" in event:
-                    climate_event = ClimateEvent("chronobio/viewer/images/drops.png")
+                    climate_event = ClimateEvent(
+                        files("chronobio.viewer").joinpath("images/drops.png")
+                    )
                     climate_event.target_location = Location.SOUP_FACTORY
                 elif "fire" in event:
                     location = event.split()[-1]
-                    climate_event = ClimateEvent("chronobio/viewer/images/fire.png")
+                    climate_event = ClimateEvent(
+                        files("chronobio.viewer").joinpath("images/fire.png")
+                    )
                     climate_event.target_location = Location[location]
                 elif "frost" in event:
                     location = event.split()[-1]
-                    climate_event = ClimateEvent("chronobio/viewer/images/frost.png")
+                    climate_event = ClimateEvent(
+                        files("chronobio.viewer").joinpath("images/frost.png")
+                    )
                     climate_event.target_location = Location[location]
                 elif "heat wave" in event:
                     location = event.split()[-1]
-                    climate_event = ClimateEvent("chronobio/viewer/images/drought.png")
+                    climate_event = ClimateEvent(
+                        files("chronobio.viewer").joinpath("images/drought.png")
+                    )
                     climate_event.target_location = Location[location]
                 self.climate_events.append(climate_event)
                 self.sprite_list.append(climate_event.sprite)
@@ -310,9 +320,5 @@ class Farm:
         for index, stock in enumerate(self.stock.values()):
             width = min(int(stock / 2000), 100)
             arcade.draw_xywh_rectangle_filled(
-                x + 10,
-                y - 7 * index,
-                width,
-                5,
-                COLORS[2],
+                x + 10, y - 7 * index, width, 5, COLORS[2]
             )
