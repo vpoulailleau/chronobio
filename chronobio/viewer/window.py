@@ -17,7 +17,7 @@ input_queue: Queue = Queue()
 
 class Window(arcade.Window):
     def __init__(self):
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, center_window=True)
         arcade.set_background_color(arcade.csscolor.DARK_OLIVE_GREEN)
         self.background_list: arcade.SpriteList = None
         self.farm_backgrounds: list[FarmBackround] = []
