@@ -95,7 +95,7 @@ Il faut normalement arroser au moins 10 fois un champ avant qu’il soit récolt
 
 `{GÉRANT} VENDRE {CHAMP}`
 
-Les légumes du champ peuvent être vendus seulement une fois que le champ ne nécessite plus d’arrosage, et cela est également possible la meme journée que ces arrosages.
+Les légumes du champ peuvent être vendus seulement une fois que le champ ne nécessite plus d’arrosage. Les légumes doivent être entièrement arrosés avant le jour de la vente.
 
 Les légumes sont vendus après récolte, la récolte dure deux jours : le gérant ne pourra pas faire d’action aux deux prochains jours, et le champ est indisponible pendant ces deux jours.
 
