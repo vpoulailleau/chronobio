@@ -24,13 +24,11 @@ dependencies = ["arcade>=3.0"]
 
 [project.optional-dependencies]
 dev = [
-    "build",
     "pytest",
     "pytest-cov",
     "python-dev-tools >= 2023",
     "pre-commit >=3,<4",
     "pyinstrument",
-    "twine",
 ]
 
 [project.urls]

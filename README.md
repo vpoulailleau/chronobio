@@ -256,6 +256,6 @@ python -m chronobio.killall
 ### Publier
 
 ```shell
-python -m build
-python -m twine upload dist/*
+uv build
+uv publish
 ```
