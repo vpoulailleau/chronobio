@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
 
 import arcade
 
@@ -26,6 +25,8 @@ MESSAGES_HEIGHT = 300
 MESSAGES_OFFSET = DATE_OFFSET - 40
 SCORES_HEIGHT = HEIGHT - DATE_HEIGHT - 2 * MARGIN - MESSAGES_HEIGHT
 SCORES_OFFSET = 2 * MARGIN
+
+arcade.resources.load_kenney_fonts()
 
 
 def day2date(day_number: int) -> tuple[int, int, int]:
