@@ -303,14 +303,14 @@ class Farm:
 
     def draw(self):
         if self.blocked:
-            self.blocked_sprite.draw()
+            arcade.draw_sprite(self.blocked_sprite)
         else:
             self._draw_animate()
             self.draw_stock()
             self.sprite_list.draw()
 
             if self.closed:
-                self.closed_sprite.draw()
+                arcade.draw_sprite(self.closed_sprite)
 
     def draw_stock(self):
         x, y = self.rotate(
@@ -319,6 +319,10 @@ class Farm:
         )
         for index, stock in enumerate(self.stock.values()):
             width = min(int(stock / 2000), 100)
-            arcade.draw_xywh_rectangle_filled(
-                x + 10, y - 7 * index, width, 5, COLORS[2]
+            arcade.draw_lbwh_rectangle_filled(
+                left=x + 10,
+                bottom=y - 7 * index + 5,
+                width=width,
+                height=5,
+                color=COLORS[2],
             )

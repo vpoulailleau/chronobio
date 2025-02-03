@@ -23,12 +23,14 @@ class FarmBackround:
         self.player = player
         self.sprite_list = arcade.SpriteList()
         position = self.rotate(FARM_BUILDING_DISTANCE_FROM_CENTER, 0)
-        self.background: arcade.Shape = arcade.create_rectangle_filled(
-            center_x=position[0],
-            center_y=position[1],
-            width=FARM_BUILDING_WIDTH,
-            height=FARM_BUILDING_WIDTH,
-            color=COLORS[self.player],
+        self.background: arcade.shape_list.Shape = (
+            arcade.shape_list.create_rectangle_filled(
+                center_x=position[0],
+                center_y=position[1],
+                width=FARM_BUILDING_WIDTH,
+                height=FARM_BUILDING_WIDTH,
+                color=COLORS[self.player],
+            )
         )
 
         soup_factory = arcade.Sprite(

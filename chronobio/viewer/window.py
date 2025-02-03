@@ -27,8 +27,8 @@ class Window(arcade.Window):
     def setup(self):
         self.background_list = arcade.SpriteList()
         grass = arcade.Sprite(files("chronobio.viewer").joinpath("images/grass.jpeg"))
-        grass_width = grass.width
-        grass_height = grass.height
+        grass_width = int(grass.width)
+        grass_height = int(grass.height)
         for x in range(0, SCREEN_WIDTH, grass_width):
             for y in range(0, SCREEN_HEIGHT, grass_height):
                 grass = arcade.Sprite(

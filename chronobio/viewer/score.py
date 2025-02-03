@@ -91,13 +91,15 @@ class Score:
     def __init__(self: "Score") -> None:
         self.state: dict = {}
         self.messages: list[Message] = [Message("let the best team win!", 0, -1)]
-        self.background: arcade.Shape = arcade.create_rectangle_filled(
+        background: arcade.shape_list.Shape = arcade.shape_list.create_rectangle_filled(
             center_x=CENTER_X,
             center_y=CENTER_Y,
             width=WIDTH,
             height=HEIGHT,
             color=(255, 255, 255, 130),
         )
+        self.background = arcade.shape_list.ShapeElementList(blend=True)
+        self.background.append(background)
 
     def _get_messages(self: "Score") -> None:
         day = self.state["day"]

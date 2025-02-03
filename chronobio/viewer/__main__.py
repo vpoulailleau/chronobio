@@ -24,15 +24,11 @@ parser.add_argument(
     default="localhost",
 )
 parser.add_argument(
-    "-p",
-    "--port",
-    type=int,
-    help="location where server listens",
-    default=16210,
+    "-p", "--port", type=int, help="location where server listens", default=16210
 )
 args = parser.parse_args()
 
 try:
-    Viewer(args.address, args.port).run()
+    Viewer(args.address, args.port)
 except Exception:  # noqa: PIE786,PLW718
     logging.exception("uncaught exception")
