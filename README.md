@@ -129,7 +129,7 @@ Un ouvrier fabrique chaque jour 100 soupes si les ingrédients sont disponibles.
 
 La soupe est vendue :
 
-- 1 euros la soupe de 1 légume
+- 1 euro la soupe de 1 légume
 - 2 euros la soupe de 2 légumes
 - 4 euros la soupe de 3 légumes
 - 6 euros la soupe de 4 légumes
