@@ -242,6 +242,8 @@ PORT=12345
 python -m chronobio.game.server -p $PORT &
 # lancer le viewer
 python -m chronobio.viewer -p $PORT &
+# lancer le viewer sur un petit écran
+python -m chronobio.viewer -p $PORT --width 1100 --height 700 &
 # lancer un joueur
 python -m mon_code -p $PORT
 ```
