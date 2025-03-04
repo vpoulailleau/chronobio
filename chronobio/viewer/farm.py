@@ -73,8 +73,6 @@ class Employee(MovingEntity):
     def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
         super().__init__(sprite_path)
         self.id = 0
-        self.sprite.width = int(self.sprite.width / 1777 * constants.SCREEN_WIDTH)
-        self.sprite.height = 40
 
     def update_position(self, farm: "Farm"):
         target_x, target_y = location_to_position[self.target_location]
@@ -83,7 +81,6 @@ class Employee(MovingEntity):
         self.y = (target_y - self.y) * 0.2 + self.y
 
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
-        self.sprite.height = 40
 
 
 class ClimateEvent(MovingEntity):
