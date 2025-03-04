@@ -73,6 +73,8 @@ class Employee(MovingEntity):
     def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
         super().__init__(sprite_path)
         self.id = 0
+        self.sprite.width = int(self.sprite.width / 1777 * constants.SCREEN_WIDTH)
+        self.sprite.height = 40
 
     def update_position(self, farm: "Farm"):
         target_x, target_y = location_to_position[self.target_location]
@@ -81,11 +83,12 @@ class Employee(MovingEntity):
         self.y = (target_y - self.y) * 0.2 + self.y
 
         self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
+        self.sprite.height = 40
 
 
 class ClimateEvent(MovingEntity):
-    MAX_SIZE = 150
-    MIN_SIZE = 30
+    MAX_SIZE = int(150 / 1777 * constants.SCREEN_WIDTH)
+    MIN_SIZE = int(30 / 1777 * constants.SCREEN_WIDTH)
 
     def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
         super().__init__(sprite_path)
@@ -113,8 +116,8 @@ class Vegetable(MovingEntity):
     def update_size(self, needed_water: int) -> None:
         needed_water = min(needed_water, 20)
         size = 20 - needed_water
-        self.sprite.width = 4 * size
-        self.sprite.height = 4 * size
+        self.sprite.width = int(4 * size / 1777 * constants.SCREEN_WIDTH)
+        self.sprite.height = int(4 * size / 1777 * constants.SCREEN_WIDTH)
 
     def location(self, location: Location, farm: "Farm") -> None:
         self.target_location = location
