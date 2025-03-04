@@ -7,27 +7,39 @@ from importlib.resources import files
 import arcade
 
 from chronobio.game.location import Location
-from chronobio.viewer.constants import (
-    COLORS,
-    FARM_BUILDING_DISTANCE_FROM_CENTER,
-    FARM_BUILDING_WIDTH,
-    FIELD_DISTANCE,
-    FIELD_OFFSET,
-    FIELD_WIDTH,
-    SOUP_FACTORY_DISTANCE_FROM_CENTER,
-    SOUP_FACTORY_WIDTH,
-)
+from chronobio.viewer.constants import constants
 
 DEFAULT_TEXTURE = ":resources:images/tiles/boxCrate_double.png"
 
 location_to_position: dict[Location, tuple[float, float]] = {
-    Location.FARM: (FARM_BUILDING_DISTANCE_FROM_CENTER, FARM_BUILDING_WIDTH),
-    Location.FIELD1: (FIELD_OFFSET + 0 * FIELD_DISTANCE, FIELD_WIDTH + 30),
-    Location.FIELD2: (FIELD_OFFSET + 1 * FIELD_DISTANCE, FIELD_WIDTH + 30),
-    Location.FIELD3: (FIELD_OFFSET + 2 * FIELD_DISTANCE, FIELD_WIDTH + 30),
-    Location.FIELD4: (FIELD_OFFSET + 3 * FIELD_DISTANCE, FIELD_WIDTH + 30),
-    Location.FIELD5: (FIELD_OFFSET + 4 * FIELD_DISTANCE, FIELD_WIDTH + 30),
-    Location.SOUP_FACTORY: (SOUP_FACTORY_DISTANCE_FROM_CENTER, SOUP_FACTORY_WIDTH),
+    Location.FARM: (
+        constants.FARM_BUILDING_DISTANCE_FROM_CENTER,
+        constants.FARM_BUILDING_WIDTH,
+    ),
+    Location.FIELD1: (
+        constants.FIELD_OFFSET + 0 * constants.FIELD_DISTANCE,
+        constants.FIELD_WIDTH + 30,
+    ),
+    Location.FIELD2: (
+        constants.FIELD_OFFSET + 1 * constants.FIELD_DISTANCE,
+        constants.FIELD_WIDTH + 30,
+    ),
+    Location.FIELD3: (
+        constants.FIELD_OFFSET + 2 * constants.FIELD_DISTANCE,
+        constants.FIELD_WIDTH + 30,
+    ),
+    Location.FIELD4: (
+        constants.FIELD_OFFSET + 3 * constants.FIELD_DISTANCE,
+        constants.FIELD_WIDTH + 30,
+    ),
+    Location.FIELD5: (
+        constants.FIELD_OFFSET + 4 * constants.FIELD_DISTANCE,
+        constants.FIELD_WIDTH + 30,
+    ),
+    Location.SOUP_FACTORY: (
+        constants.SOUP_FACTORY_DISTANCE_FROM_CENTER,
+        constants.SOUP_FACTORY_WIDTH,
+    ),
 }
 
 vegetable_to_sprite: dict[str, str] = {
@@ -124,7 +136,7 @@ class Soup(MovingEntity):
 
     def update_position(self, farm: "Farm"):
         self.radius = (self.MAX_RADIUS - self.radius) * 0.2 + self.radius
-        self.x = SOUP_FACTORY_DISTANCE_FROM_CENTER + self.radius * math.cos(
+        self.x = constants.SOUP_FACTORY_DISTANCE_FROM_CENTER + self.radius * math.cos(
             math.radians(self.angle)
         )
         self.y = self.radius * math.sin(math.radians(self.angle))
@@ -314,8 +326,9 @@ class Farm:
 
     def draw_stock(self):
         x, y = self.rotate(
-            SOUP_FACTORY_DISTANCE_FROM_CENTER - SOUP_FACTORY_WIDTH // 2,
-            -SOUP_FACTORY_WIDTH // 2,
+            constants.SOUP_FACTORY_DISTANCE_FROM_CENTER
+            - constants.SOUP_FACTORY_WIDTH // 2,
+            -constants.SOUP_FACTORY_WIDTH // 2,
         )
         for index, stock in enumerate(self.stock.values()):
             width = min(int(stock / 2000), 100)
@@ -324,5 +337,5 @@ class Farm:
                 bottom=y - 7 * index + 5,
                 width=width,
                 height=5,
-                color=COLORS[2],
+                color=constants.COLORS[2],
             )

@@ -5,21 +5,16 @@ from dataclasses import dataclass
 import arcade
 
 from chronobio.game.constants import MAX_NB_PLAYERS
-from chronobio.viewer.constants import (
-    COLORS,
-    EVENT_VISIBILITY_NB_DAYS,
-    SCREEN_HEIGHT,
-    SCREEN_WIDTH,
-)
+from chronobio.viewer.constants import constants
 
 MARGIN = 20
-WIDTH = SCREEN_WIDTH / 3 - 2 * MARGIN
-HEIGHT = SCREEN_HEIGHT - 2 * MARGIN
-CENTER_X = SCREEN_WIDTH / 6
-CENTER_Y = SCREEN_HEIGHT / 2
+WIDTH = constants.SCREEN_WIDTH / 3 - 2 * MARGIN
+HEIGHT = constants.SCREEN_HEIGHT - 2 * MARGIN
+CENTER_X = constants.SCREEN_WIDTH / 6
+CENTER_Y = constants.SCREEN_HEIGHT / 2
 NAME_OFFSET = 30
 SCORE_OFFSET = NAME_OFFSET - 20
-DATE_OFFSET = SCREEN_HEIGHT - 2 * MARGIN - 20
+DATE_OFFSET = constants.SCREEN_HEIGHT - 2 * MARGIN - 20
 DATE_HEIGHT = 40
 MESSAGES_HEIGHT = 300
 MESSAGES_OFFSET = DATE_OFFSET - 40
@@ -117,7 +112,7 @@ class Score:
         day = self.state["day"]
         removed = False
         for message in self.messages[:]:
-            if day > message.day + EVENT_VISIBILITY_NB_DAYS:
+            if day > message.day + constants.EVENT_VISIBILITY_NB_DAYS:
                 self.messages.remove(message)
                 removed = True
         if removed:
@@ -191,7 +186,7 @@ class Score:
                 start_y=NAME_OFFSET
                 + SCORES_OFFSET
                 + SCORES_HEIGHT / (MAX_NB_PLAYERS) * score_index,
-                color=COLORS[player_index],
+                color=constants.COLORS[player_index],
                 font_size=20,
                 font_name="Kenney Blocks",
             )
@@ -202,7 +197,7 @@ class Score:
                     start_y=SCORE_OFFSET
                     + SCORES_OFFSET
                     + SCORES_HEIGHT / (MAX_NB_PLAYERS) * score_index,
-                    color=COLORS[player_index],
+                    color=constants.COLORS[player_index],
                     font_size=14,
                     font_name="Kenney Future",
                 )
@@ -213,7 +208,7 @@ class Score:
                     start_y=SCORE_OFFSET
                     + SCORES_OFFSET
                     + SCORES_HEIGHT / (MAX_NB_PLAYERS) * score_index,
-                    color=COLORS[player_index],
+                    color=constants.COLORS[player_index],
                     font_size=14,
                     font_name="Kenney Future",
                 )
@@ -231,7 +226,7 @@ class Score:
                 f"- {message.message:.130}",
                 start_x=MARGIN * 2,
                 start_y=MESSAGES_OFFSET - 30 - index * 60,
-                color=COLORS[message.player],
+                color=constants.COLORS[message.player],
                 font_size=12,
                 font_name="Kenney Future",
                 multiline=True,

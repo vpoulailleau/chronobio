@@ -5,19 +5,24 @@ from queue import Queue
 import arcade
 
 from chronobio.game.constants import MAX_NB_PLAYERS
-from chronobio.viewer.constants import SCREEN_HEIGHT, SCREEN_TITLE, SCREEN_WIDTH
+from chronobio.viewer.constants import constants
 from chronobio.viewer.farm import Farm
 from chronobio.viewer.farm_background import FarmBackround
 from chronobio.viewer.score import Score
 
-FARM_HEIGHT = SCREEN_HEIGHT * 2 / MAX_NB_PLAYERS
+FARM_HEIGHT = constants.SCREEN_HEIGHT * 2 / MAX_NB_PLAYERS
 
 input_queue: Queue = Queue()
 
 
 class Window(arcade.Window):
     def __init__(self):
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE, center_window=True)
+        super().__init__(
+            constants.SCREEN_WIDTH,
+            constants.SCREEN_HEIGHT,
+            constants.SCREEN_TITLE,
+            center_window=True,
+        )
         arcade.set_background_color(arcade.csscolor.DARK_OLIVE_GREEN)
         self.background_list: arcade.SpriteList = None
         self.farm_backgrounds: list[FarmBackround] = []
@@ -29,8 +34,8 @@ class Window(arcade.Window):
         grass = arcade.Sprite(files("chronobio.viewer").joinpath("images/grass.jpeg"))
         grass_width = int(grass.width)
         grass_height = int(grass.height)
-        for x in range(0, SCREEN_WIDTH, grass_width):
-            for y in range(0, SCREEN_HEIGHT, grass_height):
+        for x in range(0, constants.SCREEN_WIDTH, grass_width):
+            for y in range(0, constants.SCREEN_HEIGHT, grass_height):
                 grass = arcade.Sprite(
                     files("chronobio.viewer").joinpath("images/grass.jpeg")
                 )
@@ -42,7 +47,7 @@ class Window(arcade.Window):
         for n in range(MAX_NB_PLAYERS):
             self.farm_backgrounds.append(
                 FarmBackround(
-                    x=(1 + n % 2) * SCREEN_WIDTH / 3 - 40,
+                    x=(1 + n % 2) * constants.SCREEN_WIDTH / 3 - 40,
                     y=(n // 2 + 0.5) * FARM_HEIGHT,
                     player=n,
                     angle=0,
@@ -50,7 +55,7 @@ class Window(arcade.Window):
             )
             self.farms.append(
                 Farm(
-                    x=(1 + n % 2) * SCREEN_WIDTH / 3 - 40,
+                    x=(1 + n % 2) * constants.SCREEN_WIDTH / 3 - 40,
                     y=(n // 2 + 0.5) * FARM_HEIGHT,
                     angle=0,
                 )

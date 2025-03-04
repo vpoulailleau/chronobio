@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from chronobio.viewer.viewer import Viewer
+from chronobio.viewer.constants import constants
 
 logging.basicConfig(
     filename="viewer.log",
@@ -26,9 +26,14 @@ parser.add_argument(
 parser.add_argument(
     "-p", "--port", type=int, help="location where server listens", default=16210
 )
+parser.add_argument("--width", type=int, help="width of the window", default=1777)
+parser.add_argument("--height", type=int, help="height of the window", default=1000)
 args = parser.parse_args()
+constants.resize(args.width, args.height)
 
 try:
+    from chronobio.viewer.viewer import Viewer
+
     Viewer(args.address, args.port)
 except Exception:  # noqa: PIE786,PLW718
     logging.exception("uncaught exception")
