@@ -21,6 +21,10 @@ MESSAGES_OFFSET = DATE_OFFSET - 40
 SCORES_HEIGHT = HEIGHT - DATE_HEIGHT - 2 * MARGIN - MESSAGES_HEIGHT
 SCORES_OFFSET = 2 * MARGIN
 
+FONT_BIG = int(20 / 1777 * constants.SCREEN_WIDTH)
+FONT_MEDIUM = int(14 / 1777 * constants.SCREEN_WIDTH)
+FONT_SMALL = int(12 / 1777 * constants.SCREEN_WIDTH)
+
 arcade.resources.load_kenney_fonts()
 
 
@@ -137,7 +141,7 @@ class Score:
             start_x=MARGIN * 2,
             start_y=DATE_OFFSET,
             color=arcade.color.BROWN_NOSE,
-            font_size=20,
+            font_size=FONT_BIG,
             font_name="Kenney Blocks",
         )
         co2 = self.state["greenhouse_gas"]
@@ -146,7 +150,7 @@ class Score:
             start_x=WIDTH,
             start_y=DATE_OFFSET,
             color=arcade.color.BROWN_NOSE,
-            font_size=20,
+            font_size=FONT_BIG,
             font_name="Kenney Blocks",
             anchor_x="right",
         )
@@ -155,7 +159,7 @@ class Score:
             start_x=WIDTH,
             start_y=DATE_OFFSET,
             color=arcade.color.BROWN_NOSE,
-            font_size=12,
+            font_size=FONT_SMALL,
             font_name="Kenney Blocks",
             anchor_x="right",
         )
@@ -187,7 +191,7 @@ class Score:
                 + SCORES_OFFSET
                 + SCORES_HEIGHT / (MAX_NB_PLAYERS) * score_index,
                 color=constants.COLORS[player_index],
-                font_size=20,
+                font_size=FONT_BIG,
                 font_name="Kenney Blocks",
             )
             if not blocked:
@@ -198,7 +202,7 @@ class Score:
                     + SCORES_OFFSET
                     + SCORES_HEIGHT / (MAX_NB_PLAYERS) * score_index,
                     color=constants.COLORS[player_index],
-                    font_size=14,
+                    font_size=FONT_MEDIUM,
                     font_name="Kenney Future",
                 )
             else:
@@ -209,7 +213,7 @@ class Score:
                     + SCORES_OFFSET
                     + SCORES_HEIGHT / (MAX_NB_PLAYERS) * score_index,
                     color=constants.COLORS[player_index],
-                    font_size=14,
+                    font_size=FONT_MEDIUM,
                     font_name="Kenney Future",
                 )
 
@@ -218,7 +222,7 @@ class Score:
             start_x=MARGIN * 2,
             start_y=MESSAGES_OFFSET,
             color=arcade.color.BROWN_NOSE,
-            font_size=20,
+            font_size=FONT_BIG,
             font_name="Kenney Blocks",
         )
         for index, message in enumerate(self.messages[:5]):
@@ -227,7 +231,7 @@ class Score:
                 start_x=MARGIN * 2,
                 start_y=MESSAGES_OFFSET - 30 - index * 60,
                 color=constants.COLORS[message.player],
-                font_size=12,
+                font_size=FONT_SMALL,
                 font_name="Kenney Future",
                 multiline=True,
                 width=int(WIDTH - 2 * MARGIN),
