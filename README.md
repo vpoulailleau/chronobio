@@ -63,6 +63,8 @@ La carte d’une exploitation est la suivante :
 
 Il faut envoyer une ligne par action.
 Chaque employé peut réaliser au maximum une action par jour.
+Les déplacements ne sont pas comptés comme des actions. Un déplacement suivi d'une
+action peuvent être réalisés le même jour si le déplacement est suffisamment petit.
 
 Les champs entre accolades sont à remplacer par leurs valeurs.
 
