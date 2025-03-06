@@ -253,7 +253,7 @@ python -m mon_code -p $PORT
 ### Terminer tous les programmes lancés
 
 ```shell
-# Pour Linux et Mac, dans un environnement virtuel activé
+# Dans un environnement virtuel activé
 python -m chronobio.killall
 ```
 

@@ -1,19 +1,19 @@
-import subprocess
+from contextlib import suppress
 
-result = subprocess.run(["ps", "aux"], capture_output=True)
+import psutil
 
 teams = ["soupwars", "my_player_client", "player.player"]
 
-stdout = result.stdout.decode("utf-8")
-for line in stdout.splitlines():
-    if "python" not in line.lower() and "uv run" not in line.lower():
-        continue
-    if (
-        "chronobio." in line
-        or ("sample_" in line and "_player" in line)
-        or ("player_client" in line)
-        or any(team in line for team in teams)
-    ) and ("chronobio.killall" not in line):
-        print(line)
-        pid = line.split()[1]
-        subprocess.run(["kill", "-9", pid])
+for process in psutil.process_iter():
+    with suppress(psutil.ZombieProcess, psutil.NoSuchProcess, psutil.AccessDenied):
+        line = " ".join(process.cmdline()).lower()
+        if "python" not in line and "uv run" not in line:
+            continue
+        if (
+            "chronobio." in line
+            or ("sample_" in line and "_player" in line)
+            or ("player_client" in line)
+            or any(team in line for team in teams)
+        ) and ("chronobio.killall" not in line):
+            print(line)
+            process.kill()
