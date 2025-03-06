@@ -201,8 +201,8 @@ class Farm:
         self.stock: dict[str, int] = {}
 
     def rotate(self, x, y):
-        cos = math.cos(math.radians(self.angle))
-        sin = math.sin(math.radians(self.angle))
+        cos = math.cos(math.radians(-self.angle))
+        sin = math.sin(math.radians(-self.angle))
         return cos * x - sin * y + self.x, sin * x + cos * y + self.y
 
     def _update_employees(self: "Farm", data: dict) -> None:
