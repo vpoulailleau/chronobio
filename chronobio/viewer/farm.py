@@ -73,6 +73,24 @@ class Employee(MovingEntity):
     def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
         super().__init__(sprite_path)
         self.id = 0
+        self.sprite.width = 60
+        self.sprite.height = 60
+
+    def update_position(self, farm: "Farm"):
+        target_x, target_y = location_to_position[self.target_location]
+        target_x += (self.id % 12 - 6) * 5
+        self.x = (target_x - self.x) * 0.2 + self.x
+        self.y = (target_y - self.y) * 0.2 + self.y
+
+        self.sprite.center_x, self.sprite.center_y = farm.rotate(self.x, self.y)
+
+
+class Tractor(MovingEntity):
+    def __init__(self, sprite_path=DEFAULT_TEXTURE) -> None:
+        super().__init__(sprite_path)
+        self.id = 0
+        self.sprite.width = 60
+        self.sprite.height = 60
 
     def update_position(self, farm: "Farm"):
         target_x, target_y = location_to_position[self.target_location]
@@ -152,8 +170,8 @@ class Farm:
         self.angle = angle
         self.x = x
         self.y = y
-        self.employees: dict[int, MovingEntity] = {}
-        self.tractors: dict[int, MovingEntity] = {}
+        self.employees: dict[int, Employee] = {}
+        self.tractors: dict[int, Tractor] = {}
         self.vegetables: list[Vegetable] = []
         self.climate_events: list[ClimateEvent] = []
         self.soups: list[Soup] = []
@@ -198,8 +216,6 @@ class Farm:
                     files("chronobio.viewer").joinpath("images/farmer.png")
                 )
                 employee_entity.id = int(employee["id"])
-                employee_entity.sprite.width = 60
-                employee_entity.sprite.height = 60
                 self.sprite_list.append(employee_entity.sprite)
                 self.employees[employee["id"]] = employee_entity
             self.employees_per_location[employee["location"]] = (
@@ -218,11 +234,10 @@ class Farm:
         for tractor in data["tractors"]:
             seen.add(tractor["id"])
             if tractor["id"] not in self.tractors:
-                tractor_entity = MovingEntity(
+                tractor_entity = Tractor(
                     files("chronobio.viewer").joinpath("images/tractor.png")
                 )
-                tractor_entity.sprite.width = 60
-                tractor_entity.sprite.height = 60
+                tractor_entity.id = int(tractor["id"])
                 self.sprite_list.append(tractor_entity.sprite)
                 self.tractors[tractor["id"]] = tractor_entity
             self.tractors[tractor["id"]].target_location = Location[tractor["location"]]
