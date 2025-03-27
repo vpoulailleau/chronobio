@@ -2,7 +2,7 @@ from contextlib import suppress
 
 import psutil
 
-teams = ["soupwars", "my_player_client", "player.player"]
+teams = ["soupwars", "my_player_client", "player.player", "best_player"]
 
 for process in psutil.process_iter():
     with suppress(psutil.ZombieProcess, psutil.NoSuchProcess, psutil.AccessDenied):
