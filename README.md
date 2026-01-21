@@ -16,6 +16,10 @@ Le record du monde a été établi par l’équipe des Aigrisculteurs, avec un s
 
 ![record](world_record.jpeg)
 
+Équipe battue par La_Soupe_Aux_Blyats le 21 janvier 2026, avec un écart de 448 624 points.
+
+![equipe_la_soupe_aux_blyats](equipe_la_soupe_aux_blyats.jpeg)
+
 ## Communication
 
 ### Échanges
